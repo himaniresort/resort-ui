@@ -1,0 +1,48 @@
+.testimonialSlider {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #f9f9f9;
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .testimonial {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+    p {
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .rating {
+      margin: 10px 0;
+      font-size: 1.2rem;
+      color: #f4b400; // Gold color for stars
+    }
+
+    .name {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #333;
+    }
+  }
+
+  // Swiper Pagination Styling
+  .swiper-pagination-bullet {
+    background-color: #999;
+    opacity: 0.7;
+
+    &.swiper-pagination-bullet-active {
+      background-color: #f4b400;
+    }
+  }
+}
