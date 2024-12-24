@@ -1,0 +1,59 @@
+// Variables for reuse
+$background-overlay: rgba(0, 0, 0, 0.6);
+$hover-scale: 1.05;
+$highlight-color: #f9c56a;
+
+.roomCard {
+  position: relative;
+  width: 300px;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale($hover-scale);
+  }
+
+  .roomImage {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+  }
+
+  .roomInfo {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: $background-overlay;
+    color: #fff;
+    padding: 10px;
+    transition: all 0.3s ease-in-out;
+
+    h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .price {
+      margin: 5px 0;
+      font-weight: bold;
+      color: $highlight-color;
+    }
+
+    .moreDetails {
+      height: 0;
+      overflow: hidden;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      transition: height 0.3s ease-in-out;
+    }
+  }
+
+  &:hover .moreDetails {
+    height: auto;
+    overflow: visible;
+  }
+}
