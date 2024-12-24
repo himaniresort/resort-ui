@@ -50,7 +50,7 @@ const AboutSection = () => {
               }}
             >
               So when it comes to booking the perfect hotel, vacation rental,
-              resort, apartment, guest house, or tree house, we’ve got you
+              resort, apartment, guest house, or tree house, we have got you
               covered.
             </Typography>
             <Button
