@@ -41,7 +41,7 @@ const Header: React.FC = () => {
             📞 (12) 345 67890
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            ✉️ info.colorlib@gmail.com
+            ✉️ mitila.meadows@gmail.com
           </Typography>
         </Box>
 
@@ -78,7 +78,7 @@ const Header: React.FC = () => {
             color: "#000",
           }}
         >
-          Sona.
+          Mitila Meadows
         </Typography>
 
         {/* Navigation Links */}
