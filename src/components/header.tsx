@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -10,7 +10,6 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import { Box } from "@mui/material";
 
 const Header: React.FC = () => {
-
   return (
     <AppBar position="static" color="transparent" elevation={0}>
       {/* Top Bar */}
@@ -98,7 +97,7 @@ const Header: React.FC = () => {
           >
             BOOKING NOW
           </Button>
-          
+
           {/* Search Icon */}
           <IconButton>
             <SearchIcon />
