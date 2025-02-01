@@ -1,5 +1,4 @@
-// components/RoomCategories.tsx
-import React from "react";
+import React, { useRef } from "react";
 import RoomCard, { Room } from "./RoomCard";
 
 import styles from "./RoomCategories.module.scss";
@@ -13,7 +12,7 @@ const RoomCategories: React.FC = () => {
       capacity: "Max person 2",
       bed: "Queen Beds",
       services: "Wifi, Television, Bathroom...",
-      image: "/rooms/room-b1.jpg", // Use public folder for Next.js
+      image: "/rooms/room-b1.jpg",
     },
     {
       title: "Premium King Room",
@@ -42,13 +41,46 @@ const RoomCategories: React.FC = () => {
       services: "Wifi, Television, Bathroom...",
       image: "/rooms/room-b4.jpg",
     },
+    {
+      title: "Luxury Suite",
+      price: "399$",
+      size: "50 ft",
+      capacity: "Max person 8",
+      bed: "King Beds",
+      services: "Wifi, Television, Private Pool...",
+      image: "/rooms/room-b5.jpg",
+    },
   ];
 
+  const scrollContainer = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    if (scrollContainer.current) {
+      scrollContainer.current.scrollBy({ left: -320, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainer.current) {
+      scrollContainer.current.scrollBy({ left: 320, behavior: "smooth" });
+    }
+  };
+
   return (
-    <div className={styles.roomCategories}>
-      {rooms.map((room, index) => (
-        <RoomCard key={index} room={room} />
-      ))}
+    <div className={styles.roomCategoriesContainer}>
+      <button className={styles.scrollButton} onClick={scrollLeft}>
+        {"<"}
+      </button>
+      <div className={styles.roomCategoriesWrapper}>
+        <div className={styles.roomCategories} ref={scrollContainer}>
+          {rooms.map((room, index) => (
+            <RoomCard key={index} room={room} />
+          ))}
+        </div>
+      </div>
+      <button className={styles.scrollButton} onClick={scrollRight}>
+        {">"}
+      </button>
     </div>
   );
 };

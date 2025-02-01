@@ -1,17 +1,43 @@
+.roomCategoriesContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 20px;
+
+  .scrollButton {
+    background-color: #f9c56a;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #d89b4f;
+    }
+  }
+}
+
+.roomCategoriesWrapper {
+  width: 1280px; // 4 images * 320px each
+  overflow: hidden; // Prevent content from overflowing horizontally
+}
+
 .roomCategories {
   display: flex;
   gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-  padding: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
 
-  // Responsive Design
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
+  &::-webkit-scrollbar {
+    display: none; // Hide scrollbar for a cleaner look
+  }
 
-    .roomCard {
-      width: 90%;
-    }
+  .roomCard {
+    flex: 0 0 300px; // Set a fixed width for each card
   }
 }
