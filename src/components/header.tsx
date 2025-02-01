@@ -4,25 +4,12 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import SearchIcon from "@mui/icons-material/Search";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import LanguageIcon from "@mui/icons-material/Language";
 import { Box } from "@mui/material";
 
 const Header: React.FC = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  const handleLanguageClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleLanguageClose = () => {
-    setAnchorEl(null);
-  };
 
   return (
     <AppBar position="static" color="transparent" elevation={0}>
@@ -38,10 +25,10 @@ const Header: React.FC = () => {
         {/* Contact Info */}
         <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
           <Typography variant="body2" color="textSecondary">
-            📞 (12) 345 67890
+            📞 (+91)9380002949
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            ✉️ mitila.meadows@gmail.com
+            ✉️ mithilameadows25@gmail.com
           </Typography>
         </Box>
 
@@ -49,9 +36,6 @@ const Header: React.FC = () => {
         <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <IconButton size="small">
             <FacebookIcon />
-          </IconButton>
-          <IconButton size="small">
-            <TwitterIcon />
           </IconButton>
           <IconButton size="small">
             <InstagramIcon />
@@ -78,7 +62,7 @@ const Header: React.FC = () => {
             color: "#000",
           }}
         >
-          Mitila Meadows
+          Mithila Meadows
         </Typography>
 
         {/* Navigation Links */}
@@ -114,24 +98,7 @@ const Header: React.FC = () => {
           >
             BOOKING NOW
           </Button>
-          {/* Language Dropdown */}
-          <Box>
-            <IconButton onClick={handleLanguageClick}>
-              <LanguageIcon />
-              <Typography variant="body2" sx={{ marginLeft: 1 }}>
-                EN
-              </Typography>
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleLanguageClose}
-            >
-              <MenuItem onClick={handleLanguageClose}>English</MenuItem>
-              <MenuItem onClick={handleLanguageClose}>French</MenuItem>
-              <MenuItem onClick={handleLanguageClose}>German</MenuItem>
-            </Menu>
-          </Box>
+          
           {/* Search Icon */}
           <IconButton>
             <SearchIcon />
