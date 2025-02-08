@@ -9,7 +9,9 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import { Box } from "@mui/material";
 
-const Header: React.FC = () => {
+const Header: React.FC<{ handleNavigationLinks: (link: string) => void }> = ({
+  handleNavigationLinks,
+}) => {
   return (
     <AppBar position="static" color="transparent" elevation={0}>
       {/* Top Bar */}
@@ -66,7 +68,7 @@ const Header: React.FC = () => {
 
         {/* Navigation Links */}
         <Box sx={{ display: "flex", gap: "30px" }}>
-          {["Home", "Rooms", "About Us", "Pages", "News", "Contact"].map(
+          {["Home", "Rooms", "About Us", "Contact"].map(
             (link, index) => (
               <Typography
                 key={index}
@@ -76,6 +78,7 @@ const Header: React.FC = () => {
                   color: "#000",
                   "&:hover": { borderBottom: "2px solid #c78a5c" },
                 }}
+                onClick={() => handleNavigationLinks(link)}
               >
                 {link}
               </Typography>
