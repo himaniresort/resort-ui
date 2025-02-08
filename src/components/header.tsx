@@ -18,7 +18,7 @@ import { BUTTON_CONSTANTS } from "@/constants/button-constants";
 const Header: React.FC<{ handleNavigationLinks: (link: string) => void }> = ({
   handleNavigationLinks,
 }) => {
-  const navigationLinks = ["Home", "Rooms", "About Us", "Contact"];
+  const navigationLinks = [HEADER_CONSTANTS.HOME, HEADER_CONSTANTS.ABOUT_US, HEADER_CONSTANTS.ROOMS, HEADER_CONSTANTS.CONTACT];
   return (
     <AppBar position="static" color="transparent" elevation={0}>
       {/* Top Bar */}
