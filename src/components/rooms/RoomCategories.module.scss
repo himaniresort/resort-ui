@@ -4,21 +4,21 @@
   justify-content: center;
   position: relative;
   padding: 20px;
+}
 
-  .scrollButton {
-    background-color: #f9c56a;
-    border: none;
-    color: #fff;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 10px 15px;
-    border-radius: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease;
+.scrollButton {
+  background-color: #f9c56a;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
 
-    &:hover {
-      background-color: #d89b4f;
-    }
+  &:hover {
+    background-color: #d89b4f;
   }
 }
 
@@ -32,12 +32,13 @@
   gap: 20px;
   overflow-x: auto;
   scroll-behavior: smooth;
+  scrollbar-width: none; // Hide scrollbar in Firefox
 
   &::-webkit-scrollbar {
-    display: none; // Hide scrollbar for a cleaner look
+    display: none; // Hide scrollbar in Chrome and Safari
   }
+}
 
-  .roomCard {
-    flex: 0 0 300px; // Set a fixed width for each card
-  }
+.roomCard {
+  flex: 0 0 300px; // Set a fixed width for each card
 }
