@@ -4,9 +4,13 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
+import {
+  FaPhoneAlt,
+  FaEnvelope,
+  FaFacebookF,
+  FaInstagram,
+  FaSearch,
+} from "react-icons/fa";
 import { Box } from "@mui/material";
 
 const Header: React.FC<{ handleNavigationLinks: (link: string) => void }> = ({
@@ -25,21 +29,29 @@ const Header: React.FC<{ handleNavigationLinks: (link: string) => void }> = ({
       >
         {/* Contact Info */}
         <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
-          <Typography variant="body2" color="textSecondary">
-            📞 (+91)9380002949
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            sx={{ display: "flex", alignItems: "center", gap: "5px" }}
+          >
+            <FaPhoneAlt /> (+91) 9380002949
           </Typography>
-          <Typography variant="body2" color="textSecondary">
-            ✉️ mithilameadows25@gmail.com
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            sx={{ display: "flex", alignItems: "center", gap: "5px" }}
+          >
+            <FaEnvelope /> mithilameadows25@gmail.com
           </Typography>
         </Box>
 
         {/* Social Media Icons */}
         <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <IconButton size="small">
-            <FacebookIcon />
+            <FaFacebookF />
           </IconButton>
           <IconButton size="small">
-            <InstagramIcon />
+            <FaInstagram />
           </IconButton>
         </Box>
       </Toolbar>
@@ -103,7 +115,7 @@ const Header: React.FC<{ handleNavigationLinks: (link: string) => void }> = ({
 
           {/* Search Icon */}
           <IconButton>
-            <SearchIcon />
+            <FaSearch />
           </IconButton>
         </Box>
       </Toolbar>

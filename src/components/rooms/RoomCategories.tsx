@@ -50,19 +50,36 @@ const RoomCategories = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
       services: "Wifi, Television, Private Pool...",
       image: "/rooms/room-b5.jpg",
     },
+    {
+      title: "Luxury Suite",
+      price: "399$",
+      size: "50 ft",
+      capacity: "Max person 8",
+      bed: "King Beds",
+      services: "Wifi, Television, Private Pool...",
+      image: "/rooms/room-b6.jpg",
+    },
   ];
 
   const scrollContainer = useRef<HTMLDivElement>(null);
+  const cardWidth = 320; // Single card width including margin
+  const visibleCards = 4; // Number of cards visible at once
 
   const scrollLeft = () => {
     if (scrollContainer.current) {
-      scrollContainer.current.scrollBy({ left: -320, behavior: "smooth" });
+      scrollContainer.current.scrollBy({
+        left: -cardWidth * visibleCards,
+        behavior: "smooth",
+      });
     }
   };
 
   const scrollRight = () => {
     if (scrollContainer.current) {
-      scrollContainer.current.scrollBy({ left: 320, behavior: "smooth" });
+      scrollContainer.current.scrollBy({
+        left: cardWidth * visibleCards,
+        behavior: "smooth",
+      });
     }
   };
 
@@ -74,7 +91,9 @@ const RoomCategories = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
       <div className={styles.roomCategoriesWrapper}>
         <div className={styles.roomCategories} ref={scrollContainer}>
           {rooms.map((room, index) => (
-            <RoomCard key={index} room={room} />
+            <div className={styles.roomCard} key={index}>
+              <RoomCard room={room} />
+            </div>
           ))}
         </div>
       </div>

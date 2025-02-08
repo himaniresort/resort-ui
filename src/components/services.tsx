@@ -1,42 +1,50 @@
 import React from "react";
 import { Box, Grid, Typography } from "@mui/material";
+import {
+  FaMapMarkerAlt,
+  FaUtensils,
+  FaBaby,
+  FaTshirt,
+  FaCar,
+  FaCocktail,
+} from "react-icons/fa";
 
 const services = [
   {
     title: "Travel Plan",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.",
-    icon: "📍", // Replace with an icon from Material-UI or custom SVG
+    icon: <FaMapMarkerAlt />,
   },
   {
     title: "Catering Service",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.",
-    icon: "🍴",
+    icon: <FaUtensils />,
   },
   {
     title: "Babysitting",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.",
-    icon: "🍼",
+    icon: <FaBaby />,
   },
   {
     title: "Laundry",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.",
-    icon: "🧺",
+    icon: <FaTshirt />,
   },
   {
     title: "Hire Driver",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.",
-    icon: "🚗",
+    icon: <FaCar />,
   },
   {
     title: "Bar & Drink",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.",
-    icon: "🍸",
+    icon: <FaCocktail />,
   },
 ];
 
