@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Typography, Grid, Container } from "@mui/material";
+import { ABOUT_US_CONSTANTS } from "@/constants/constants";
 
 const AboutSection = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
   return (
@@ -18,7 +19,7 @@ const AboutSection = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
                   fontWeight: "bold",
                 }}
               >
-                ABOUT US
+                {ABOUT_US_CONSTANTS.ABOUT_US}
               </Typography>
               <Typography
                 variant="h4"
@@ -28,7 +29,7 @@ const AboutSection = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
                   mb: 4,
                 }}
               >
-                Mithila Meadows: A Home Away From Home
+                {ABOUT_US_CONSTANTS.TITLE}
               </Typography>
               <Typography
                 variant="body1"
@@ -38,7 +39,7 @@ const AboutSection = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
                   lineHeight: 1.8,
                 }}
               >
-                Welcome to Mithila Meadows Homestay, your perfect getaway nestled in the heart of nature. We offer a serene and comfortable stay for tourists looking to relax and explore the beauty of the surroundings. Our homestay offers a variety of activities to make your stay memorable, including fun-filled mud games, indoor games and outdoor games. Guests can indulge in authentic Mangalorean cuisine, prepared with care and traditional flavors. Enjoy a refreshing swim in our pool or embark on nearby sightseeing adventures, including exciting trekking trails and visits to local pilgrimage spots.
+                {ABOUT_US_CONSTANTS.DESCRIPTION_1}
               </Typography>
               <Typography
                 variant="body1"
@@ -48,9 +49,8 @@ const AboutSection = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
                   lineHeight: 1.8,
                 }}
               >
-                Whether you're seeking relaxation or adventure, Mithila Meadows Homestay promises a unique and enriching experience for every traveler.
-                When it comes to booking the perfect homestay, vacation, resort, or getaway, we’ve got you covered. Your memorable escape starts here at Mithila Meadows!
-              </Typography>
+               {ABOUT_US_CONSTANTS.DESCRIPTION_2}
+               </Typography>
             </Grid>
 
             {/* Right Images Section */}

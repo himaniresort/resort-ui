@@ -12,10 +12,13 @@ import {
   FaSearch,
 } from "react-icons/fa";
 import { Box } from "@mui/material";
+import { HEADER_CONSTANTS } from "@/constants/constants";
+import { BUTTON_CONSTANTS } from "@/constants/button-constants";
 
 const Header: React.FC<{ handleNavigationLinks: (link: string) => void }> = ({
   handleNavigationLinks,
 }) => {
+  const navigationLinks = ["Home", "Rooms", "About Us", "Contact"];
   return (
     <AppBar position="static" color="transparent" elevation={0}>
       {/* Top Bar */}
@@ -34,14 +37,14 @@ const Header: React.FC<{ handleNavigationLinks: (link: string) => void }> = ({
             color="textSecondary"
             sx={{ display: "flex", alignItems: "center", gap: "5px" }}
           >
-            <FaPhoneAlt /> (+91) 9380002949
+            <FaPhoneAlt /> {HEADER_CONSTANTS.CONTACT_NO}
           </Typography>
           <Typography
             variant="body2"
             color="textSecondary"
             sx={{ display: "flex", alignItems: "center", gap: "5px" }}
           >
-            <FaEnvelope /> mithilameadows25@gmail.com
+            <FaEnvelope /> {HEADER_CONSTANTS.EMAIL}
           </Typography>
         </Box>
 
@@ -75,12 +78,12 @@ const Header: React.FC<{ handleNavigationLinks: (link: string) => void }> = ({
             color: "#000",
           }}
         >
-          Mithila Meadows
+          {HEADER_CONSTANTS.NAME}
         </Typography>
 
         {/* Navigation Links */}
         <Box sx={{ display: "flex", gap: "30px" }}>
-          {["Home", "Rooms", "About Us", "Contact"].map(
+          {navigationLinks.map(
             (link, index) => (
               <Typography
                 key={index}
@@ -110,7 +113,7 @@ const Header: React.FC<{ handleNavigationLinks: (link: string) => void }> = ({
               padding: "10px 20px",
             }}
           >
-            BOOKING NOW
+            {BUTTON_CONSTANTS.BOOKING}
           </Button>
 
           {/* Search Icon */}
