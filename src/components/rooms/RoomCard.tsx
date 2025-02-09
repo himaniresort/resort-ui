@@ -1,6 +1,7 @@
 // components/RoomCard.tsx
 import React from "react";
 import styles from "./RoomCard.module.scss";
+import Image from 'next/image';
 
 export interface Room {
   title: string;
@@ -19,7 +20,7 @@ interface RoomCardProps {
 const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
   return (
     <div className={styles.roomCard}>
-      <img src={room.image} alt={room.title} className={styles.roomImage} />
+      <Image src={room.image} alt={room.title} className={styles.roomImage} layout="responsive" width={300} height={382}/>
       <div className={styles.roomInfo}>
         <h3>{room.title}</h3>
         <p className={styles.price}>{room.price} / Per night</p>

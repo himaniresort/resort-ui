@@ -3,7 +3,7 @@ import RoomCard, { Room } from "./RoomCard";
 
 import styles from "./RoomCategories.module.scss";
 
-const RoomCategories: React.FC = () => {
+const RoomCategories = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
   const rooms: Room[] = [
     {
       title: "Double Room",
@@ -84,7 +84,7 @@ const RoomCategories: React.FC = () => {
   };
 
   return (
-    <div className={styles.roomCategoriesContainer}>
+    <div ref={ref} className={styles.roomCategoriesContainer}>
       <button className={styles.scrollButton} onClick={scrollLeft}>
         {"<"}
       </button>
@@ -102,6 +102,9 @@ const RoomCategories: React.FC = () => {
       </button>
     </div>
   );
-};
+})
+
+
+RoomCategories.displayName = "RoomCategories";
 
 export default RoomCategories;
