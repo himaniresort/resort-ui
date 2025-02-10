@@ -9,6 +9,7 @@ import { Dayjs } from "dayjs";
 const CarouselFormSection: React.FC = () => {
   // State for the form
   const [checkIn, setCheckIn] = React.useState<Dayjs | null>(null);
+  const [checkOut, setCheckOut] = React.useState<Dayjs | null>(null);
   const [guests, setGuests] = React.useState<string>("2 Adults");
   const [rooms, setRooms] = React.useState<string>("1 Room");
 
@@ -21,6 +22,15 @@ const CarouselFormSection: React.FC = () => {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
+  };
+
+  const handleCheckAvailability = () => {
+    console.log("Check-In Date:", checkIn);
+    console.log("Check-Out Date:", checkOut);
+
+    console.log("Guests:", guests);
+    console.log("Rooms:", rooms);
+    // Add your logic to handle the data here, like making an API call
   };
 
   return (
@@ -82,9 +92,9 @@ const CarouselFormSection: React.FC = () => {
             </Grid>
             <Grid item xs={12}>
               <DatePicker
-                label="Check In"
-                value={checkIn}
-                onChange={(newValue) => setCheckIn(newValue)}
+                label="Check Out"
+                value={checkOut}
+                onChange={(newValue) => setCheckOut(newValue)}
                 slotProps={{ textField: { fullWidth: true } }}
               />
             </Grid>
@@ -113,7 +123,8 @@ const CarouselFormSection: React.FC = () => {
               </Select>
             </Grid>
             <Grid item xs={12}>
-              <Button variant="contained" color="primary" fullWidth>
+              <Button variant="contained" color="primary" fullWidth
+              onClick={handleCheckAvailability}>
                 Check Availability
               </Button>
             </Grid>
