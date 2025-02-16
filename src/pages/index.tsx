@@ -1,18 +1,23 @@
 import AboutSection from "@/components/about";
 import BlogSection from "@/components/blogs/BlogSection";
+import Booking from "@/components/booking/Booking";
 import CarouselFormSection from "@/components/carousal";
-import Footer from "@/components/footer";
+import FooterSection from "@/components/footer/FooterSection";
 import Header from "@/components/header";
 import RoomCategories from "@/components/rooms/RoomCategories";
 import ServicesSection from "@/components/services";
-import TestimonialSlider from "@/components/testimonial";
+import TestimonialSlider from "@/components/testimonial/TestimonialSlider";
 import { HEADER_CONSTANTS } from "@/constants/constants";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export default function Home() {
 
+  const [showBooking, setShowBooking] = useState(false);
+
   const aboutUsRef = useRef<HTMLDivElement>(null);
   const roomCategoriesRef = useRef<HTMLDivElement>(null);
+  const contactUsRef = useRef<HTMLDivElement>(null);
+
   const scrollViewConfig: ScrollIntoViewOptions = {
     behavior: "smooth",
     block: "start",
@@ -28,19 +33,32 @@ export default function Home() {
         aboutUsRef?.current?.scrollIntoView(scrollViewConfig);
         break;
       }
+      case HEADER_CONSTANTS.CONTACT: {
+        contactUsRef?.current?.scrollIntoView(scrollViewConfig);
+        break;
+      }
     }
   };
 
   return (
     <>
-      <Header handleNavigationLinks={handleNavigationLinks} />
-      <CarouselFormSection />
-      <AboutSection ref={aboutUsRef} />
-      <ServicesSection />
-      <RoomCategories ref={roomCategoriesRef} />
-      <TestimonialSlider />
-      <BlogSection />
-      <Footer />
+      <Header handleNavigationLinks={handleNavigationLinks} showBooking={showBooking}
+        setShowBooking={setShowBooking} />
+      
+      {showBooking ? (
+        <Booking />
+      ) : (
+        <>
+          <CarouselFormSection />
+          <AboutSection ref={aboutUsRef} />
+          <ServicesSection />
+          <RoomCategories ref={roomCategoriesRef} />
+          <TestimonialSlider />
+          <BlogSection />
+        </>
+      )}
+
+      <FooterSection ref={contactUsRef}/>
     </>
   );
 }
