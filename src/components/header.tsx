@@ -7,29 +7,48 @@ import IconButton from "@mui/material/IconButton";
 import {
   FaPhoneAlt,
   FaEnvelope,
-  FaFacebookF,
-  FaInstagram,
   FaSearch,
 } from "react-icons/fa";
 import { Box } from "@mui/material";
 import { HEADER_CONSTANTS } from "@/constants/constants";
 import { BUTTON_CONSTANTS } from "@/constants/button-constants";
 
-const Header: React.FC<{ handleNavigationLinks: (link: string) => void }> = ({
-  handleNavigationLinks,
-}) => {
-  const navigationLinks = [HEADER_CONSTANTS.HOME, HEADER_CONSTANTS.ABOUT_US, HEADER_CONSTANTS.ROOMS, HEADER_CONSTANTS.CONTACT];
+const Header: React.FC<{ 
+  handleNavigationLinks: (link: string) => void,
+  showBooking: boolean,
+  setShowBooking: (value: boolean) => void
+}> = ({handleNavigationLinks, showBooking, setShowBooking }) => {
+  const navigationLinks = [HEADER_CONSTANTS.ABOUT_US, HEADER_CONSTANTS.ROOMS, HEADER_CONSTANTS.CONTACT];
   return (
-    <AppBar position="static" color="transparent" elevation={0}>
+    <AppBar position="static" color="transparent" elevation={0}
+      sx={{
+        backgroundColor: '#f9f9f9'
+      }}>
       {/* Top Bar */}
       <Toolbar
         sx={{
           display: "flex",
-          justifyContent: "space-between",
           alignItems: "center",
           padding: "10px 20px",
+          marginLeft: '150px'
         }}
       >
+        
+        {/* Name */}
+        <Box sx={{ display: "flex", flex:1, justifyContent: "center" }}>
+        <Typography
+            variant="h5"
+            sx={{
+              fontFamily: '"Lucida Handwriting", cursive',
+              fontWeight: "bold",
+              color: '#1a1a2e',
+              fontSize: '30px'
+            }}
+          >
+            {HEADER_CONSTANTS.NAME}
+          </Typography>
+        </Box>
+
         {/* Contact Info */}
         <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
           <Typography
@@ -47,44 +66,23 @@ const Header: React.FC<{ handleNavigationLinks: (link: string) => void }> = ({
             <FaEnvelope /> {HEADER_CONSTANTS.EMAIL}
           </Typography>
         </Box>
-
-        {/* Social Media Icons */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <IconButton size="small">
-            <FaFacebookF />
-          </IconButton>
-          <IconButton size="small">
-            <FaInstagram />
-          </IconButton>
-        </Box>
       </Toolbar>
 
       {/* Bottom Navigation */}
       <Toolbar
         sx={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: showBooking ? "flex-end" : "center",
           alignItems: "center",
           borderTop: "1px solid #ddd",
           padding: "10px 20px",
         }}
       >
-        {/* Logo */}
-        <Typography
-          variant="h5"
-          sx={{
-            fontFamily: "serif",
-            fontWeight: "bold",
-            color: "#000",
-          }}
-        >
-          {HEADER_CONSTANTS.NAME}
-        </Typography>
 
         {/* Navigation Links */}
-        <Box sx={{ display: "flex", gap: "30px" }}>
-          {navigationLinks.map(
-            (link, index) => (
+        {!showBooking && (
+          <Box sx={{ display: "flex", flex: 5, gap: "30px", justifyContent: "center" }}>
+            {navigationLinks.map((link, index) => (
               <Typography
                 key={index}
                 variant="body1"
@@ -97,12 +95,12 @@ const Header: React.FC<{ handleNavigationLinks: (link: string) => void }> = ({
               >
                 {link}
               </Typography>
-            )
-          )}
-        </Box>
+            ))}
+          </Box>
+        )}
 
         {/* Right Side Actions */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: "15px" }}>
+        <Box sx={{ display: "flex", flexShrink: 2, alignItems: "center", gap: "15px", justifyContent: "flex-end" }}>
           <Button
             variant="contained"
             sx={{
@@ -112,8 +110,9 @@ const Header: React.FC<{ handleNavigationLinks: (link: string) => void }> = ({
               fontWeight: "bold",
               padding: "10px 20px",
             }}
+            onClick={() => setShowBooking(!showBooking)} 
           >
-            {BUTTON_CONSTANTS.BOOKING}
+            {showBooking ? BUTTON_CONSTANTS.BACK : BUTTON_CONSTANTS.BOOKING}
           </Button>
 
           {/* Search Icon */}

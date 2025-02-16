@@ -15,3 +15,11 @@ export const HEADER_CONSTANTS = {
     ABOUT_US: ABOUT_US_CONSTANTS.ABOUT_US
 }
 
+export const FOOTER_CONSTANTS = {
+    TAG_LINE: 'Your Perfect Getaway, Crafted with Love.',
+    CONTACT_US: 'Contact Us',
+    ADDRESS: 'Didupe, Belthangady, DK - 560099',
+    NEW_LATEST: 'New Latest',
+    UPDATES_AND_OFFERS: 'Get the latest updates and offers.',
+    COPYRIGHT: 'Copyright ©2025 All rights reserved | Made with ❤️ in India'
+}
