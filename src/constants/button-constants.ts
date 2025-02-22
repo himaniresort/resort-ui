@@ -1,3 +1,4 @@
 export const BUTTON_CONSTANTS = {
-    BOOKING: 'BOOKING NOW'
+    BOOKING: 'BOOKING NOW',
+    BACK: 'BACK'
 }
