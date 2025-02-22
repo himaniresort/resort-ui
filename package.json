@@ -17,6 +17,7 @@
     "@mui/x-date-pickers": "^7.23.2",
     "@types/react-slick": "^0.23.13",
     "dayjs": "^1.11.13",
+    "mongodb": "^6.13.1",
     "next": "15.0.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
