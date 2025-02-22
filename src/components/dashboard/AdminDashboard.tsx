@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Card, CardContent, Typography, AppBar, Toolbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Modal, TextField } from '@mui/material';
+import { Bookings } from '@/pages/api/bookings';
+import dayjs from 'dayjs';
+import { ROOMS_CATEGORIES } from '@/constants/constants';
 
 const AdminDashboard = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [bookings, setBookings] = useState<Bookings[]>([]);
 
-  const handleLogin = () => {
+  const handleLogin = ()   => {
     if (username === 'admin' && password === 'password') { // Replace with actual authentication logic
       setIsLoggedIn(true);
       setLoginModalOpen(false);
@@ -15,6 +19,14 @@ const AdminDashboard = () => {
       alert('Invalid credentials');
     }
   };
+
+  useEffect(() => {
+    fetch("/api/bookings")
+      .then((res) => res.json())
+      .then((data) => setBookings(data));
+  }, []);
+
+  const recentBookingsTableHeader = ['Guest Name', 'Contact', 'Room', 'Status', 'Check-In', 'Check-Out', 'No. of rooms']
 
   return (
     <Box sx={{ flexGrow: 1, p: 2, backgroundColor: '#f5f5f5', minHeight: '100vh' }}>
@@ -98,24 +110,31 @@ const AdminDashboard = () => {
           </Typography>
           <TableContainer component={Paper}>
             <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Guest Name</TableCell>
-                  <TableCell>Room</TableCell>
-                  <TableCell>Status</TableCell>
-                </TableRow>
+            <TableHead>
+              <TableRow>
+                {recentBookingsTableHeader.map((tableHeader, index) => (
+                  <TableCell key={index} sx={{ fontWeight: 'bold' }}>
+                    {tableHeader}
+                  </TableCell>
+                ))}
+              </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
-                  <TableCell>John Doe</TableCell>
-                  <TableCell>Deluxe</TableCell>
-                  <TableCell>Confirmed</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Jane Smith</TableCell>
-                  <TableCell>Suite</TableCell>
-                  <TableCell>Pending</TableCell>
-                </TableRow>
+                {bookings.map((booking, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{booking.username}</TableCell>
+                    <TableCell>{booking.contact}</TableCell>
+                    <TableCell>{booking.roomType === ROOMS_CATEGORIES.TENT
+                      ? ROOMS_CATEGORIES.TENT_HOUSE 
+                      : booking.roomType === ROOMS_CATEGORIES.HUT 
+                        ? ROOMS_CATEGORIES.HUT_HOUSE
+                        : ROOMS_CATEGORIES.PREMIUM_HUT_HOUSE}</TableCell>
+                    <TableCell>{booking.status}</TableCell>
+                    <TableCell>{dayjs(booking.checkIn).format("DD-MM-YYYY")}</TableCell>
+                    <TableCell>{dayjs(booking.checkOut).format("DD-MM-YYYY")}</TableCell>
+                    <TableCell>{booking.noOfRooms}</TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </TableContainer>

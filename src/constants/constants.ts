@@ -23,3 +23,12 @@ export const FOOTER_CONSTANTS = {
     UPDATES_AND_OFFERS: 'Get the latest updates and offers.',
     COPYRIGHT: 'Copyright ©2025 All rights reserved | Made with ❤️ in India'
 }
+
+export const ROOMS_CATEGORIES = {
+    TENT: 'tent',
+    HUT: 'hut',
+    PREMIUM_HUT: 'premiumHut',
+    TENT_HOUSE: 'Tent House',
+    HUT_HOUSE: 'Hut House',
+    PREMIUM_HUT_HOUSE: 'Premium Hut House'
+}

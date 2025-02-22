@@ -25,8 +25,8 @@ const CarouselFormSection: React.FC = () => {
   };
 
   const handleCheckAvailability = () => {
-    console.log("Check-In Date:", checkIn);
-    console.log("Check-Out Date:", checkOut);
+    console.log("Check-In Date:", checkIn?.toISOString());
+    console.log("Check-Out Date:", checkOut?.toISOString());
 
     console.log("Guests:", guests);
     console.log("Rooms:", rooms);
