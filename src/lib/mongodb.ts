@@ -50,16 +50,15 @@ if (process.env.NODE_ENV === "development") {
 
 export { clientPromise, db };
 
-
 export default async function connectDB() {
   if (mongoose.connection.readyState >= 1) {
-      return; // Already connected, no need to reconnect
+    return; // Already connected, no need to reconnect
   }
   try {
-      await mongoose.connect(uri);
-      console.log("✅ MongoDB Connected");
+    await mongoose.connect(uri);
+    console.log("✅ MongoDB Connected");
   } catch (error) {
-      console.error("❌ MongoDB Connection Error:", error);
-      process.exit(1); // Stop the server if the database connection fails
+    console.error("❌ MongoDB Connection Error:", error);
+    process.exit(1); // Stop the server if the database connection fails
   }
 }
