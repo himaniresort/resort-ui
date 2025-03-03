@@ -19,20 +19,20 @@ export default async function handler(
       // Check if a specific user is requested
       if (req.query.id) {
         const user = await db
-          .collection(COLLECTIONS.users)
+          .collection(COLLECTIONS.USERS)
           .findOne({ _id: new ObjectId(req.query.id as string) });
 
         return res.status(200).json({ success: true, data: user });
       }
 
       // Fetch all users
-      const users = await db.collection(COLLECTIONS.users).find({}).toArray();
+      const users = await db.collection(COLLECTIONS.USERS).find({}).toArray();
       return res.status(200).json({ success: true, data: users });
     }
 
     if (req.method === POST) {
       const newUser = req.body;
-      const result = await db.collection(COLLECTIONS.users).insertOne(newUser);
+      const result = await db.collection(COLLECTIONS.USERS).insertOne(newUser);
       return res
         .status(201)
         .json({ success: true, message: "User added", id: result.insertedId });
@@ -41,7 +41,7 @@ export default async function handler(
     if (req.method === PUT) {
       const { id, ...updateData } = req.body;
       const result = await db
-        .collection(COLLECTIONS.users)
+        .collection(COLLECTIONS.USERS)
         .updateOne({ _id: new ObjectId(id) }, { $set: updateData });
 
       return res.status(200).json({
@@ -54,7 +54,7 @@ export default async function handler(
     if (req.method === DELETE) {
       const { id } = req.query;
       await db
-        .collection(COLLECTIONS.users)
+        .collection(COLLECTIONS.USERS)
         .deleteOne({ _id: new ObjectId(id as string) });
 
       return res.status(200).json({ success: true, message: "User deleted" });
