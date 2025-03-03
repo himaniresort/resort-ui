@@ -6,5 +6,5 @@ export const REQ_METHODS = {
 };
 
 export const COLLECTIONS = {
-  users: "users",
+  USERS: "users",
 };

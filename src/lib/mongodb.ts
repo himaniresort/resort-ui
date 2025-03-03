@@ -1,4 +1,5 @@
 import { MongoClient, Db } from "mongodb";
+import mongoose from "mongoose";
 
 if (!process.env.MONGODB_URI) {
   throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
@@ -48,3 +49,17 @@ if (process.env.NODE_ENV === "development") {
 }
 
 export { clientPromise, db };
+
+
+export default async function connectDB() {
+  if (mongoose.connection.readyState >= 1) {
+      return; // Already connected, no need to reconnect
+  }
+  try {
+      await mongoose.connect(uri);
+      console.log("✅ MongoDB Connected");
+  } catch (error) {
+      console.error("❌ MongoDB Connection Error:", error);
+      process.exit(1); // Stop the server if the database connection fails
+  }
+}
