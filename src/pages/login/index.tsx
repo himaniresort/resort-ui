@@ -5,7 +5,7 @@ import { useState } from "react";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [error, setError] = useState(null);
   const router = useRouter();
 
   const handleLogin = async () => {
@@ -16,13 +16,19 @@ const Login = () => {
     });
 
     const data = await res.json();
-    if (res.ok) {
-      localStorage.setItem("token", data.token);
-      setMessage("Login successful!");
-      router.push("/admin");
-    } else {
-      setMessage(data.message);
+    debugger
+    try {
+      if (res.ok) {
+        setError(null);
+        localStorage.setItem("token", data.token);
+        router.push("/admin");
+      } else if(res.status === 400){
+        setError(data.message);
+      }
+    } catch(error) {
+      console.error("Error:", error);
     }
+    
   };
 
   
@@ -47,6 +53,7 @@ const Login = () => {
           Admin Login
         </Typography>
         <TextField
+          error = {!!error}
           label="Username"
           variant="outlined"
           fullWidth
@@ -55,6 +62,7 @@ const Login = () => {
           onChange={(e) => setUsername(e.target.value)}
         />
         <TextField
+          error = {!!error}
           label="Password"
           variant="outlined"
           type="password"
@@ -62,6 +70,7 @@ const Login = () => {
           sx={{ mb: 2 }}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          helperText = {error}
         />
         <Button variant="contained" color="primary" fullWidth onClick={handleLogin}>
           Login

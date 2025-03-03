@@ -49,7 +49,7 @@ const AdminDashboard = () => {
         })
         .catch(() => router.push("/login"));
     }
-  }, []);
+  }, [router]);
 
   const recentBookingsTableHeader = [
     "Guest Name",
