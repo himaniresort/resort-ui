@@ -3,7 +3,7 @@ import { version } from "./package.json";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  reactStrictMode: true,
+  reactStrictMode: false,
 
   // Add the APP_VERSION to the environment variables
   env: {
