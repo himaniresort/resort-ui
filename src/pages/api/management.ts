@@ -44,7 +44,7 @@ export default async function handler(
         }
 
         const result = new ManagementUsers(user);
-        result.save();
+        await result.save();
         const userResponse = result.toObject();
         delete userResponse.password;
         return res.status(201).json(userResponse);

@@ -1,12 +1,42 @@
 import { Box, Modal, Typography, TextField, Button } from "@mui/material";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+
   const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setIsLoggedIn(false);
+      router.push("/login");
+    } else {
+      fetch("/api/protected", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.status === 403) {
+            setIsLoggedIn(false);
+            throw new Error("Something went wrong"); 
+          }
+          else {
+            router.push("/admin");
+            setIsLoggedIn(true);
+          }
+        })
+        .catch(() => {
+          setIsLoggedIn(false);
+          router.push("/login") 
+        });
+    }
+  }, []);
 
   const handleLogin = async () => {
     const res = await fetch("/api/auth/login", {
@@ -30,6 +60,7 @@ const Login = () => {
   };
 
   return (
+    !isLoggedIn &&
     <Box
       sx={{ flexGrow: 1, p: 2, backgroundColor: "#f5f5f5", minHeight: "100vh" }}
     >

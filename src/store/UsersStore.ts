@@ -7,6 +7,7 @@ interface UsersState {
   isLoading: boolean;
   error: string;
   fetchUsers: () => void;
+  updateUser: (name: string) => void;
 }
 
 const useUsersStore = create<UsersState>()((set) => {
@@ -19,6 +20,9 @@ const useUsersStore = create<UsersState>()((set) => {
       const { data, error } = await getUsersApi();
       set({ users: data, error, isLoading: false });
     },
+    updateUser: async (name: string) => {
+      console.log(name)
+    }
   };
 });
 
