@@ -31,7 +31,7 @@ export default async function handler(
       { userId: user._id, email: user.email },
       process.env.JWT_SECRET as string,
       {
-        expiresIn: "30s",
+        expiresIn: "30m",
       }
     );
 
