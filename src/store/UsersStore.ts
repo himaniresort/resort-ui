@@ -1,5 +1,5 @@
 import { getUsersApi } from "@/services/UsersService";
-import { Users } from "@/types/UsersTypes";
+import { Users } from "@/types/Users";
 import { create } from "zustand";
 
 interface UsersState {

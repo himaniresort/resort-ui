@@ -8,11 +8,15 @@ enum RoomTypeEnum {
 
 const RoomTypeSchema = new mongoose.Schema(
   {
+    type: {
+      type: String,
+      required: true,
+      unique: true,
+      enum: Object.values(RoomTypeEnum)
+    },
     name: { 
-        type: String,
-        required: true,
-        unique: true,
-        enum: Object.values(RoomTypeEnum)
+      type: String,
+      required: true
     },
     description: {
         type: String
@@ -20,6 +24,9 @@ const RoomTypeSchema = new mongoose.Schema(
     cost: {
         type: Number,
         required: true
+    },
+    image: {
+      type: String
     }
   },
   { collection: "room-type", timestamps: true }

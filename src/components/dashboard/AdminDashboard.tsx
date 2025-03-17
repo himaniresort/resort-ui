@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Button,
@@ -18,20 +18,17 @@ import {
 // import { Bookings } from "@/pages/api/bookings";
 import dayjs from "dayjs";
 import { ROOMS_CATEGORIES } from "@/constants/constants";
-import useUsersStore from "@/store/UsersStore";
-import { Bookings } from "@/types/BookingsTypes";
+import useBookingStore from "@/store/BookingStore";
 
 const AdminDashboard = () => {
-  const [bookings /*setBookings*/] = useState<Bookings[]>([]);
+  const { fetchBooking, bookings } = useBookingStore();
 
-  const { fetchUsers, users, isLoading } = useUsersStore();
 
   useEffect(() => {
-    fetchUsers(); // for reference. remove this from here
-    //fetchBookings logic here
+    fetchBooking();
   }, []);
 
-  console.log("z-users", users, isLoading);
+  console.log("z-bookings", bookings);
 
   const recentBookingsTableHeader = [
     "Guest Name",
