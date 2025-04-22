@@ -101,9 +101,9 @@ const AdminDashboard = () => {
                 <TableCell>{booking.username}</TableCell>
                 <TableCell>{booking.contact}</TableCell>
                 <TableCell>
-                  {booking.roomType === ROOMS_CATEGORIES.TENT
+                  {booking.roomType.type === ROOMS_CATEGORIES.TENT
                     ? ROOMS_CATEGORIES.TENT_HOUSE
-                    : booking.roomType === ROOMS_CATEGORIES.HUT
+                    : booking.roomType.type === ROOMS_CATEGORIES.HUT
                     ? ROOMS_CATEGORIES.HUT_HOUSE
                     : ROOMS_CATEGORIES.PREMIUM_HUT_HOUSE}
                 </TableCell>
