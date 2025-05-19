@@ -5,7 +5,7 @@ import { create } from "zustand";
 interface UsersState {
   users: Users[];
   isLoading: boolean;
-  error: string;
+  error: string|null;
   fetchUsers: () => void;
   updateUser: (name: string) => void;
 }
@@ -14,7 +14,7 @@ const useUsersStore = create<UsersState>()((set) => {
   return {
     users: [],
     isLoading: false,
-    error: "",
+    error: null,
     fetchUsers: async () => {
       set({ isLoading: true });
       const { data, error } = await getUsersApi();

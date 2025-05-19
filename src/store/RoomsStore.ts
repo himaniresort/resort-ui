@@ -5,7 +5,7 @@ import { create } from "zustand";
 interface RoomsState {
     roomsData: Room[],
     isLoading: boolean;
-    error: string;
+    error: string|null;
     fetchRooms: () => void;
 }
 
@@ -13,6 +13,7 @@ const useRoomsStore = create<RoomsState>()((set) => {
     return {
         roomsData: [],
         isLoading: false,
+        error: null,
         fetchRooms: async () => {
             set({ isLoading: true });
             const { data, error } = await getRoomsApi();
