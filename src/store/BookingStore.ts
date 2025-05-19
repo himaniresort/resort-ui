@@ -1,4 +1,4 @@
-import { Bookings } from "@/types/BookingsTypes";
+import { Bookings } from "@/types/Bookings";
 import axios from "axios";
 import { create } from "zustand";
 

@@ -1,11 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Bookings } from "@/types/BookingsTypes";
+import { Bookings } from "@/types/Bookings";
 
 const recentBookingsMockData: Bookings[] = [
   {
     username: "John Deo",
     contact: "487512354",
-    roomType: "tent",
+    roomType: {
+      type: "deluxe Room",
+      name: "Deluxe",
+      cost: 3000,
+      description: "",
+      image: ""
+    },
     checkIn: "2025-02-22T18:30:00.000Z",
     checkOut: "2025-02-26T18:30:00.000Z",
     status: "pending",
@@ -14,7 +20,13 @@ const recentBookingsMockData: Bookings[] = [
   {
     username: "Jane Smith",
     contact: "4783565941",
-    roomType: "premiumHut",
+    roomType: {
+      type: "standard",
+      name: "Standard room",
+      cost: 2500,
+      description: "",
+      image: ""
+    },
     checkIn: "2025-02-28T18:30:00.000Z",
     checkOut: "2025-03-04T18:30:00.000Z",
     status: "pending",
@@ -23,21 +35,18 @@ const recentBookingsMockData: Bookings[] = [
   {
     username: "Johnny Lever",
     contact: "78459523366",
-    roomType: "hut",
+    roomType: {
+      type: "tent",
+      name: "Tent Stay",
+      cost: 1500,
+      description: "",
+      image: ""
+    },
     checkIn: "2025-02-24T18:30:00.000Z",
     checkOut: "2025-02-25T18:30:00.000Z",
     status: "confirmed",
     noOfRooms: 1,
-  },
-  {
-    username: "James Bond",
-    contact: "78459526",
-    roomType: "premiumHut",
-    checkIn: "2025-03-05T18:30:00.000Z",
-    checkOut: "2025-03-07T18:30:00.000Z",
-    status: "confirmed",
-    noOfRooms: 1,
-  },
+  }
 ];
 
 export default function handler(

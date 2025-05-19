@@ -11,7 +11,8 @@ const RoomSchema = new mongoose.Schema(
       default: async function () { 
         const openStatus = await RoomStatus.findOne({ description: "open" }); 
         return openStatus ? openStatus._id : null; // Return RoomStatusId of "open"
-      } 
+      },
+      required: true
     },
     bookingId: { type: mongoose.Schema.Types.ObjectId, ref: "Booking", default: null },
   },
