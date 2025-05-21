@@ -30,6 +30,7 @@
 .roomCategories {
   display: flex;
   gap: 20px;
+  justify-content: center;
   overflow-x: auto;
   scroll-behavior: smooth;
   scrollbar-width: none; // Hide scrollbar in Firefox

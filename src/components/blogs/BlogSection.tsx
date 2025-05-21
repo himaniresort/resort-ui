@@ -1,73 +1,98 @@
 import React, { useState } from "react";
 import styles from "./BlogSection.module.scss";
+import Image from 'next/image';
 
-interface Blog {
+interface Places {
   title: string;
-  date: string;
+  distance: string;
   category: string;
   imageUrl: string;
 }
 
-const blogs: Blog[] = [
+const places: Places[] = [
   {
-    title: "Tremblant In Canada",
-    date: "15th April, 2019",
-    category: "Travel Trip",
-    imageUrl: "/blogs/blog-1.jpg",
+    title: "Dharmasthala Temple",
+    distance: "5km",
+    category: "Pilgrimage",
+    imageUrl: "/nearbyplaces/dharmastala.jpg",
   },
   {
-    title: "Choosing A Static Caravan",
-    date: "15th April, 2019",
-    category: "Camping",
-    imageUrl: "/blogs/blog-2.jpg",
+    title: "Surya Temple",
+    distance: "5km",
+    category: "Pilgrimage",
+    imageUrl: "/nearbyplaces/surya.jpg",
   },
   {
-    title: "Copper Canyon",
-    date: "21th April, 2019",
-    category: "Event",
-    imageUrl: "/blogs/blog-3.jpg",
+    title: "Gadai Kallu",
+    distance: "5km",
+    category: "Trek",
+    imageUrl: "/nearbyplaces/gadai_kalu.webp",
   },
   {
-    title: "Trip To Iqaluit In Nunavut A Canadian Arctic City",
-    date: "08th April, 2019",
-    category: "Event",
-    imageUrl: "/blogs/blog-4.jpg",
+    title: "Kadamagundi Falls",
+    distance: "5km",
+    category: "Falls",
+    imageUrl: "/nearbyplaces/kadamagundi_falls.jpg",
   },
   {
-    title: "Traveling To Barcelona",
-    date: "12th April, 2019",
-    category: "Travel",
-    imageUrl: "/blogs/blog-5.jpg",
+    title: "Ermai Falls",
+    distance: "5km",
+    category: "Falls",
+    imageUrl: "/nearbyplaces/ermail_falls.jpg",
   },
   {
-    title: "Trip To New York",
-    date: "5th May, 2019",
-    category: "Travel",
-    imageUrl: "/blogs/blog-6.jpg",
+    title: "Southadka Temple",
+    distance: "60km",
+    category: "Pilgrimage",
+    imageUrl: "/nearbyplaces/soutadka.jpg",
   },
   {
-    title: "Exploring Iceland",
-    date: "21st June, 2019",
-    category: "Travel",
-    imageUrl: "/blogs/blog-7.jpg",
+    title: "Karinja Temple",
+    distance: "50km",
+    category: "Pilgrimage",
+    imageUrl: "/nearbyplaces/karinja.jpg",
   },
   {
-    title: "Exploring Iceland",
-    date: "21st June, 2019",
-    category: "Travel",
-    imageUrl: "/blogs/blog-8.jpg",
+    title: "Devaramane",
+    distance: "50km",
+    category: "Trek",
+    imageUrl: "/nearbyplaces/devaramane.jpg",
   },
   {
-    title: "Exploring Iceland",
-    date: "21st June, 2019",
-    category: "Travel",
-    imageUrl: "/blogs/blog-9.jpg",
+    title: "Kalasa",
+    distance: "80km",
+    category: "Trek",
+    imageUrl: "/nearbyplaces/kalasa.jpg",
   },
   {
-    title: "Exploring Iceland",
-    date: "21st June, 2019",
-    category: "Travel",
-    imageUrl: "/blogs/blog-10.jpg",
+    title: "Kukke Subramanya Temple",
+    distance: "70km",
+    category: "Piligrimage",
+    imageUrl: "/nearbyplaces/kukke_subramanya1.png",
+  },
+  {
+    title: "Shishila Temple",
+    distance: "70km",
+    category: "Piligrimage",
+    imageUrl: "/nearbyplaces/SHISHILA_Temple.webp",
+  },
+  {
+    title: "Rani Jhari",
+    distance: "80km",
+    category: "Trek",
+    imageUrl: "/nearbyplaces/rani_jhari.jpg",
+  },
+  {
+    title: "Netravathi Peak",
+    distance: "80km",
+    category: "Trek",
+    imageUrl: "/nearbyplaces/Netravathi-Peak-Trek.png",
+  },
+  {
+    title: "Kyatanamakki Hills",
+    distance: "80km",
+    category: "Trek",
+    imageUrl: "/nearbyplaces/Kyatanamakki-Hills.jpg",
   },
 ];
 
@@ -76,7 +101,7 @@ const BlogSection: React.FC = () => {
   const visibleCount = 4; // Number of visible blogs at a time
 
   const handleNext = () => {
-    if (currentIndex + visibleCount < blogs.length) {
+    if (currentIndex + visibleCount < places.length) {
       setCurrentIndex(currentIndex + visibleCount);
     }
   };
@@ -90,8 +115,7 @@ const BlogSection: React.FC = () => {
   return (
     <section className={styles.blogSection}>
       <div className={styles.header}>
-        <span>HOTEL NEWS</span>
-        <h2>Our Blog & Event</h2>
+        <h2>Places to Visit</h2>
       </div>
       <div className={styles.carousel}>
         {currentIndex > 0 && (
@@ -109,22 +133,26 @@ const BlogSection: React.FC = () => {
               transform: `translateX(-${currentIndex * (100 / visibleCount)}%)`,
             }}
           >
-            {blogs.map((blog, index) => (
+            {places.map((place, index) => (
               <div className={styles.card} key={index}>
-                <div
-                  className={styles.image}
-                  style={{ backgroundImage: `url(${blog.imageUrl})` }}
-                ></div>
+                <div className={styles.imageWrapper}>
+                  <Image
+                    className={styles.image}
+                    src={place.imageUrl}
+                    alt={place.title}
+                    fill
+                  />
+                </div>
                 <div className={styles.content}>
-                  <span className={styles.category}>{blog.category}</span>
-                  <h3>{blog.title}</h3>
-                  <p>{blog.date}</p>
+                  <span className={styles.category}>{place.category}</span>
+                  <h3>{place.title}</h3>
+                  <p>{place.distance}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
-        {currentIndex + visibleCount < blogs.length && (
+        {currentIndex + visibleCount < places.length && (
           <button
             className={`${styles.navButton} ${styles.right}`}
             onClick={handleNext}

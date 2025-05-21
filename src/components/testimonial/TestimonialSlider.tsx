@@ -13,17 +13,17 @@ interface Testimonial {
 
 const testimonials: Testimonial[] = [
   {
-    name: "Alexander Vasquez",
-    text: "After a construction project took longer than expected, my husband, my daughter and I needed a place to stay for a few nights. As a Chicago resident, we know a lot about our city, neighborhood and the types of housing options available and absolutely love our vacation at Sona Hotel.",
+    name: "Preethi, Mysuru",
+    text: "My husband, my daughter and I needed a place to stay for a few nights. They offered good and hygine stay and absolutely love our vacation at Mithila Meadows.",
     rating: 5,
   },
   {
-    name: "Emily Johnson",
-    text: "Sona Hotel was the perfect escape for my family. The staff was welcoming, and the amenities were top-notch. We'll definitely come back again.",
+    name: "Harishchandra Jain, Udupi",
+    text: "Mithila Meadows was the perfect escape for my family. The staff was welcoming, and the amenities were top-notch. We'll definitely come back again.",
     rating: 4,
   },
   {
-    name: "Michael Smith",
+    name: "Ramesh Gowda, Hasana",
     text: "A fantastic experience overall. The rooms were clean, and the service was excellent. Highly recommend to anyone looking for a luxury stay.",
     rating: 4.5,
   },
