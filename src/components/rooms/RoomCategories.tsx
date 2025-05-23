@@ -2,8 +2,13 @@ import React, { useRef } from "react";
 import RoomCard, { Room } from "./RoomCard";
 
 import styles from "./RoomCategories.module.scss";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 const RoomCategories = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const rooms: Room[] = [
     {
       title: "Delux Room",
@@ -45,7 +50,7 @@ const RoomCategories = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
 
   const scrollContainer = useRef<HTMLDivElement>(null);
   const cardWidth = 320; // Single card width including margin
-  const visibleCards = 4; // Number of cards visible at once
+  const visibleCards = isMobile ? 1 : 3; // Number of cards visible at once
 
   const scrollLeft = () => {
     if (scrollContainer.current) {

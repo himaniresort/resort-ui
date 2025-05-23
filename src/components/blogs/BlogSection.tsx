@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./BlogSection.module.scss";
 import Image from 'next/image';
+import { useMediaQuery, useTheme } from "@mui/material";
 
 interface Places {
   title: string;
@@ -97,8 +98,11 @@ const places: Places[] = [
 ];
 
 const BlogSection: React.FC = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [currentIndex, setCurrentIndex] = useState(0);
-  const visibleCount = 4; // Number of visible blogs at a time
+  const visibleCount = isMobile ? 1 : 4; // Number of visible blogs at a time 1 25 4 100
 
   const handleNext = () => {
     if (currentIndex + visibleCount < places.length) {
@@ -130,7 +134,8 @@ const BlogSection: React.FC = () => {
           <div
             className={styles.cards}
             style={{
-              transform: `translateX(-${currentIndex * (100 / visibleCount)}%)`,
+              transform: `translateX(-${currentIndex * (isMobile? 25 : 100 / visibleCount)}%)`,
+              gap: isMobile ? '15px' : '20px'
             }}
           >
             {places.map((place, index) => (

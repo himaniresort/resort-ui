@@ -23,14 +23,13 @@
 }
 
 .roomCategoriesWrapper {
-  width: 1280px; // 4 images * 320px each
+  width: 940px; // 3 images * 320px each
   overflow: hidden; // Prevent content from overflowing horizontally
 }
 
 .roomCategories {
   display: flex;
   gap: 20px;
-  justify-content: center;
   overflow-x: auto;
   scroll-behavior: smooth;
   scrollbar-width: none; // Hide scrollbar in Firefox
