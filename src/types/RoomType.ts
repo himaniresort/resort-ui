@@ -3,5 +3,6 @@ export interface RoomType {
     name: string,
     cost: number,
     description: string,
+    capacity: number,
     image: string
 }

@@ -1,9 +1,8 @@
 import axios from "axios";
 
-export const getRoomsApi = async () => {
-
+export const getPlacesApi = async () => {
   try {
-    const response = await axios.get("/api/rooms");
+    const response = await axios.get("/api/places");
     if (response.status === 200) {
       return { data: response.data, error: "" };
     } else {
@@ -11,6 +10,6 @@ export const getRoomsApi = async () => {
     }
   } catch (error) {
     console.log(error);
-    return { data: [], error: "Error fetching Rooms" };
+    return { data: [], error: "Error fetching Places" };
   }
 };
