@@ -2,6 +2,7 @@
 import React from "react";
 import styles from "./RoomCard.module.scss";
 import Image from 'next/image';
+import { RoomType } from "@/types/RoomType";
 
 export interface Room {
   title: string;
@@ -14,21 +15,19 @@ export interface Room {
 }
 
 interface RoomCardProps {
-  room: Room;
+  room: RoomType;
 }
 
 const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
   return (
     <div className={styles.roomCard}>
-      <Image src={room.image} alt={room.title} className={styles.roomImage} layout="responsive" width={300} height={382}/>
+      <Image src={room.image} alt={room.name} className={styles.roomImage} layout="responsive" width={300} height={382}/>
       <div className={styles.roomInfo}>
-        <h3>{room.title}</h3>
-        <p className={styles.price}>{room.price} / Per night</p>
+        <h3>{room.name}</h3>
+        <p className={styles.price}>{room.cost} / Per night</p>
         <div className={styles.moreDetails}>
-          <p>Size: {room.size}</p>
           <p>Capacity: {room.capacity}</p>
-          <p>Bed: {room.bed}</p>
-          <p>Services: {room.services}</p>
+          <p>Services: ---------</p>
         </div>
       </div>
     </div>

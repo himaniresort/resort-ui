@@ -8,7 +8,6 @@ export default function RoomTypeDialog({roomType, openDialog, setOpenDialog}: {
 }) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-    console.log('----r--', roomType)
     const handleDialogClose = () => {
         setOpenDialog(false);
     };

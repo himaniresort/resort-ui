@@ -1,9 +1,9 @@
 import AboutSection from "@/components/about";
-import BlogSection from "@/components/blogs/BlogSection";
 import Booking from "@/components/booking/Booking";
 import CarouselFormSection from "@/components/carousal";
 import FooterSection from "@/components/footer/FooterSection";
 import Header from "@/components/header";
+import PlacesSection from "@/components/places/PlacesSection";
 import RoomCategories from "@/components/rooms/RoomCategories";
 import ServicesSection from "@/components/services";
 import TestimonialSlider from "@/components/testimonial/TestimonialSlider";
@@ -54,7 +54,7 @@ export default function Home() {
           <ServicesSection />
           <RoomCategories ref={roomCategoriesRef} />
           <TestimonialSlider />
-          <BlogSection />
+          <PlacesSection />
         </>
       )}
 

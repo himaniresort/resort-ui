@@ -10,7 +10,8 @@ const recentBookingsMockData: Bookings[] = [
       name: "Deluxe",
       cost: 3000,
       description: "",
-      image: ""
+      image: "",
+      capacity: 6,
     },
     checkIn: "2025-02-22T18:30:00.000Z",
     checkOut: "2025-02-26T18:30:00.000Z",
@@ -25,7 +26,8 @@ const recentBookingsMockData: Bookings[] = [
       name: "Standard room",
       cost: 2500,
       description: "",
-      image: ""
+      image: "",
+      capacity: 4
     },
     checkIn: "2025-02-28T18:30:00.000Z",
     checkOut: "2025-03-04T18:30:00.000Z",
@@ -40,7 +42,8 @@ const recentBookingsMockData: Bookings[] = [
       name: "Tent Stay",
       cost: 1500,
       description: "",
-      image: ""
+      image: "",
+      capacity: 2
     },
     checkIn: "2025-02-24T18:30:00.000Z",
     checkOut: "2025-02-25T18:30:00.000Z",

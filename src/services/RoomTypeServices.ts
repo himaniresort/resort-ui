@@ -10,6 +10,6 @@ export const getRoomTypeApi = async () => {
     }
   } catch (error) {
     console.log(error);
-    return { data: [], error: "Error fetching users" };
+    return { data: [], error: "Error fetching Room Type" };
   }
 };

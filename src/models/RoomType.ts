@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
 enum RoomTypeEnum {
-    Deluxe = "deluxe",
-    Standard = "standard",
+    deluxe = "deluxe",
+    standard = "standard",
+    single = "single",
     tent = "tent",
 }
 
@@ -20,6 +21,9 @@ const RoomTypeSchema = new mongoose.Schema(
     },
     description: {
         type: String
+    },
+    capacity: {
+      type: Number
     },
     cost: {
         type: Number,

@@ -49,8 +49,6 @@ const Booking = () => {
     fetchRoomType()
   }, []);
 
-  console.log("z-rooms", roomTypeData);
-
   // Overloads
   function handleGuestChange(roomType: string): (event: SelectChangeEvent) => void;
   function handleGuestChange(): () => void;

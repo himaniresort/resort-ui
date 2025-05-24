@@ -17,7 +17,7 @@ const useRoomTypeStore = create<RoomTypeState>()((set) => {
         fetchRoomType: async () => {
             set({ isLoading: true });
             const { data, error } = await getRoomTypeApi();
-            set({ roomTypeData: data, error, isLoading: false });
+            set({ roomTypeData: data.sort((a, b) => b.cost - a.cost), error, isLoading: false });
         }
     }
 });
