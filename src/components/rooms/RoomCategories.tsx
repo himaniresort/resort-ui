@@ -40,9 +40,9 @@ const RoomCategories = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
 
   return (
     <div ref={ref} className={styles.roomCategoriesContainer}>
-      <button className={styles.scrollButton} onClick={scrollLeft}>
+      {!isMobile && <button className={styles.scrollButton} onClick={scrollLeft}>
         {"<"}
-      </button>
+      </button>}
       <div className={styles.roomCategoriesWrapper}>
         <div className={styles.roomCategories} ref={scrollContainer}>
           {roomTypeData.map((room, index) => (
@@ -52,9 +52,9 @@ const RoomCategories = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
           ))}
         </div>
       </div>
-      <button className={styles.scrollButton} onClick={scrollRight}>
+      {!isMobile && <button className={styles.scrollButton} onClick={scrollRight}>
         {">"}
-      </button>
+      </button>}
     </div>
   );
 })

@@ -27,7 +27,12 @@
 
   .slider {
     display: flex;
-    overflow: hidden;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none; // Hide scrollbar in Firefox
+    &::-webkit-scrollbar {
+      display: none; // Hide scrollbar in Chrome and Safari
+    }
   }
 
   .cards {
@@ -37,7 +42,7 @@
   }
 
   .card {
-    flex: 0 0 24%; // Each card takes up 25% of the width (4 cards visible at a time)
+    flex: 0 0 25%; // Each card takes up 25% of the width (4 cards visible at a time)
     position: relative;
     display: flex;
     flex-direction: column;
