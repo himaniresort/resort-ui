@@ -21,7 +21,7 @@ interface RoomCardProps {
 const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
   return (
     <div className={styles.roomCard}>
-      <Image src={room.image} alt={room.name} className={styles.roomImage} layout="responsive" width={300} height={382}/>
+      <Image src={room.image} alt={room.name} className={styles.roomImage} layout="responsive" width={300} height={382} />
       <div className={styles.roomInfo}>
         <h3>{room.name}</h3>
         <p className={styles.price}>{room.cost} / Per night</p>

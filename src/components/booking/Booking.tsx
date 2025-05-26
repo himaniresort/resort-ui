@@ -52,7 +52,7 @@ const Booking = () => {
   // Overloads
   function handleGuestChange(roomType: string): (event: SelectChangeEvent) => void;
   function handleGuestChange(): () => void;
-  
+
   // Implementation
   function handleGuestChange(roomType?: string) {
     if (roomType) {
@@ -83,7 +83,7 @@ const Booking = () => {
   };
 
   const handleChangeSearch = () => {
-    const numberOfNights = checkIn && checkOut && checkOut > checkIn  ? checkOut.diff(checkIn, "day") : 1;
+    const numberOfNights = checkIn && checkOut && checkOut > checkIn ? checkOut.diff(checkIn, "day") : 1;
     setNumberOfNights(numberOfNights)
     // Add your logic to handle the data here, like making an API call
   };
@@ -98,25 +98,25 @@ const Booking = () => {
   const handleReserveBooking = (roomType: any) => {
     console.log('Booking reserved', roomType)
     const dateErrorCheck = dateChangeCheck(checkIn, checkOut)
-    if(dateErrorCheck) { 
-      dateSelectionRef?.current?.scrollIntoView({behavior: "smooth", block: "start"})
-   } else  setOpenBookingDialog(true)
+    if (dateErrorCheck) {
+      dateSelectionRef?.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+    } else setOpenBookingDialog(true)
   }
 
-  const dateChangeCheck = (updatedCheckIn: Dayjs | null, updatedCheckOut: Dayjs | null)  => {
-    if(!updatedCheckIn && !updatedCheckOut) {
-        setDateError({
+  const dateChangeCheck = (updatedCheckIn: Dayjs | null, updatedCheckOut: Dayjs | null) => {
+    if (!updatedCheckIn && !updatedCheckOut) {
+      setDateError({
         checkInError: true,
         checkOutError: true
       })
       return true;
-  } else if (!updatedCheckIn && updatedCheckOut) {
+    } else if (!updatedCheckIn && updatedCheckOut) {
       setDateError({
         checkInError: true,
         checkOutError: false
       })
       return true;
-   } else if (updatedCheckIn && !updatedCheckOut) {
+    } else if (updatedCheckIn && !updatedCheckOut) {
       setDateError({
         checkInError: false,
         checkOutError: true
@@ -135,15 +135,15 @@ const Booking = () => {
     let updatedCheckIn = checkIn;
     let updatedCheckOut = checkOut;
 
-    if(type === 'checkIn') {
+    if (type === 'checkIn') {
       updatedCheckIn = date;
-      setCheckIn(date) 
+      setCheckIn(date)
     }
-    else if(type === 'checkOut') {
+    else if (type === 'checkOut') {
       updatedCheckOut = date;
-      setCheckOut(date); 
+      setCheckOut(date);
     }
-    dateChangeCheck(updatedCheckIn,updatedCheckOut)
+    dateChangeCheck(updatedCheckIn, updatedCheckOut)
   }
 
   const handleRoomTypeClick = (roomType: any) => {
@@ -171,7 +171,7 @@ const Booking = () => {
               <DatePicker
                 label="Check In"
                 value={checkIn}
-                minDate = {dayjs()}
+                minDate={dayjs()}
                 maxDate={checkOut || undefined}
                 format="DD/MM/YYYY"
                 onChange={(newValue) => handleDateChange(newValue, 'checkIn')}
@@ -254,20 +254,20 @@ const Booking = () => {
       </Box>
 
       {/* Rooms Card Section */}
-      { roomTypeData.length ? 
+      {roomTypeData.length ?
         <>
           <Grid container spacing={2} mt={3} sx={{
             flexDirection: isMobile ? "row" : "column",
-            width: isMobile ? '100' : 10/12
+            width: isMobile ? '100' : 10 / 12
           }}>
             {roomTypeData.map((roomType, index) => (
               <Grid item key={index}
-              sx={{
-                maxWidth: "100%",
-              }}>
-                
+                sx={{
+                  maxWidth: "100%",
+                }}>
+
                 <Card
-                key={index}
+                  key={index}
                   sx={{
                     display: "flex",
                     flexDirection: isMobile ? "column" : "row",
@@ -346,9 +346,9 @@ const Booking = () => {
                                 horizontal: "left",
                               },
                             }}
-                          > 
+                          >
                             {[...Array(
-                              roomType.type === "deluxe" ? 6 : roomType.type === "standard" ? 4 : 2 
+                              roomType.type === "deluxe" ? 6 : roomType.type === "standard" ? 4 : 2
                             )].map((_, index) => (
                               <MenuItem key={index + 1} value={index + 1}>
                                 {index + 1}
@@ -370,16 +370,16 @@ const Booking = () => {
               </Grid>
             ))}
           </Grid>
-          <RoomTypeDialog roomType={roomType} openDialog={openRoomTypeDialog} setOpenDialog={setOpenRoomTypeDialog}/>
-        </>  : 
-      <Container sx={{
-        display: "flex",
-        justifyContent: "center",
-        height: "100vh",
-      }}>
-        <CircularProgress size="5rem" />
-      </Container> }
-    </Container> 
+          <RoomTypeDialog roomType={roomType} openDialog={openRoomTypeDialog} setOpenDialog={setOpenRoomTypeDialog} />
+        </> :
+        <Container sx={{
+          display: "flex",
+          justifyContent: "center",
+          height: "100vh",
+        }}>
+          <CircularProgress size="5rem" />
+        </Container>}
+    </Container>
   );
 };
 
