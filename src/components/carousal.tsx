@@ -1,21 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import Slider from "react-slick";
-import { Box, Button, Grid, MenuItem, Select, Typography } from "@mui/material";
-import { Dayjs } from "dayjs";
+import { Box, Button, Grid, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import { dateChangeCheck } from "@/utils/date";
-import DatePickerComponent, { DaterPickerComopentPropsType } from "./datePicker";
+import DatePickerComponent from "./datePicker";
+import { SetState } from "@/types/SetState";
+import { useDatePickerStore } from "@/store/DatePickerStore";
 
-const CarouselFormSection: React.FC = () => {
-  // State for the form
-  const [checkIn, setCheckIn] = React.useState<Dayjs | null>(null);
-  const [checkOut, setCheckOut] = React.useState<Dayjs | null>(null);
-  const [guests, setGuests] = React.useState<string>("2 Adults");
-  const [rooms, setRooms] = React.useState<string>("1 Room");
-  const [dateError, setDateError] = useState({
-    checkInError: false,
-    checkOutError: false
-  });
+export interface CarouselFormSectionProps {
+  showBooking: boolean,
+  setShowBooking: SetState<boolean>
+}
 
+const CarouselFormSection: React.FC<CarouselFormSectionProps> = ({ showBooking, setShowBooking }: CarouselFormSectionProps) => {
+  const [guests, setGuests] = React.useState<number>(2);
+  const [rooms, setRooms] = React.useState<number>(1);
   // Slider settings for react-slick
   const settings = {
     dots: true,
@@ -27,24 +25,18 @@ const CarouselFormSection: React.FC = () => {
     autoplaySpeed: 3000,
   };
 
+  const datePickerStore = useDatePickerStore();
+
   const handleCheckAvailability = () => {
-    console.log("Check-In Date:", checkIn?.toISOString());
-    console.log("Check-Out Date:", checkOut?.toISOString());
+    console.log("Check-In Date:", datePickerStore.checkIn?.toISOString());
+    console.log("Check-Out Date:", datePickerStore.checkOut?.toISOString());
+    console.log("Guests and rooms", guests, rooms)
 
-    console.log("Guests:", guests);
-    console.log("Rooms:", rooms);
-    // Add your logic to handle the data here, like making an API call
-    const dateErrorCheck = dateChangeCheck(checkIn, checkOut);
-    setDateError(dateErrorCheck);
-  };
-
-  const datePickerProps: DaterPickerComopentPropsType = {
-    checkIn: checkIn,
-    setCheckIn: setCheckIn,
-    checkOut: checkOut,
-    setCheckOut: setCheckOut,
-    dateError: dateError,
-    setDateError: setDateError
+    const dateErrorCheck = dateChangeCheck(datePickerStore.checkIn, datePickerStore.checkOut);
+    datePickerStore.setDateError(dateErrorCheck);
+    if (!dateErrorCheck.checkInError && !dateErrorCheck.checkOutError) {
+      setShowBooking(!showBooking);
+    }
   };
 
   return (
@@ -95,31 +87,41 @@ const CarouselFormSection: React.FC = () => {
           Booking Your Hotel
         </Typography>
         <Grid container spacing={2}>
-          <DatePickerComponent datePickerProps={datePickerProps}></DatePickerComponent>
-          <Grid item xs={12}>
-            <Select
-              value={guests}
-              onChange={(e) => setGuests(e.target.value)}
-              fullWidth
-              displayEmpty
-            >
-              <MenuItem value="2 Adults">2 Adults</MenuItem>
-              <MenuItem value="3 Adults">3 Adults</MenuItem>
-              <MenuItem value="4 Adults">4 Adults</MenuItem>
-            </Select>
-          </Grid>
-          <Grid item xs={12}>
-            <Select
-              value={rooms}
-              onChange={(e) => setRooms(e.target.value)}
-              fullWidth
-              displayEmpty
-            >
-              <MenuItem value="1 Room">1 Room</MenuItem>
-              <MenuItem value="2 Rooms">2 Rooms</MenuItem>
-              <MenuItem value="3 Rooms">3 Rooms</MenuItem>
-            </Select>
-          </Grid>
+          <DatePickerComponent></DatePickerComponent>
+          <Box sx={{ display: "flex", gap: 3, width: "100%", paddingLeft: "16px" }}>
+            <Grid item xs={12}>
+              <InputLabel sx={{ fontSize: "13px", position: "relative", top: '9px', left: '14px' }}>Guests</InputLabel>
+              <Select
+                value={guests}
+                label="Guests"
+                onChange={(e) => setGuests(e.target.value as number)}
+                fullWidth
+                displayEmpty
+              >
+                {[...Array(6)].map((_, index) => (
+                  <MenuItem key={index + 1} value={index + 1}>
+                    {index + 1}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Grid>
+            <Grid item xs={12}>
+              <InputLabel sx={{ fontSize: "13px", position: "relative", top: '9px', left: '14px' }}>Rooms</InputLabel>
+              <Select
+                value={rooms}
+                label="Rooms"
+                onChange={(e) => { setRooms(e.target.value as number) }}
+                fullWidth
+                displayEmpty
+              >
+                {[...Array(6)].map((_, index) => (
+                  <MenuItem key={index + 1} value={index + 1}>
+                    {index + 1}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Grid>
+          </Box>
           <Grid item xs={12}>
             <Button variant="contained" color="primary" fullWidth
               onClick={handleCheckAvailability}>

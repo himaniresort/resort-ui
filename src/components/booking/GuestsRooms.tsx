@@ -14,15 +14,14 @@ export interface GuestsAndRoomsPropsType {
     setGuestsAndRooms: SetState<GuestsAndRoomsState>;
 }
 
-const resetValue = {
+export const resetValue = {
     deluxe: 1,
     standard: 1,
-    tent: 1,
+    tent: 1
 }
 
 export default function GuestsAndRooms({ guestsAndRoomsProps }: { guestsAndRoomsProps: GuestsAndRoomsPropsType }) {
     const isMobile = MobileScreen();
-
     return (
         <Box sx={{ display: 'flex', gap: '10px', width: isMobile ? '50%' : '25%' }}>
             <FormControl fullWidth>

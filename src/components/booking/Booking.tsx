@@ -1,21 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Container, Typography, Button, Box, Checkbox, FormControl, FormLabel, FormGroup, FormControlLabel, Grid, Card, CardContent, CardMedia, CircularProgress } from "@mui/material";
 
-import { Dayjs } from "dayjs";
 import useRoomTypeStore from "@/store/RoomType";
 import BookingDialog from "./BookingDialog";
 import RoomTypeDialog from "./RoomTypeDialog";
 import { dateChangeCheck } from "@/utils/date";
-import DatePickerComponent, { DaterPickerComopentPropsType } from "../datePicker";
+import DatePickerComponent from "../datePicker";
 import MobileScreen from "@/utils/mobile-screen";
-import GuestsAndRooms, { GuestsAndRoomsState, handleGuestsAndRoomChange, GuestsAndRoomsPropsType } from "./GuestsRooms";
+import GuestsAndRooms, { GuestsAndRoomsState, handleGuestsAndRoomChange, GuestsAndRoomsPropsType, resetValue } from "./GuestsRooms";
+import { useDatePickerStore } from "@/store/DatePickerStore";
 
 const Booking = () => {
 
-  const [checkIn, setCheckIn] = useState<Dayjs | null>(null);
-  const [checkOut, setCheckOut] = useState<Dayjs | null>(null);
   const [numberOfNights, setNumberOfNights] = useState<number>(1);
-  const [guestsAndRooms, setGuestsAndRooms] = useState<GuestsAndRoomsState>({ guests: {}, rooms: {} });
+  const [guestsAndRooms, setGuestsAndRooms] = useState<GuestsAndRoomsState>({ guests: resetValue, rooms: resetValue });
   const [filterBy, setFilterBy] = useState([
     {
       isCheked: false,
@@ -28,10 +26,8 @@ const Booking = () => {
       label: "Available"
     }
   ]);
-  const [dateError, setDateError] = useState({
-    checkInError: false,
-    checkOutError: false
-  });
+
+  const datePickerStore = useDatePickerStore();
 
   const [openBookingDialog, setOpenBookingDialog] = useState(false)
   const [openRoomTypeDialog, setOpenRoomTypeDialog] = useState(false)
@@ -57,22 +53,22 @@ const Booking = () => {
   };
 
   const handleChangeSearch = () => {
-    const numberOfNights = checkIn && checkOut && checkOut > checkIn ? checkOut.diff(checkIn, "day") : 1;
+    const numberOfNights = datePickerStore.checkIn && datePickerStore.checkOut && datePickerStore.checkOut > datePickerStore.checkIn ? datePickerStore.checkOut.diff(datePickerStore.checkIn, "day") : 1;
     setNumberOfNights(numberOfNights)
     // Add your logic to handle the data here, like making an API call
   };
 
   const handleReset = () => {
-    setCheckIn(null)
-    setCheckOut(null)
+    datePickerStore.setCheckIn(null)
+    datePickerStore.setCheckOut(null)
     setNumberOfNights(1)
     handleGuestsAndRoomChange(setGuestsAndRooms)()
   }
 
   const handleReserveBooking = (roomType: any) => {
     console.log('Booking reserved', roomType)
-    const dateErrorCheck = dateChangeCheck(checkIn, checkOut);
-    setDateError(dateErrorCheck);
+    const dateErrorCheck = dateChangeCheck(datePickerStore.checkIn, datePickerStore.checkOut);
+    datePickerStore.setDateError(dateErrorCheck);
     if (dateErrorCheck.checkInError && dateErrorCheck.checkOutError) {
       dateSelectionRef?.current?.scrollIntoView({ behavior: "smooth", block: "start" })
     } else setOpenBookingDialog(true)
@@ -82,15 +78,6 @@ const Booking = () => {
     setOpenRoomTypeDialog(true)
     setRoomType(roomType)
   }
-
-  const datePickerProps: DaterPickerComopentPropsType = {
-    checkIn: checkIn,
-    setCheckIn: setCheckIn,
-    checkOut: checkOut,
-    setCheckOut: setCheckOut,
-    dateError: dateError,
-    setDateError: setDateError
-  };
 
   return (
     <Container maxWidth="xl" sx={{ mt: 4 }}>
@@ -106,7 +93,7 @@ const Booking = () => {
           alignItems={isMobile ? "stretch" : "center"}
         >
           {/* Date Pickers */}
-          <DatePickerComponent datePickerProps={datePickerProps}></DatePickerComponent>
+          <DatePickerComponent></DatePickerComponent>
 
           {/* Search Button */}
           <Button
