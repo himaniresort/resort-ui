@@ -1,7 +1,7 @@
 import { RoomType } from "@/types/RoomType";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, useMediaQuery, useTheme } from "@mui/material";
 
-export default function RoomTypeDialog({roomType, openDialog, setOpenDialog}: { 
+export default function RoomTypeDialog({ roomType, openDialog, setOpenDialog }: {
     roomType: RoomType | null,
     openDialog: boolean
     setOpenDialog: (value: boolean) => void
@@ -13,27 +13,25 @@ export default function RoomTypeDialog({roomType, openDialog, setOpenDialog}: {
     };
 
     return (
-        <>
-            <Dialog
-                fullScreen={isMobile}
-                open={openDialog}
-                onClose={handleDialogClose}
-                aria-labelledby="responsive-dialog-title"
-            >
-                <DialogTitle id="responsive-dialog-title">
+        <Dialog
+            fullScreen={isMobile}
+            open={openDialog}
+            onClose={handleDialogClose}
+            aria-labelledby="responsive-dialog-title"
+        >
+            <DialogTitle id="responsive-dialog-title">
                 {roomType?.name}
-                </DialogTitle>
-                <DialogContent>
+            </DialogTitle>
+            <DialogContent>
                 <DialogContentText>
                     {roomType?.description}
                 </DialogContentText>
-                </DialogContent>
-                <DialogActions>
+            </DialogContent>
+            <DialogActions>
                 <Button onClick={handleDialogClose} autoFocus>
                     Close
                 </Button>
-                </DialogActions>
-            </Dialog>
-        </>
+            </DialogActions>
+        </Dialog>
     )
 }
