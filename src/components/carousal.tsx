@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
 import { Box, Button, Grid, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import { dateChangeCheck } from "@/utils/date";
@@ -14,6 +14,10 @@ export interface CarouselFormSectionProps {
 const CarouselFormSection: React.FC<CarouselFormSectionProps> = ({ showBooking, setShowBooking }: CarouselFormSectionProps) => {
   const [guests, setGuests] = React.useState<number>(2);
   const [rooms, setRooms] = React.useState<number>(1);
+  const [dateError, setDateError] = useState({
+    checkInError: false,
+    checkOutError: false
+  });
   // Slider settings for react-slick
   const settings = {
     dots: true,
@@ -33,11 +37,22 @@ const CarouselFormSection: React.FC<CarouselFormSectionProps> = ({ showBooking, 
     console.log("Guests and rooms", guests, rooms)
 
     const dateErrorCheck = dateChangeCheck(datePickerStore.checkIn, datePickerStore.checkOut);
-    datePickerStore.setDateError(dateErrorCheck);
+    setDateError(dateErrorCheck);
     if (!dateErrorCheck.checkInError && !dateErrorCheck.checkOutError) {
       setShowBooking(!showBooking);
     }
   };
+
+  const handleReset = () => {
+    datePickerStore.setCheckIn(null)
+    datePickerStore.setCheckOut(null)
+    setDateError({
+      checkInError: false,
+      checkOutError: false
+    })
+    setGuests(2);
+    setRooms(1);
+  }
 
   return (
     <Box sx={{ position: "relative" }}>
@@ -87,7 +102,7 @@ const CarouselFormSection: React.FC<CarouselFormSectionProps> = ({ showBooking, 
           Booking Your Hotel
         </Typography>
         <Grid container spacing={2}>
-          <DatePickerComponent></DatePickerComponent>
+          <DatePickerComponent dateError={dateError} setDateError={setDateError}></DatePickerComponent>
           <Box sx={{ display: "flex", gap: 3, width: "100%", paddingLeft: "16px" }}>
             <Grid item xs={12}>
               <InputLabel sx={{ fontSize: "13px", position: "relative", top: '9px', left: '14px' }}>Guests</InputLabel>
@@ -122,10 +137,14 @@ const CarouselFormSection: React.FC<CarouselFormSectionProps> = ({ showBooking, 
               </Select>
             </Grid>
           </Box>
-          <Grid item xs={12}>
-            <Button variant="contained" color="primary" fullWidth
+          <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Button variant="contained" color="primary"
               onClick={handleCheckAvailability}>
               Check Availability
+            </Button>
+            <Button variant="contained" color="primary"
+              onClick={handleReset}>
+              Reset
             </Button>
           </Grid>
         </Grid>

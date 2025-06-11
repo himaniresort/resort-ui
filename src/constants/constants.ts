@@ -6,7 +6,7 @@ export const ABOUT_US_CONSTANTS = {
 }
 
 export const HEADER_CONSTANTS = {
-    CONTACT_NO: '(+91) 9380002949',
+    CONTACT_NO: '(+91) 7337881353',
     EMAIL: 'mithilameadows25@gmail.com',
     NAME: 'Mithila Meadows',
     HOME: "Home",
@@ -18,7 +18,7 @@ export const HEADER_CONSTANTS = {
 export const FOOTER_CONSTANTS = {
     TAG_LINE: 'Your Perfect Getaway, Crafted with Love.',
     CONTACT_US: 'Contact Us',
-    ADDRESS: 'Didupe, Belthangady, DK - 560099',
+    ADDRESS: 'Malavanthige, Didupe, Belthangady, DK - 574214',
     NEW_LATEST: 'New Latest',
     UPDATES_AND_OFFERS: 'Get the latest updates and offers.',
     COPYRIGHT: 'Copyright ©2025 All rights reserved | Made with ❤️ in India'

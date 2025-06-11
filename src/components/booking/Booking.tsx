@@ -1,17 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Container, Typography, Button, Box, Checkbox, FormControl, FormLabel, FormGroup, FormControlLabel, Grid, Card, CardContent, CardMedia, CircularProgress } from "@mui/material";
+import { Container, Typography, Button, Box, Checkbox, FormControl, FormLabel, FormGroup, FormControlLabel, CircularProgress } from "@mui/material";
 
 import useRoomTypeStore from "@/store/RoomType";
-import BookingDialog from "./BookingDialog";
-import RoomTypeDialog from "./RoomTypeDialog";
-import { dateChangeCheck } from "@/utils/date";
 import DatePickerComponent from "../datePicker";
 import MobileScreen from "@/utils/mobile-screen";
-import GuestsAndRooms, { GuestsAndRoomsState, handleGuestsAndRoomChange, GuestsAndRoomsPropsType, resetValue } from "./GuestsRooms";
+import { handleGuestsAndRoomChange, GuestsAndRoomsState, resetValue } from "./GuestsRooms";
 import { useDatePickerStore } from "@/store/DatePickerStore";
+import RoomTypeComponent from "./RoomTypes";
 
 const Booking = () => {
-
   const [numberOfNights, setNumberOfNights] = useState<number>(1);
   const [guestsAndRooms, setGuestsAndRooms] = useState<GuestsAndRoomsState>({ guests: resetValue, rooms: resetValue });
   const [filterBy, setFilterBy] = useState([
@@ -26,13 +23,12 @@ const Booking = () => {
       label: "Available"
     }
   ]);
+  const [dateError, setDateError] = useState({
+    checkInError: false,
+    checkOutError: false
+  });
 
   const datePickerStore = useDatePickerStore();
-
-  const [openBookingDialog, setOpenBookingDialog] = useState(false)
-  const [openRoomTypeDialog, setOpenRoomTypeDialog] = useState(false)
-
-  const [roomType, setRoomType] = useState(null)
 
   const isMobile = MobileScreen();
 
@@ -62,21 +58,11 @@ const Booking = () => {
     datePickerStore.setCheckIn(null)
     datePickerStore.setCheckOut(null)
     setNumberOfNights(1)
+    setDateError({
+      checkInError: false,
+      checkOutError: false
+    })
     handleGuestsAndRoomChange(setGuestsAndRooms)()
-  }
-
-  const handleReserveBooking = (roomType: any) => {
-    console.log('Booking reserved', roomType)
-    const dateErrorCheck = dateChangeCheck(datePickerStore.checkIn, datePickerStore.checkOut);
-    datePickerStore.setDateError(dateErrorCheck);
-    if (dateErrorCheck.checkInError && dateErrorCheck.checkOutError) {
-      dateSelectionRef?.current?.scrollIntoView({ behavior: "smooth", block: "start" })
-    } else setOpenBookingDialog(true)
-  }
-
-  const handleRoomTypeClick = (roomType: any) => {
-    setOpenRoomTypeDialog(true)
-    setRoomType(roomType)
   }
 
   return (
@@ -93,7 +79,7 @@ const Booking = () => {
           alignItems={isMobile ? "stretch" : "center"}
         >
           {/* Date Pickers */}
-          <DatePickerComponent></DatePickerComponent>
+          <DatePickerComponent dateError={dateError} setDateError={setDateError}></DatePickerComponent>
 
           {/* Search Button */}
           <Button
@@ -149,103 +135,9 @@ const Booking = () => {
       </Box>
 
       {/* Rooms Card Section */}
-      {roomTypeData.length ?
-        <>
-          <Grid container spacing={2} mt={3} sx={{
-            flexDirection: isMobile ? "row" : "column",
-            width: isMobile ? '100' : 10 / 12
-          }}>
-            {roomTypeData.map((roomType, index) => {
-
-              const guestsAndRoomsProps: GuestsAndRoomsPropsType = {
-                roomType: roomType,
-                guestsAndRooms: guestsAndRooms,
-                setGuestsAndRooms: setGuestsAndRooms
-              }
-              return (
-                <Grid item key={index}
-                  sx={{
-                    maxWidth: "100%",
-                  }}>
-                  <Card
-                    key={index}
-                    sx={{
-                      display: "flex",
-                      flexDirection: isMobile ? "column" : "row",
-                      alignItems: "center",
-                      mb: 2,
-                      borderRadius: 3,
-                      boxShadow: 3,
-                      transition: "transform 0.2s, box-shadow 0.3s",
-                      "&:hover": { transform: "scale(1.02)", boxShadow: 6 },
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      sx={{
-                        cursor: "pointer",
-                        width: isMobile ? "100%" : 250,
-                        height: isMobile ? 180 : "100%",
-                        objectFit: "cover",
-                        borderRadius: isMobile ? "8px 8px 0 0" : "8px 0 0 8px",
-                      }}
-                      image={roomType.image}
-                      alt={roomType.name}
-                      onClick={() => handleRoomTypeClick(roomType)}
-                    />
-
-                    <CardContent sx={{ p: 3, width: "100%" }}>
-                      <Typography component="span"
-                        variant="h6"
-                        fontWeight="bold"
-                        color="primary"
-                        gutterBottom
-                        sx={{
-                          cursor: "pointer",
-                          transition: "color 0.3s ease-in-out",
-                          "&:hover": {
-                            color: "black",
-                          },
-                        }}
-                        onClick={() => handleRoomTypeClick(roomType)}
-                      >
-                        {roomType.name}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary" mb={1.5}>
-                        {roomType.description}
-                      </Typography>
-                      <Typography component="span" variant="body1">
-                        <strong>Cost:</strong> ₹{roomType.cost} / person
-                      </Typography>
-                      <Typography variant="body1">
-                        <strong>Number of Nights:</strong> {numberOfNights}
-                      </Typography>
-                      <Box sx={{
-                        display: "flex",
-                        gap: 3,
-                        flexWrap: isMobile ? 'wrap' : 'nowrap'
-                      }}>
-                        <Typography variant="h6" color="secondary" fontWeight="bold">
-                          Total Cost: ₹{(roomType.cost * (guestsAndRooms.guests[roomType.type] || 1) * (guestsAndRooms.rooms[roomType.type] || 1) * numberOfNights).toLocaleString()}
-                        </Typography>
-                        <GuestsAndRooms guestsAndRoomsProps={guestsAndRoomsProps}></GuestsAndRooms>
-                        <Box>
-                          <Button variant="contained" color="primary"
-                            onClick={() => handleReserveBooking(roomType)}>
-                            Reserve
-                          </Button>
-                          <BookingDialog openDialog={openBookingDialog} setOpenDialog={setOpenBookingDialog}></BookingDialog>
-                        </Box>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              )
-            })}
-          </Grid>
-          <RoomTypeDialog roomType={roomType} openDialog={openRoomTypeDialog} setOpenDialog={setOpenRoomTypeDialog} />
-        </> :
-        <Container sx={{
+      {roomTypeData.length
+        ? <RoomTypeComponent guestsAndRooms={guestsAndRooms} setGuestsAndRooms={setGuestsAndRooms} numberOfNights={numberOfNights} dateSelectionRef={dateSelectionRef} setDateError={setDateError}></RoomTypeComponent>
+        : <Container sx={{
           display: "flex",
           justifyContent: "center",
           height: "100vh",

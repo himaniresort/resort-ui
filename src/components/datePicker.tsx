@@ -1,4 +1,5 @@
 import { useDatePickerStore } from "@/store/DatePickerStore";
+import { SetState } from "@/types/SetState";
 import { dateChangeCheck } from "@/utils/date";
 import { Grid } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -12,7 +13,7 @@ export type DateError = {
     checkOutError: boolean;
 }
 
-export default function DatePickerComponent() {
+export default function DatePickerComponent({ dateError, setDateError }: { dateError?: DateError, setDateError?: SetState<DateError> }) {
 
     const datePickerStore = useDatePickerStore();
 
@@ -28,9 +29,9 @@ export default function DatePickerComponent() {
             updatedCheckOut = date;
             datePickerStore.setCheckOut(updatedCheckOut)
         }
-        if (datePickerStore.setDateError) {
+        if (setDateError) {
             const dateErrorCheck = dateChangeCheck(updatedCheckIn, updatedCheckOut);
-            datePickerStore.setDateError(dateErrorCheck);
+            setDateError(dateErrorCheck);
         }
     }
 
@@ -47,7 +48,7 @@ export default function DatePickerComponent() {
                     slotProps={{
                         textField: {
                             fullWidth: true,
-                            error: datePickerStore.dateError?.checkInError
+                            error: dateError?.checkInError
                         },
                     }}
                 />
@@ -62,7 +63,7 @@ export default function DatePickerComponent() {
                     sx={{ width: "100%" }}
                     slotProps={{
                         textField: {
-                            error: datePickerStore.dateError?.checkOutError
+                            error: dateError?.checkOutError
                         },
                     }}
                 />
