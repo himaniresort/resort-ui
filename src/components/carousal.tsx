@@ -12,7 +12,7 @@ export interface CarouselFormSectionProps {
 }
 
 const CarouselFormSection: React.FC<CarouselFormSectionProps> = ({ showBooking, setShowBooking }: CarouselFormSectionProps) => {
-  const [guests, setGuests] = React.useState<number>(2);
+  const [guests, setGuests] = React.useState<number>(1);
   const [rooms, setRooms] = React.useState<number>(1);
   const [dateError, setDateError] = useState({
     checkInError: false,
