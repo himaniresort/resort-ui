@@ -3,21 +3,19 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
 import {
   FaPhoneAlt,
   FaEnvelope,
-  FaSearch,
 } from "react-icons/fa";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { HEADER_CONSTANTS } from "@/constants/constants";
 import { BUTTON_CONSTANTS } from "@/constants/button-constants";
 
-const Header: React.FC<{ 
+const Header: React.FC<{
   handleNavigationLinks: (link: string) => void,
   showBooking: boolean,
   setShowBooking: (value: boolean) => void
-}> = ({handleNavigationLinks, showBooking, setShowBooking }) => {
+}> = ({ handleNavigationLinks, showBooking, setShowBooking }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -37,14 +35,14 @@ const Header: React.FC<{
           flexWrap: isMobile ? "wrap" : "nowrap",
         }}
       >
-        
+
         {/* Name */}
-        <Box sx={{ 
-            display: "flex",
-            flexDirection: isMobile ? "row" : "column",
-            flex:1,
-            justifyContent: "center",
-          }}>
+        <Box sx={{
+          display: "flex",
+          flexDirection: isMobile ? "row" : "column",
+          flex: 1,
+          justifyContent: "center",
+        }}>
           <Typography
             variant="h5"
             sx={{
@@ -54,13 +52,13 @@ const Header: React.FC<{
               padding: "10px"
             }}
           >
-            {HEADER_CONSTANTS.NAME} 
+            {HEADER_CONSTANTS.NAME}
           </Typography>
           <Typography sx={{
-              fontFamily: '"Courier New", monospace',
-              fontSize: '16px',
-              padding: isMobile ? "10px" : 0
-            }}>🛠️ Under construction, but not underwhelming! We’re almost ready to welcome you — both online and in person.</Typography>
+            fontFamily: '"Courier New", monospace',
+            fontSize: '16px',
+            padding: isMobile ? "10px" : 0
+          }}>🛠️ Under construction, but not underwhelming! We’re almost ready to welcome you — both online and in person.</Typography>
         </Box>
 
         {/* Contact Info */}
@@ -125,15 +123,10 @@ const Header: React.FC<{
               fontWeight: "bold",
               padding: "10px 20px",
             }}
-            onClick={() => setShowBooking(!showBooking)} 
+            onClick={() => setShowBooking(!showBooking)}
           >
             {showBooking ? BUTTON_CONSTANTS.BACK : BUTTON_CONSTANTS.BOOKING}
           </Button>
-
-          {/* Search Icon */}
-          <IconButton>
-            <FaSearch />
-          </IconButton>
         </Box>
       </Toolbar>
     </AppBar>

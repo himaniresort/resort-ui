@@ -1,18 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
-import { Box, Button, Grid, MenuItem, Select, Typography } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { Dayjs } from "dayjs";
+import { Box, Button, Grid, InputLabel, MenuItem, Select, Typography } from "@mui/material";
+import { dateChangeCheck } from "@/utils/date";
+import DatePickerComponent from "./datePicker";
+import { SetState } from "@/types/SetState";
+import { useDatePickerStore } from "@/store/DatePickerStore";
 
-const CarouselFormSection: React.FC = () => {
-  // State for the form
-  const [checkIn, setCheckIn] = React.useState<Dayjs | null>(null);
-  const [checkOut, setCheckOut] = React.useState<Dayjs | null>(null);
-  const [guests, setGuests] = React.useState<string>("2 Adults");
-  const [rooms, setRooms] = React.useState<string>("1 Room");
+export interface CarouselFormSectionProps {
+  showBooking: boolean,
+  setShowBooking: SetState<boolean>
+}
 
+const CarouselFormSection: React.FC<CarouselFormSectionProps> = ({ showBooking, setShowBooking }: CarouselFormSectionProps) => {
+  const [guests, setGuests] = React.useState<number>(1);
+  const [rooms, setRooms] = React.useState<number>(1);
+  const [dateError, setDateError] = useState({
+    checkInError: false,
+    checkOutError: false
+  });
   // Slider settings for react-slick
   const settings = {
     dots: true,
@@ -24,14 +29,30 @@ const CarouselFormSection: React.FC = () => {
     autoplaySpeed: 3000,
   };
 
-  const handleCheckAvailability = () => {
-    console.log("Check-In Date:", checkIn?.toISOString());
-    console.log("Check-Out Date:", checkOut?.toISOString());
+  const datePickerStore = useDatePickerStore();
 
-    console.log("Guests:", guests);
-    console.log("Rooms:", rooms);
-    // Add your logic to handle the data here, like making an API call
+  const handleCheckAvailability = () => {
+    console.log("Check-In Date:", datePickerStore.checkIn?.toISOString());
+    console.log("Check-Out Date:", datePickerStore.checkOut?.toISOString());
+    console.log("Guests and rooms", guests, rooms)
+
+    const dateErrorCheck = dateChangeCheck(datePickerStore.checkIn, datePickerStore.checkOut);
+    setDateError(dateErrorCheck);
+    if (!dateErrorCheck.checkInError && !dateErrorCheck.checkOutError) {
+      setShowBooking(!showBooking);
+    }
   };
+
+  const handleReset = () => {
+    datePickerStore.setCheckIn(null)
+    datePickerStore.setCheckOut(null)
+    setDateError({
+      checkInError: false,
+      checkOutError: false
+    })
+    setGuests(2);
+    setRooms(1);
+  }
 
   return (
     <Box sx={{ position: "relative" }}>
@@ -80,56 +101,54 @@ const CarouselFormSection: React.FC = () => {
         <Typography variant="h5" gutterBottom>
           Booking Your Hotel
         </Typography>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <Grid container spacing={2}>
+        <Grid container spacing={2}>
+          <DatePickerComponent dateError={dateError} setDateError={setDateError}></DatePickerComponent>
+          <Box sx={{ display: "flex", gap: 3, width: "100%", paddingLeft: "16px" }}>
             <Grid item xs={12}>
-              <DatePicker
-                label="Check In"
-                value={checkIn}
-                onChange={(newValue) => setCheckIn(newValue)}
-                slotProps={{ textField: { fullWidth: true } }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <DatePicker
-                label="Check Out"
-                value={checkOut}
-                onChange={(newValue) => setCheckOut(newValue)}
-                slotProps={{ textField: { fullWidth: true } }}
-              />
-            </Grid>
-            <Grid item xs={12}>
+              <InputLabel sx={{ fontSize: "13px", position: "relative", top: '9px', left: '14px' }}>Guests</InputLabel>
               <Select
                 value={guests}
-                onChange={(e) => setGuests(e.target.value)}
+                label="Guests"
+                onChange={(e) => setGuests(e.target.value as number)}
                 fullWidth
                 displayEmpty
               >
-                <MenuItem value="2 Adults">2 Adults</MenuItem>
-                <MenuItem value="3 Adults">3 Adults</MenuItem>
-                <MenuItem value="4 Adults">4 Adults</MenuItem>
+                {[...Array(6)].map((_, index) => (
+                  <MenuItem key={index + 1} value={index + 1}>
+                    {index + 1}
+                  </MenuItem>
+                ))}
               </Select>
             </Grid>
             <Grid item xs={12}>
+              <InputLabel sx={{ fontSize: "13px", position: "relative", top: '9px', left: '14px' }}>Rooms</InputLabel>
               <Select
                 value={rooms}
-                onChange={(e) => setRooms(e.target.value)}
+                label="Rooms"
+                onChange={(e) => { setRooms(e.target.value as number) }}
                 fullWidth
                 displayEmpty
               >
-                <MenuItem value="1 Room">1 Room</MenuItem>
-                <MenuItem value="2 Rooms">2 Rooms</MenuItem>
-                <MenuItem value="3 Rooms">3 Rooms</MenuItem>
+                {[...Array(6)].map((_, index) => (
+                  <MenuItem key={index + 1} value={index + 1}>
+                    {index + 1}
+                  </MenuItem>
+                ))}
               </Select>
             </Grid>
-            <Grid item xs={12}>
-              <Button variant="contained" color="primary" fullWidth
+          </Box>
+          <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Button variant="contained" color="primary"
               onClick={handleCheckAvailability}>
-                Check Availability
-              </Button>
-            </Grid>
+              Check Availability
+            </Button>
+            <Button variant="contained" color="primary"
+              onClick={handleReset}>
+              Reset
+            </Button>
           </Grid>
-        </LocalizationProvider>
+        </Grid>
+
       </Box>
     </Box>
   );

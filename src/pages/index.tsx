@@ -24,7 +24,7 @@ export default function Home() {
   }
 
   const handleNavigationLinks = (link: string) => {
-    switch(link) {
+    switch (link) {
       case HEADER_CONSTANTS.ROOMS: {
         roomCategoriesRef?.current?.scrollIntoView(scrollViewConfig);
         break;
@@ -44,12 +44,12 @@ export default function Home() {
     <>
       <Header handleNavigationLinks={handleNavigationLinks} showBooking={showBooking}
         setShowBooking={setShowBooking} />
-      
+
       {showBooking ? (
         <Booking />
       ) : (
         <>
-          <CarouselFormSection />
+          <CarouselFormSection showBooking={showBooking} setShowBooking={setShowBooking} />
           <AboutSection ref={aboutUsRef} />
           <ServicesSection />
           <RoomCategories ref={roomCategoriesRef} />
@@ -58,7 +58,7 @@ export default function Home() {
         </>
       )}
 
-      <FooterSection ref={contactUsRef}/>
+      <FooterSection ref={contactUsRef} />
     </>
   );
 }
