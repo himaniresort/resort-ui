@@ -1,3 +1,5 @@
+import { BUTTON_CONSTANTS } from "@/constants/button-constants";
+import { BOOKING } from "@/constants/constants";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, useMediaQuery, useTheme } from "@mui/material";
 
 export default function BookingDialog({ openDialog, setOpenDialog }: {
@@ -26,16 +28,14 @@ export default function BookingDialog({ openDialog, setOpenDialog }: {
             }}
         >
             <DialogTitle id="responsive-dialog-title">
-                Booking Confirmation.
+                {BOOKING.BOOKING_CONFIRMATION}
             </DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    Please make a call to Admin to this number 9483362304 for the booking by make an advance payment. Once payment sucessfull your booking will be confirmed. Please get your booking Id from admin once after payment.
-                </DialogContentText>
+                <DialogContentText>{BOOKING.BOOKING_CONFIRMATION_MESSAGE}</DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleDialogClose} autoFocus>
-                    Agree
+                    {BUTTON_CONSTANTS.AGREE}
                 </Button>
             </DialogActions>
         </Dialog>

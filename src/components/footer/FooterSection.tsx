@@ -1,13 +1,13 @@
 import React from "react";
 import {
   FaFacebookF,
-  FaTwitter,
   FaInstagram,
+  FaMapPin,
   FaYoutube,
 } from "react-icons/fa6";
-import { FaTripadvisor } from "react-icons/fa";
 import styles from "./FooterSection.module.scss";
 import { FOOTER_CONSTANTS, HEADER_CONSTANTS } from "@/constants/constants";
+import { Link } from "@mui/material";
 
 const FooterSection = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
   return (
@@ -18,14 +18,43 @@ const FooterSection = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
           <div className={styles.footerSection}>
             <h2 className={styles.logo}>{HEADER_CONSTANTS.NAME}</h2>
             <p>
-            {FOOTER_CONSTANTS.TAG_LINE}
+              {FOOTER_CONSTANTS.TAG_LINE}
             </p>
             <div className={styles.socialIcons}>
-              <FaFacebookF />
-              <FaTwitter />
-              <FaTripadvisor />
-              <FaInstagram />
-              <FaYoutube />
+              {/* <FaTwitter />/ */}
+              {/* <FaTripadvisor /> */}
+              <Link
+                href='notfound'
+                // target="_blank"
+                rel="noopener noreferrer"
+                color="white"
+                underline="none">
+                <FaFacebookF />
+              </Link>
+              <Link
+                href={FOOTER_CONSTANTS.INSTAGRAM_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+                color="white"
+                underline="none">
+                <FaInstagram />
+              </Link>
+              <Link
+                href={FOOTER_CONSTANTS.YOUTUBE_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+                color="white"
+                underline="none">
+                <FaYoutube />
+              </Link>
+              <Link
+                href={HEADER_CONSTANTS.VIEW_LOCATION_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+                color="white"
+                underline="none">
+                <FaMapPin />
+              </Link>
             </div>
           </div>
 
@@ -33,9 +62,7 @@ const FooterSection = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
           <div className={styles.footerSection}>
             <h3>{FOOTER_CONSTANTS.CONTACT_US}</h3>
             <p>{HEADER_CONSTANTS.CONTACT_NO}</p>
-            <p>
-              <a href={HEADER_CONSTANTS.EMAIL}>{HEADER_CONSTANTS.EMAIL}</a>
-            </p>
+            <p>{HEADER_CONSTANTS.EMAIL}</p>
             <p>{FOOTER_CONSTANTS.ADDRESS}</p>
           </div>
 

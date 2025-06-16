@@ -5,6 +5,8 @@ import { dateChangeCheck } from "@/utils/date";
 import DatePickerComponent from "./datePicker";
 import { SetState } from "@/types/SetState";
 import { useDatePickerStore } from "@/store/DatePickerStore";
+import { useGuestsAndRoomsStore } from "@/store/GuestsAndRoomsStore";
+import { BUTTON_CONSTANTS } from "@/constants/button-constants";
 
 export interface CarouselFormSectionProps {
   showBooking: boolean,
@@ -30,11 +32,14 @@ const CarouselFormSection: React.FC<CarouselFormSectionProps> = ({ showBooking, 
   };
 
   const datePickerStore = useDatePickerStore();
+  const guestsAndRoomsStore = useGuestsAndRoomsStore();
 
   const handleCheckAvailability = () => {
     console.log("Check-In Date:", datePickerStore.checkIn?.toISOString());
     console.log("Check-Out Date:", datePickerStore.checkOut?.toISOString());
     console.log("Guests and rooms", guests, rooms)
+    guestsAndRoomsStore.setGuests(guests)
+    guestsAndRoomsStore.setRooms(rooms)
 
     const dateErrorCheck = dateChangeCheck(datePickerStore.checkIn, datePickerStore.checkOut);
     setDateError(dateErrorCheck);
@@ -50,8 +55,10 @@ const CarouselFormSection: React.FC<CarouselFormSectionProps> = ({ showBooking, 
       checkInError: false,
       checkOutError: false
     })
-    setGuests(2);
+    setGuests(1);
     setRooms(1);
+    guestsAndRoomsStore.setGuests(1)
+    guestsAndRoomsStore.setRooms(1)
   }
 
   return (
@@ -139,12 +146,12 @@ const CarouselFormSection: React.FC<CarouselFormSectionProps> = ({ showBooking, 
           </Box>
           <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-between" }}>
             <Button variant="contained" color="primary"
-              onClick={handleCheckAvailability}>
-              Check Availability
+              onClick={handleReset}>
+              {BUTTON_CONSTANTS.RESET}
             </Button>
             <Button variant="contained" color="primary"
-              onClick={handleReset}>
-              Reset
+              onClick={handleCheckAvailability}>
+              {BUTTON_CONSTANTS.CHECK_AVAILABILITY}
             </Button>
           </Grid>
         </Grid>
