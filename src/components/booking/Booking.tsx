@@ -7,10 +7,40 @@ import MobileScreen from "@/utils/mobile-screen";
 import { handleGuestsAndRoomChange, GuestsAndRoomsState, resetValue } from "./GuestsRooms";
 import { useDatePickerStore } from "@/store/DatePickerStore";
 import RoomTypeComponent from "./RoomTypes";
+import { useGuestsAndRoomsStore } from "@/store/GuestsAndRoomsStore";
 
 const Booking = () => {
-  const [numberOfNights, setNumberOfNights] = useState<number>(1);
-  const [guestsAndRooms, setGuestsAndRooms] = useState<GuestsAndRoomsState>({ guests: resetValue, rooms: resetValue });
+  const { guests: guestsStore, rooms: roomsStore } = useGuestsAndRoomsStore();
+
+  let gAndR: GuestsAndRoomsState = {
+    guests: {},
+    rooms: {}
+  }
+  if (guestsStore && roomsStore) {
+    gAndR = {
+      guests: {
+        deluxe: guestsStore,
+        standard: guestsStore > 4 ? 4 : guestsStore,
+        tent: guestsStore > 2 ? 2 : guestsStore
+      },
+      rooms: {
+        deluxe: roomsStore > 2 ? 2 : roomsStore,
+        standard: roomsStore,
+        tent: roomsStore > 3 ? 3 : roomsStore
+      }
+    }
+  } else {
+    gAndR = { guests: resetValue, rooms: resetValue }
+  }
+
+  const datePickerStore = useDatePickerStore();
+
+  const caclucateNumberOfNights = () => {
+    return (datePickerStore.checkIn && datePickerStore.checkOut) && (datePickerStore.checkOut > datePickerStore.checkIn) ? datePickerStore.checkOut.diff(datePickerStore.checkIn, "day") : 1;
+  }
+
+  const [numberOfNights, setNumberOfNights] = useState<number>(caclucateNumberOfNights());
+  const [guestsAndRooms, setGuestsAndRooms] = useState<GuestsAndRoomsState>(gAndR);
   const [filterBy, setFilterBy] = useState([
     {
       isCheked: false,
@@ -27,8 +57,6 @@ const Booking = () => {
     checkInError: false,
     checkOutError: false
   });
-
-  const datePickerStore = useDatePickerStore();
 
   const isMobile = MobileScreen();
 
@@ -49,8 +77,7 @@ const Booking = () => {
   };
 
   const handleChangeSearch = () => {
-    const numberOfNights = datePickerStore.checkIn && datePickerStore.checkOut && datePickerStore.checkOut > datePickerStore.checkIn ? datePickerStore.checkOut.diff(datePickerStore.checkIn, "day") : 1;
-    setNumberOfNights(numberOfNights)
+    setNumberOfNights(caclucateNumberOfNights())
     // Add your logic to handle the data here, like making an API call
   };
 

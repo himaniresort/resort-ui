@@ -6,10 +6,13 @@ import Button from "@mui/material/Button";
 import {
   FaPhoneAlt,
   FaEnvelope,
+  FaMapMarker,
 } from "react-icons/fa";
-import { Box, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Link, useMediaQuery, useTheme } from "@mui/material";
 import { HEADER_CONSTANTS } from "@/constants/constants";
 import { BUTTON_CONSTANTS } from "@/constants/button-constants";
+import { useGuestsAndRoomsStore } from "@/store/GuestsAndRoomsStore";
+import { useDatePickerStore } from "@/store/DatePickerStore";
 
 const Header: React.FC<{
   handleNavigationLinks: (link: string) => void,
@@ -20,6 +23,19 @@ const Header: React.FC<{
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const navigationLinks = [HEADER_CONSTANTS.ABOUT_US, HEADER_CONSTANTS.ROOMS, HEADER_CONSTANTS.CONTACT];
+  const { setGuests, setRooms } = useGuestsAndRoomsStore();
+  const { setCheckIn, setCheckOut } = useDatePickerStore();
+
+  const handleOnClick = () => {
+    setShowBooking(!showBooking)
+    if (!showBooking) {
+      setGuests(1)
+      setRooms(1)
+      setCheckIn(null)
+      setCheckOut(null)
+    }
+  }
+
   return (
     <AppBar position="static" color="transparent" elevation={0}
       sx={{
@@ -62,7 +78,24 @@ const Header: React.FC<{
         </Box>
 
         {/* Contact Info */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
+        <Box sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: isMobile ? 0 : 1
+        }}>
+          <Link
+            href={HEADER_CONSTANTS.VIEW_LOCATION_HREF}
+            target="_blank"
+            rel="noopener noreferrer"
+            underline="none"
+            color="textSecondary"
+            sx={{ "&:hover": { color: "#c78a5c" }, display: "flex", alignItems: "center", padding: "5px" }}
+          >
+            <FaMapMarker />
+            <Typography variant="body2">{HEADER_CONSTANTS.VIEW_LOCATION}</Typography>
+          </Link>
           <Typography
             variant="body2"
             color="textSecondary"
@@ -123,7 +156,7 @@ const Header: React.FC<{
               fontWeight: "bold",
               padding: "10px 20px",
             }}
-            onClick={() => setShowBooking(!showBooking)}
+            onClick={handleOnClick}
           >
             {showBooking ? BUTTON_CONSTANTS.BACK : BUTTON_CONSTANTS.BOOKING}
           </Button>

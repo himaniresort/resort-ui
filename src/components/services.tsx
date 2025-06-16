@@ -3,11 +3,11 @@ import { Box, Grid, Typography } from "@mui/material";
 import {
   FaMapMarkerAlt,
   FaUtensils,
-  FaBaby,
-  FaTshirt,
   FaCar,
   FaCocktail,
 } from "react-icons/fa";
+import PoolIcon from '@mui/icons-material/Pool';
+import GamesIcon from '@mui/icons-material/Games';
 
 const services = [
   {
@@ -23,16 +23,16 @@ const services = [
     icon: <FaUtensils />,
   },
   {
-    title: "Babysitting",
+    title: "Swimming Pool",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.",
-    icon: <FaBaby />,
+    icon: <PoolIcon sx={{ fontSize: '3rem' }} />,
   },
   {
-    title: "Laundry",
+    title: "Fun Activities",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.",
-    icon: <FaTshirt />,
+    icon: <GamesIcon sx={{ fontSize: '3rem' }} />,
   },
   {
     title: "Hire Driver",

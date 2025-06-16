@@ -12,7 +12,9 @@ export const HEADER_CONSTANTS = {
     HOME: "Home",
     ROOMS: 'Rooms',
     CONTACT: 'Contact',
-    ABOUT_US: ABOUT_US_CONSTANTS.ABOUT_US
+    ABOUT_US: ABOUT_US_CONSTANTS.ABOUT_US,
+    VIEW_LOCATION_HREF: 'https://maps.app.goo.gl/ifcuKrYzLQNByuLn9',
+    VIEW_LOCATION: 'View Location'
 }
 
 export const FOOTER_CONSTANTS = {
@@ -21,7 +23,9 @@ export const FOOTER_CONSTANTS = {
     ADDRESS: 'Malavanthige, Didupe, Belthangady, DK - 574214',
     NEW_LATEST: 'New Latest',
     UPDATES_AND_OFFERS: 'Get the latest updates and offers.',
-    COPYRIGHT: 'Copyright ©2025 All rights reserved | Made with ❤️ in India'
+    COPYRIGHT: 'Copyright ©2025 All rights reserved | Made with ❤️ in India',
+    YOUTUBE_HREF: 'https://www.youtube.com/@mithilameadowshomestay',
+    INSTAGRAM_HREF: 'https://www.instagram.com/mithilameadows_homestay/?utm_source=qr&igsh=YmFubmJobjA4d216#'
 }
 
 export const ROOMS_CATEGORIES = {
@@ -31,4 +35,9 @@ export const ROOMS_CATEGORIES = {
     TENT_HOUSE: 'Tent House',
     HUT_HOUSE: 'Hut House',
     PREMIUM_HUT_HOUSE: 'Premium Hut House'
+}
+
+export const BOOKING = {
+    BOOKING_CONFIRMATION_MESSAGE: 'To confirm your booking, please contact the admin at +91 73378 81353 and make an advance payment. Your booking will be confirmed once the payment is successful. Kindly obtain your booking ID from the admin after completing the payment.',
+    BOOKING_CONFIRMATION: 'Booking Confirmation'
 }

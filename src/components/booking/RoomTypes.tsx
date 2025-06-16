@@ -9,6 +9,7 @@ import { dateChangeCheck } from "@/utils/date"
 import { useDatePickerStore } from "@/store/DatePickerStore"
 import { SetState } from "@/types/SetState"
 import { DateError } from "../datePicker"
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 export default function RoomTypeComponent({
     guestsAndRooms,
@@ -110,7 +111,7 @@ export default function RoomTypeComponent({
                                         }}
                                         onClick={() => handleRoomTypeClick(roomType)}
                                     >
-                                        {roomType.name}
+                                        {roomType.name}<InfoOutlinedIcon sx={{ position: "relative", top: "4px", marginLeft: "24px" }} />
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary" mb={1.5}>
                                         {roomType.description}
