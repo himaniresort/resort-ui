@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import ServicesDialog from "./servicesDialog";
 import { servicesList } from "./servicesList";
+import { SERVICES_SECTION } from "@/constants/constants";
 
 interface ServicesSection {
   id: string | null,
@@ -28,8 +29,8 @@ const ServicesSection = () => {
   const [openServiceDialog, setOpenServiceDialog] = useState<boolean>(false)
   const [serviceState, setServiceState] = useState<string | null>(null)
 
-  const handleCardClick = (service: ServicesSection) => {
-    console.log('-----', service)
+  const handleServiceClick = (service: ServicesSection) => {
+    console.log(service)
     setOpenServiceDialog(true)
     setServiceState(service.id)
   }
@@ -45,7 +46,7 @@ const ServicesSection = () => {
             fontWeight: "bold",
           }}
         >
-          WHAT WE DO
+          {SERVICES_SECTION.WHAT_WE_DO}
         </Typography>
         <Typography
           variant="h4"
@@ -54,7 +55,7 @@ const ServicesSection = () => {
             mt: 2,
           }}
         >
-          Discover Our Services
+          {SERVICES_SECTION.DISCOVER_OUR_SERVICES}
         </Typography>
       </Box>
 
@@ -76,7 +77,7 @@ const ServicesSection = () => {
                   cursor: "pointer"
                 },
               }}
-              onClick={() => handleCardClick(service)}
+              onClick={() => handleServiceClick(service)}
             >
               <Box
                 sx={{

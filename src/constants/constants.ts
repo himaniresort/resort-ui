@@ -41,3 +41,8 @@ export const BOOKING = {
     BOOKING_CONFIRMATION_MESSAGE: 'To confirm your booking, please contact the admin at +91 73378 81353 and make an advance payment. Your booking will be confirmed once the payment is successful. Kindly obtain your booking ID from the admin after completing the payment.',
     BOOKING_CONFIRMATION: 'Booking Confirmation'
 }
+
+export const SERVICES_SECTION = {
+    WHAT_WE_DO: "WHAT WE DO",
+    DISCOVER_OUR_SERVICES: "Discover Our Services"
+}
