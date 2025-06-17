@@ -8,11 +8,13 @@ import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutli
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import { HEADER_CONSTANTS } from "@/constants/constants";
 import { dialogBackDropProp, hideScrollBar } from "./servicesSection";
+import MobileScreen from "@/utils/mobile-screen";
 
 export default function BarAndDrinkService({ openDialog, setOpenDialog }: { openDialog: boolean, setOpenDialog: SetState<boolean> }) {
+    const isMobile = MobileScreen();
 
     return (
-        <Dialog open={openDialog} onClose={() => setOpenDialog(false)} fullWidth maxWidth="md"
+        <Dialog open={openDialog} onClose={() => setOpenDialog(false)} fullWidth maxWidth="md" fullScreen={isMobile}
             slotProps={dialogBackDropProp}>
             <DialogTitle>
                 <Box sx={{ display: "flex", gap: 1 }}>

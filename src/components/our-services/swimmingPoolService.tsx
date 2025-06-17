@@ -10,11 +10,14 @@ import { SetState } from "@/types/SetState";
 import { POOL_IMAGES, POOL_RULES_LIST, POOL_SAFETY_LIST, SWIMMINGPOOL_CONSTANTS } from "@/constants/our-services";
 import { HEADER_CONSTANTS } from "@/constants/constants";
 import { dialogBackDropProp, hideScrollBar } from "./servicesSection";
+import MobileScreen from "@/utils/mobile-screen";
 
 export default function SwimmingPoolService({ openDialog, setOpenDialog }: { openDialog: boolean, setOpenDialog: SetState<boolean> }) {
+    const isMobile = MobileScreen();
+
     return (
         <Dialog open={openDialog}
-            onClose={() => setOpenDialog(false)} fullWidth maxWidth="md"
+            onClose={() => setOpenDialog(false)} fullWidth maxWidth="md" fullScreen={isMobile}
             slotProps={dialogBackDropProp}>
             <DialogTitle>
                 <Box sx={{ display: "flex", gap: 1 }}>
@@ -52,7 +55,7 @@ export default function SwimmingPoolService({ openDialog, setOpenDialog }: { ope
                         <CameraAltOutlinedIcon sx={{ position: "relative", top: "4px" }} />
                         <Typography variant="h6">{SWIMMINGPOOL_CONSTANTS.GALLERY}</Typography>
                     </Box>
-                    <Box display="flex" gap={1} mt={1} overflow="auto">
+                    <Box display="flex" gap={2} mt={1} overflow="auto">
                         {POOL_IMAGES.map((src, i) => (
                             <Box key={i}>
                                 <Image
