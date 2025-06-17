@@ -2,13 +2,12 @@ import React, { useEffect, useRef } from "react";
 import RoomCard from "./RoomCard";
 
 import styles from "./RoomCategories.module.scss";
-import { useMediaQuery, useTheme } from "@mui/material";
 import useRoomTypeStore from "@/store/RoomType";
+import MobileScreen from "@/utils/mobile-screen";
 
 const RoomCategories = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = MobileScreen();
 
 
   const { fetchRoomType, roomTypeData } = useRoomTypeStore();

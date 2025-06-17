@@ -8,19 +8,19 @@ import {
   FaEnvelope,
   FaMapMarker,
 } from "react-icons/fa";
-import { Box, Link, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Link } from "@mui/material";
 import { HEADER_CONSTANTS } from "@/constants/constants";
 import { BUTTON_CONSTANTS } from "@/constants/button-constants";
 import { useGuestsAndRoomsStore } from "@/store/GuestsAndRoomsStore";
 import { useDatePickerStore } from "@/store/DatePickerStore";
+import MobileScreen from "@/utils/mobile-screen";
 
 const Header: React.FC<{
   handleNavigationLinks: (link: string) => void,
   showBooking: boolean,
   setShowBooking: (value: boolean) => void
 }> = ({ handleNavigationLinks, showBooking, setShowBooking }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = MobileScreen();
 
   const navigationLinks = [HEADER_CONSTANTS.ABOUT_US, HEADER_CONSTANTS.ROOMS, HEADER_CONSTANTS.CONTACT];
   const { setGuests, setRooms } = useGuestsAndRoomsStore();
