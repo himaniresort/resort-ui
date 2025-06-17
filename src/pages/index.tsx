@@ -5,7 +5,7 @@ import FooterSection from "@/components/footer/FooterSection";
 import Header from "@/components/header";
 import PlacesSection from "@/components/places/PlacesSection";
 import RoomCategories from "@/components/rooms/RoomCategories";
-import ServicesSection from "@/components/services";
+import ServicesSection from "@/components/our-services/servicesSection";
 import TestimonialSlider from "@/components/testimonial/TestimonialSlider";
 import { HEADER_CONSTANTS } from "@/constants/constants";
 import { useRef, useState } from "react";

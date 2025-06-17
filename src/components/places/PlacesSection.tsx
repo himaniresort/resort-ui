@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styles from "./PlacesSection.module.scss";
 import Image from 'next/image';
-import { Box, Grid, Skeleton, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Grid, Skeleton } from "@mui/material";
 import usePlacesStore from "@/store/PlacesStore";
+import MobileScreen from "@/utils/mobile-screen";
 
 const PlacesSection: React.FC = () => {
 
@@ -11,8 +12,7 @@ const PlacesSection: React.FC = () => {
     fetchPlaces()
   }, []);
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = MobileScreen();
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const visibleCount = 2; // Number of visible images at a time 2 image at 25% - 4 image at 100% scroll
