@@ -14,7 +14,7 @@ interface ServicesSection {
 export const dialogBackDropProp = {
   backdrop: {
     sx: {
-      backgroundColor: "rgba(0, 0, 0, 0.2)",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
     },
   },
 }
@@ -22,6 +22,12 @@ export const dialogBackDropProp = {
 export const hideScrollBar = {
   "&::-webkit-scrollbar": {
     display: "none" // Hide scrollbar in Chrome and Safari
+  }
+}
+
+export const buttonStyle = {
+  color: "darkslategrey", "&:hover": {
+    color: "black",
   }
 }
 
