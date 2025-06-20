@@ -9,7 +9,7 @@ import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import { SetState } from "@/types/SetState";
 import { POOL_IMAGES, POOL_RULES_LIST, POOL_SAFETY_LIST, SWIMMINGPOOL_CONSTANTS } from "@/constants/our-services";
 import { HEADER_CONSTANTS } from "@/constants/constants";
-import { dialogBackDropProp, hideScrollBar } from "./servicesSection";
+import { buttonStyle, dialogBackDropProp, hideScrollBar } from "./servicesSection";
 import MobileScreen from "@/utils/mobile-screen";
 
 export default function SwimmingPoolService({ openDialog, setOpenDialog }: { openDialog: boolean, setOpenDialog: SetState<boolean> }) {
@@ -99,11 +99,7 @@ export default function SwimmingPoolService({ openDialog, setOpenDialog }: { ope
                         color: "black",
                     }
                 }}><DescriptionOutlinedIcon /> {SWIMMINGPOOL_CONSTANTS.DOWNLOAD_RULES}</Button>
-                <Button onClick={() => setOpenDialog(false)} sx={{
-                    color: "darkslategrey", "&:hover": {
-                        color: "black",
-                    }
-                }} >{SWIMMINGPOOL_CONSTANTS.ACKNOWLEDGE}</Button>
+                <Button onClick={() => setOpenDialog(false)} sx={buttonStyle} >{SWIMMINGPOOL_CONSTANTS.ACKNOWLEDGE}</Button>
             </DialogActions>
 
         </Dialog>
