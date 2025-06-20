@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Box, Grid, Skeleton, Typography } from "@mui/material";
 import usePlacesStore from "@/store/PlacesStore";
 import MobileScreen from "@/utils/mobile-screen";
+import { NEARBY_PLACES } from "@/constants/constants";
 
 const PlacesSection: React.FC = () => {
 
@@ -101,7 +102,7 @@ const PlacesSection: React.FC = () => {
         </div>
       </section>
       <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center" }} mt={1}>
-        **All the distances are measured from the homestay.**
+        {NEARBY_PLACES.DISTANCE_MEASURED_NOTE}
       </Typography>
     </>
   );

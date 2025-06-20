@@ -46,3 +46,7 @@ export const SERVICES_SECTION = {
     WHAT_WE_DO: "WHAT WE DO",
     DISCOVER_OUR_SERVICES: "Discover Our Services"
 }
+
+export const NEARBY_PLACES = {
+    DISTANCE_MEASURED_NOTE: "**All the distances are measured from the homestay.**"
+}
