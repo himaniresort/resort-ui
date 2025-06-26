@@ -8,6 +8,7 @@ import { handleGuestsAndRoomChange, GuestsAndRoomsState, resetValue } from "./Gu
 import { useDatePickerStore } from "@/store/DatePickerStore";
 import RoomTypeComponent from "./RoomTypes";
 import { useGuestsAndRoomsStore } from "@/store/GuestsAndRoomsStore";
+import { primaryButtonStyle } from "@/utils/style-settings";
 
 const Booking = () => {
   const { guests: guestsStore, rooms: roomsStore } = useGuestsAndRoomsStore();
@@ -116,6 +117,7 @@ const Booking = () => {
               width: isMobile ? "100%" : "auto",
               textTransform: "none",
               fontSize: "16px",
+              ...primaryButtonStyle
             }}
             onClick={handleChangeSearch}
           >
@@ -129,6 +131,7 @@ const Booking = () => {
               width: isMobile ? "100%" : "auto",
               textTransform: "none",
               fontSize: "16px",
+              ...primaryButtonStyle
             }}
             onClick={handleReset}
           >
@@ -142,7 +145,7 @@ const Booking = () => {
         <FormControl component="fieldset">
           <FormLabel component="legend">Filter By:</FormLabel>
           <FormGroup>
-            <Box sx={{ display: "flex", flexDirection: isMobile ? "column" : "row", gap: 2 }}>
+            <Box sx={{ display: "flex", gap: 2 }}>
               {filterBy.map((filter, index) => (
                 <FormControlLabel
                   key={index}

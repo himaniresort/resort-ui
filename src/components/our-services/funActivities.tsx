@@ -5,9 +5,9 @@ import ExtensionOutlinedIcon from '@mui/icons-material/ExtensionOutlined';
 import SportsCricketOutlinedIcon from '@mui/icons-material/SportsCricketOutlined';
 import LocalFireDepartmentOutlinedIcon from '@mui/icons-material/LocalFireDepartmentOutlined';
 import LocalActivityOutlinedIcon from '@mui/icons-material/LocalActivityOutlined';
-import { buttonStyle, dialogBackDropProp, hideScrollBar } from "./servicesSection";
-import { FUN_ACTIVITIES_SERVICE } from "@/constants/our-services";
+import { FUN_ACTIVITIES_SERVICE } from "@/constants/our-services-constants";
 import { BUTTON_CONSTANTS } from "@/constants/button-constants";
+import { dialogButtonStyle, dialogBackDropProp, hideScrollBar } from "@/utils/style-settings";
 
 export default function FunActivitiesSection({ openDialog, setOpenDialog }: { openDialog: boolean, setOpenDialog: SetState<boolean> }) {
     const isMobile = MobileScreen();
@@ -63,7 +63,7 @@ export default function FunActivitiesSection({ openDialog, setOpenDialog }: { op
             </DialogContent>
 
             <DialogActions>
-                <Button onClick={() => setOpenDialog(false)} sx={buttonStyle}>{BUTTON_CONSTANTS.ITS_FUN}</Button>
+                <Button onClick={() => setOpenDialog(false)} sx={dialogButtonStyle}>{BUTTON_CONSTANTS.ITS_FUN}</Button>
             </DialogActions>
         </Dialog>
     )

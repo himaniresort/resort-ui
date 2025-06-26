@@ -6,9 +6,9 @@ import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import { HEADER_CONSTANTS } from "@/constants/constants";
-import { buttonStyle, hideScrollBar } from "./servicesSection";
 import { BUTTON_CONSTANTS } from "@/constants/button-constants";
-import { AVAILABLE_FOR_LIST, HIRE_DRIVER_SERVICE, HIRE_DRIVER_SERVICE_NOTES } from "@/constants/our-services";
+import { AVAILABLE_FOR_LIST, HIRE_DRIVER_SERVICE, HIRE_DRIVER_SERVICE_NOTES } from "@/constants/our-services-constants";
+import { dialogButtonStyle, hideScrollBar } from "@/utils/style-settings";
 
 export default function HireDriverService({ openDialog, setOpenDialog }: { openDialog: boolean, setOpenDialog: SetState<boolean> }) {
     const isMobile = MobileScreen();
@@ -61,7 +61,7 @@ export default function HireDriverService({ openDialog, setOpenDialog }: { openD
             </DialogContent>
 
             <DialogActions>
-                <Button onClick={() => setOpenDialog(false)} sx={buttonStyle}>{BUTTON_CONSTANTS.CLOSE}</Button>
+                <Button onClick={() => setOpenDialog(false)} sx={dialogButtonStyle}>{BUTTON_CONSTANTS.CLOSE}</Button>
             </DialogActions>
         </Dialog>
     )

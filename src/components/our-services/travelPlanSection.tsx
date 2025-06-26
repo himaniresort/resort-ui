@@ -4,9 +4,9 @@ import { Dialog, DialogTitle, DialogContent, Typography, Box, DialogActions, But
 import NavigationOutlinedIcon from '@mui/icons-material/NavigationOutlined';
 import TaskAltOutlinedIcon from '@mui/icons-material/TaskAltOutlined';
 import HikingOutlinedIcon from '@mui/icons-material/HikingOutlined';
-import { buttonStyle, hideScrollBar } from "./servicesSection";
-import { COMPLIMENTORY_SIGHTSEEING_LIST, CUSTOMIZED_SIGHTSEEING_LIST, TRAVEL_PLANS_SERVICE } from "@/constants/our-services";
+import { COMPLIMENTORY_SIGHTSEEING_LIST, CUSTOMIZED_SIGHTSEEING_LIST, TRAVEL_PLANS_SERVICE } from "@/constants/our-services-constants";
 import { BUTTON_CONSTANTS } from "@/constants/button-constants";
+import { dialogButtonStyle, hideScrollBar } from "@/utils/style-settings";
 
 export default function TravelPlansSection({ openDialog, setOpenDialog }: { openDialog: boolean, setOpenDialog: SetState<boolean> }) {
     const isMobile = MobileScreen();
@@ -56,7 +56,7 @@ export default function TravelPlansSection({ openDialog, setOpenDialog }: { open
             </DialogContent>
 
             <DialogActions>
-                <Button onClick={() => setOpenDialog(false)} sx={buttonStyle}>{BUTTON_CONSTANTS.AWESOME}</Button>
+                <Button onClick={() => setOpenDialog(false)} sx={dialogButtonStyle}>{BUTTON_CONSTANTS.AWESOME}</Button>
             </DialogActions>
         </Dialog>
     );

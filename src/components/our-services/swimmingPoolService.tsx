@@ -7,10 +7,10 @@ import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 import PoolOutlinedIcon from '@mui/icons-material/PoolOutlined';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import { SetState } from "@/types/SetState";
-import { POOL_IMAGES, POOL_RULES_LIST, POOL_SAFETY_LIST, SWIMMINGPOOL_CONSTANTS } from "@/constants/our-services";
+import { POOL_IMAGES, POOL_RULES_LIST, POOL_SAFETY_LIST, SWIMMINGPOOL_CONSTANTS } from "@/constants/our-services-constants";
 import { HEADER_CONSTANTS } from "@/constants/constants";
-import { buttonStyle, dialogBackDropProp, hideScrollBar } from "./servicesSection";
 import MobileScreen from "@/utils/mobile-screen";
+import { dialogButtonStyle, dialogBackDropProp, hideScrollBar } from "@/utils/style-settings";
 
 export default function SwimmingPoolService({ openDialog, setOpenDialog }: { openDialog: boolean, setOpenDialog: SetState<boolean> }) {
     const isMobile = MobileScreen();
@@ -99,7 +99,7 @@ export default function SwimmingPoolService({ openDialog, setOpenDialog }: { ope
                         color: "black",
                     }
                 }}><DescriptionOutlinedIcon /> {SWIMMINGPOOL_CONSTANTS.DOWNLOAD_RULES}</Button>
-                <Button onClick={() => setOpenDialog(false)} sx={buttonStyle} >{SWIMMINGPOOL_CONSTANTS.ACKNOWLEDGE}</Button>
+                <Button onClick={() => setOpenDialog(false)} sx={dialogButtonStyle} >{SWIMMINGPOOL_CONSTANTS.ACKNOWLEDGE}</Button>
             </DialogActions>
 
         </Dialog>

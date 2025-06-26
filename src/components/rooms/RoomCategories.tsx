@@ -9,7 +9,6 @@ const RoomCategories = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
 
   const isMobile = MobileScreen();
 
-
   const { fetchRoomType, roomTypeData } = useRoomTypeStore();
   useEffect(() => {
     fetchRoomType()
@@ -45,9 +44,11 @@ const RoomCategories = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
       <div className={styles.roomCategoriesWrapper}>
         <div className={styles.roomCategories} ref={scrollContainer}>
           {roomTypeData.map((room, index) => (
-            <div className={styles.roomCard} key={index}>
-              <RoomCard room={room} />
-            </div>
+            <>
+              <div className={styles.roomCard} key={index} >
+                <RoomCard room={room} />
+              </div>
+            </>
           ))}
         </div>
       </div>
