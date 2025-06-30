@@ -30,6 +30,12 @@ const PlacesSection: React.FC = () => {
     }
   };
 
+  placesData.sort((a, b) => {
+    const distanceA = parseFloat(a.distance.split('km')[0])
+    const distanceB = parseFloat(b.distance.split('km')[0])
+    return distanceA - distanceB
+  })
+
   return (
     <>
       <section className={styles.placesSection}>
