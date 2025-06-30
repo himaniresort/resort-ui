@@ -30,6 +30,12 @@ const PlacesSection: React.FC = () => {
     }
   };
 
+  placesData.sort((a, b) => {
+    const distanceA = parseFloat(a.distance.split('km')[0])
+    const distanceB = parseFloat(b.distance.split('km')[0])
+    return distanceA - distanceB
+  })
+
   return (
     <>
       <section className={styles.placesSection}>
@@ -101,7 +107,7 @@ const PlacesSection: React.FC = () => {
           )}
         </div>
       </section>
-      <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center" }} mt={1}>
+      <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", backgroundColor: "#f9f9f9" }}>
         {NEARBY_PLACES.DISTANCE_MEASURED_NOTE}
       </Typography>
     </>

@@ -74,7 +74,7 @@ const Header: React.FC<{
             fontFamily: '"Courier New", monospace',
             fontSize: '16px',
             padding: isMobile ? "10px" : 0
-          }}>🛠️ Under construction, but not underwhelming! We’re almost ready to welcome you — both online and in person.</Typography>
+          }}>{'The doors are open! 🚪 Come on in and book with us in person. Online? Almost there… just waiting for a few finishing touches! 🔧'}</Typography>
         </Box>
 
         {/* Contact Info */}

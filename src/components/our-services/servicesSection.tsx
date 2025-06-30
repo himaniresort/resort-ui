@@ -11,26 +11,6 @@ interface ServicesSection {
   icon: React.JSX.Element
 }
 
-export const dialogBackDropProp = {
-  backdrop: {
-    sx: {
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-    },
-  },
-}
-
-export const hideScrollBar = {
-  "&::-webkit-scrollbar": {
-    display: "none" // Hide scrollbar in Chrome and Safari
-  }
-}
-
-export const buttonStyle = {
-  color: "darkslategrey", "&:hover": {
-    color: "black",
-  }
-}
-
 const ServicesSection = () => {
   const [openServiceDialog, setOpenServiceDialog] = useState<boolean>(false)
   const [serviceState, setServiceState] = useState<string | null>(null)

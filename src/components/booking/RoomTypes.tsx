@@ -1,4 +1,4 @@
-import { Grid, Card, CardMedia, CardContent, Typography, Box, Button } from "@mui/material"
+import { Grid, Card, CardMedia, CardContent, Typography, Box, Button, Tooltip } from "@mui/material"
 import BookingDialog from "./BookingDialog"
 import GuestsAndRooms, { GuestsAndRoomsPropsType, GuestsAndRoomsState } from "./GuestsRooms"
 import RoomTypeDialog from "./RoomTypeDialog"
@@ -10,6 +10,8 @@ import { useDatePickerStore } from "@/store/DatePickerStore"
 import { SetState } from "@/types/SetState"
 import { DateError } from "../datePicker"
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { primaryButtonStyle } from "@/utils/style-settings"
+import { COLOR_CONSTANTS } from "@/constants/colors-constants"
 
 export default function RoomTypeComponent({
     guestsAndRooms,
@@ -53,7 +55,7 @@ export default function RoomTypeComponent({
 
     return (
         <>
-            <Grid container spacing={2} mt={3} sx={{
+            <Grid container spacing={2} mt={0} sx={{
                 flexDirection: isMobile ? "row" : "column",
                 width: isMobile ? '100' : 10 / 12
             }}>
@@ -100,21 +102,24 @@ export default function RoomTypeComponent({
                                     <Typography component="span"
                                         variant="h6"
                                         fontWeight="bold"
-                                        color="primary"
+                                        color={COLOR_CONSTANTS.textGreyP}
                                         gutterBottom
                                         sx={{
                                             cursor: "pointer",
                                             transition: "color 0.3s ease-in-out",
                                             "&:hover": {
-                                                color: "black",
+                                                color: COLOR_CONSTANTS.textGreyS,
                                             },
                                         }}
                                         onClick={() => handleRoomTypeClick(roomType)}
                                     >
-                                        {roomType.name}<InfoOutlinedIcon sx={{ position: "relative", top: "4px", marginLeft: "24px" }} />
+                                        {roomType.name}
+                                        <Tooltip title="Click to view more information" placement="top" arrow>
+                                            <InfoOutlinedIcon sx={{ position: "relative", top: "4px", marginLeft: "12px" }} />
+                                        </Tooltip>
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary" mb={1.5}>
-                                        {roomType.description}
+                                        {roomType.shortDescription}
                                     </Typography>
                                     <Typography component="span" variant="body1">
                                         <strong>Cost:</strong> ₹{roomType.cost} / person
@@ -127,12 +132,12 @@ export default function RoomTypeComponent({
                                         gap: 3,
                                         flexWrap: isMobile ? 'wrap' : 'nowrap'
                                     }}>
-                                        <Typography variant="h6" color="secondary" fontWeight="bold">
+                                        <Typography variant="h6" color={COLOR_CONSTANTS.textGreyP} fontWeight="bold">
                                             Total Cost: ₹{(roomType.cost * (guestsAndRooms.guests[roomType.type] || 1) * (guestsAndRooms.rooms[roomType.type] || 1) * numberOfNights).toLocaleString()}
                                         </Typography>
                                         <GuestsAndRooms guestsAndRoomsProps={guestsAndRoomsProps}></GuestsAndRooms>
                                         <Box>
-                                            <Button variant="contained" color="primary"
+                                            <Button variant="contained" sx={primaryButtonStyle}
                                                 onClick={() => handleReserveBooking(roomType)}>
                                                 Reserve
                                             </Button>

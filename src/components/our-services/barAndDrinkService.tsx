@@ -1,4 +1,4 @@
-import { BAR_ADDITIONAL_INFO_LIST, BAR_AND_DRINKS_CONSTANTS, BAR_RULES_LIST } from "@/constants/our-services";
+import { BAR_ADDITIONAL_INFO_LIST, BAR_AND_DRINKS_CONSTANTS, BAR_RULES_LIST } from "@/constants/our-services-constants";
 import { SetState } from "@/types/SetState";
 import { Dialog, DialogTitle, DialogContent, Typography, Box, DialogActions, Button } from "@mui/material";
 import LiquorOutlinedIcon from '@mui/icons-material/LiquorOutlined';
@@ -7,8 +7,8 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import { HEADER_CONSTANTS } from "@/constants/constants";
-import { buttonStyle, dialogBackDropProp, hideScrollBar } from "./servicesSection";
 import MobileScreen from "@/utils/mobile-screen";
+import { dialogButtonStyle, dialogBackDropProp, hideScrollBar } from "@/utils/style-settings";
 
 export default function BarAndDrinkService({ openDialog, setOpenDialog }: { openDialog: boolean, setOpenDialog: SetState<boolean> }) {
     const isMobile = MobileScreen();
@@ -75,7 +75,7 @@ export default function BarAndDrinkService({ openDialog, setOpenDialog }: { open
             </DialogContent>
 
             <DialogActions>
-                <Button onClick={() => setOpenDialog(false)} sx={buttonStyle}>{BAR_AND_DRINKS_CONSTANTS.GOT_IT}</Button>
+                <Button onClick={() => setOpenDialog(false)} sx={dialogButtonStyle}>{BAR_AND_DRINKS_CONSTANTS.GOT_IT}</Button>
             </DialogActions>
         </Dialog>
     );

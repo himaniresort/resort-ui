@@ -1,14 +1,14 @@
 import { SetState } from "@/types/SetState";
 import MobileScreen from "@/utils/mobile-screen";
 import { Dialog, DialogTitle, DialogContent, Typography, Box, DialogActions, Button } from "@mui/material";
-import { buttonStyle, hideScrollBar } from "./servicesSection";
 import RestaurantMenuOutlinedIcon from '@mui/icons-material/RestaurantMenuOutlined';
 import BreakfastDiningOutlinedIcon from '@mui/icons-material/BreakfastDiningOutlined';
 import SoupKitchenOutlinedIcon from '@mui/icons-material/SoupKitchenOutlined';
 import DinnerDiningOutlinedIcon from '@mui/icons-material/DinnerDiningOutlined';
 import FlatwareOutlinedIcon from '@mui/icons-material/FlatwareOutlined';
 import { BUTTON_CONSTANTS } from "@/constants/button-constants";
-import { CATERING_SERVICES_CONSTANTS } from "@/constants/our-services";
+import { CATERING_SERVICES_CONSTANTS } from "@/constants/our-services-constants";
+import { dialogButtonStyle, hideScrollBar } from "@/utils/style-settings";
 
 export default function CateringService({ openDialog, setOpenDialog }: { openDialog: boolean, setOpenDialog: SetState<boolean> }) {
     const isMobile = MobileScreen();
@@ -89,7 +89,7 @@ export default function CateringService({ openDialog, setOpenDialog }: { openDia
             </DialogContent>
 
             <DialogActions>
-                <Button onClick={() => setOpenDialog(false)} sx={buttonStyle}>{BUTTON_CONSTANTS.YUM_YUM}</Button>
+                <Button onClick={() => setOpenDialog(false)} sx={dialogButtonStyle}>{BUTTON_CONSTANTS.YUM_YUM}</Button>
             </DialogActions>
         </Dialog>)
 }

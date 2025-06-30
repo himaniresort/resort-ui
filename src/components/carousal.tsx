@@ -7,6 +7,7 @@ import { SetState } from "@/types/SetState";
 import { useDatePickerStore } from "@/store/DatePickerStore";
 import { useGuestsAndRoomsStore } from "@/store/GuestsAndRoomsStore";
 import { BUTTON_CONSTANTS } from "@/constants/button-constants";
+import { primaryButtonStyle } from "@/utils/style-settings";
 
 export interface CarouselFormSectionProps {
   showBooking: boolean,
@@ -145,11 +146,11 @@ const CarouselFormSection: React.FC<CarouselFormSectionProps> = ({ showBooking, 
             </Grid>
           </Box>
           <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Button variant="contained" color="primary"
+            <Button variant="contained" sx={primaryButtonStyle}
               onClick={handleReset}>
               {BUTTON_CONSTANTS.RESET}
             </Button>
-            <Button variant="contained" color="primary"
+            <Button variant="contained" sx={primaryButtonStyle}
               onClick={handleCheckAvailability}>
               {BUTTON_CONSTANTS.CHECK_AVAILABILITY}
             </Button>

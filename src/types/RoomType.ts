@@ -2,7 +2,8 @@ export interface RoomType {
     type: string,
     name: string,
     cost: number,
-    description: string,
+    shortDescription: string,
+    longDescription?: string,
     capacity: number,
     image: string
 }
