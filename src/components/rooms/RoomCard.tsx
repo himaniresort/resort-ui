@@ -3,7 +3,8 @@ import React from "react";
 import styles from "./RoomCard.module.scss";
 import Image from 'next/image';
 import { RoomType } from "@/types/RoomType";
-import { facilitiesDeluxe, facilitiesTent } from "@/constants/room-types-constants";
+import { DELUXE_FACILITIES, TENT_FACILITIES } from "@/constants/room-types-constants";
+// import { facilitiesDeluxe, facilitiesTent } from "@/constants/room-types-constants";
 
 export interface Room {
   title: string;
@@ -30,7 +31,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
         <p className={styles.price}>{room.cost} / night / person</p>
         <div className={styles.moreDetails}>
           <p>Capacity: {room.capacity}</p>
-          <p>Services: {room.type === 'tent' ? facilitiesTent.join(', ') : facilitiesDeluxe.join(', ')}</p>
+          <p>Services: {room.type === 'tent' ? TENT_FACILITIES.join(', ') : DELUXE_FACILITIES.join(', ')}</p>
         </div>
       </div>
     </div>
