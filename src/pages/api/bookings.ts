@@ -9,7 +9,7 @@ const recentBookingsMockData: Bookings[] = [
       type: "deluxe Room",
       name: "Deluxe",
       cost: 3000,
-      description: "",
+      shortDescription: "",
       image: "",
       capacity: 6,
     },
@@ -25,7 +25,7 @@ const recentBookingsMockData: Bookings[] = [
       type: "standard",
       name: "Standard room",
       cost: 2500,
-      description: "",
+      shortDescription: "",
       image: "",
       capacity: 4
     },
@@ -41,7 +41,7 @@ const recentBookingsMockData: Bookings[] = [
       type: "tent",
       name: "Tent Stay",
       cost: 1500,
-      description: "",
+      shortDescription: "",
       image: "",
       capacity: 2
     },
