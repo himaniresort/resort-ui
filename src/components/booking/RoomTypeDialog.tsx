@@ -13,7 +13,7 @@ import RoomServiceOutlinedIcon from '@mui/icons-material/RoomServiceOutlined';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import SmokeFreeOutlinedIcon from '@mui/icons-material/SmokeFreeOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
-import { facilitiesDeluxe, facilitiesTent } from "@/constants/room-types-constants";
+import { TENT_FACILITIES, DELUXE_FACILITIES, BATHROOM_FACILITIES, VIEWS, ROOM_TYPE_CONSTANTS } from "@/constants/room-types-constants";
 import { dialogBackDropProp, dialogButtonStyle, hideScrollBar } from "@/utils/style-settings";
 import { BUTTON_CONSTANTS } from "@/constants/button-constants";
 
@@ -51,13 +51,7 @@ export default function RoomTypeDialog({ roomType, openDialog, setOpenDialog }: 
         '/rooms/room-b1.jpg', '/rooms/room-b2.jpg', '/rooms/room-b3.jpg', '/rooms/room-b4.jpg', '/rooms/room-b5.jpg', '/rooms/room-b6.jpg'
     ];
 
-    const bathRoomFacilities = ["Free toiletries", "Shower", "Toilet", "Towels", "Toilet paper", "Water Geyser"];
-
-    const views = ["Swimming Pool"];
-
-
-
-    const facilities = roomType?.type === 'tent' ? facilitiesTent : facilitiesDeluxe;
+    const facilities = roomType?.type === 'tent' ? TENT_FACILITIES : DELUXE_FACILITIES;
 
     return (
         <Dialog
@@ -69,7 +63,7 @@ export default function RoomTypeDialog({ roomType, openDialog, setOpenDialog }: 
             slotProps={dialogBackDropProp}
         >
 
-            <DialogContent dividers sx={hideScrollBar}>
+            <DialogContent dividers sx={{ ...hideScrollBar, p: isMobile ? 0 : 1 }} >
                 <Grid container spacing={1} sx={{ p: isMobile ? 0 : 3 }}>
                     {/* Left: Image Carousel */}
                     <Grid item xs={12} md={7}>
@@ -129,11 +123,11 @@ export default function RoomTypeDialog({ roomType, openDialog, setOpenDialog }: 
                             <Box display={"flex"} columnGap={2} rowGap={1} mb={2} flexWrap={"wrap"}>
                                 <Box sx={{ display: "flex", gap: '4px' }}>
                                     <PeopleOutlinedIcon sx={{ fontSize: 20, position: "relative", top: '0px' }} />
-                                    <Typography variant="subtitle2">{roomType?.capacity} Guests</Typography>
+                                    <Typography variant="subtitle2">{roomType?.capacity} {ROOM_TYPE_CONSTANTS.GUESTS}</Typography>
                                 </Box>
                                 {roomType && roomType.type === 'deluxe' && <Box sx={{ display: "flex", gap: '4px' }}>
                                     <PoolOutlinedIcon sx={{ fontSize: 18 }} />
-                                    <Typography variant="subtitle2">Swimming Pool View</Typography>
+                                    <Typography variant="subtitle2">{ROOM_TYPE_CONSTANTS.SWIMMING_POOL_VIEW}</Typography>
                                 </Box>}
                                 <Box sx={{ display: "flex", gap: '4px' }}>
                                     <BathtubOutlinedIcon sx={{ fontSize: 18, position: "relative" }} />
@@ -141,7 +135,7 @@ export default function RoomTypeDialog({ roomType, openDialog, setOpenDialog }: 
                                 </Box>
                                 <Box sx={{ display: "flex", gap: '4px' }}>
                                     <WifiOutlinedIcon sx={{ fontSize: 18, position: "relative", top: '2px' }} />
-                                    <Typography variant="subtitle2">Free Wifi</Typography>
+                                    <Typography variant="subtitle2">{ROOM_TYPE_CONSTANTS.FREE_WIFI}</Typography>
                                 </Box>
                             </Box>
 
@@ -158,7 +152,7 @@ export default function RoomTypeDialog({ roomType, openDialog, setOpenDialog }: 
                                 </Box>
                                 <Box>
                                     <List dense={true} disablePadding sx={{ display: "flex", flexWrap: "wrap" }}>
-                                        {bathRoomFacilities.map((facility, i) => (
+                                        {BATHROOM_FACILITIES.map((facility, i) => (
                                             <ListItem disablePadding key={i} sx={{ flex: "1 0 50%" }}>
                                                 <Box sx={{ display: "flex", gap: '4px' }}>
                                                     <DoneOutlinedIcon sx={{ fontSize: 18, position: "relative", top: '2px' }} />
@@ -174,11 +168,11 @@ export default function RoomTypeDialog({ roomType, openDialog, setOpenDialog }: 
                             {roomType && roomType.type === 'deluxe' && <Box mb={2}>
                                 <Box sx={{ display: "flex", gap: '4px' }}>
                                     <LandscapeOutlinedIcon sx={{ fontSize: 20, position: "relative", top: '2px' }} />
-                                    <Typography variant="subtitle1" fontWeight={"bold"}> View:</Typography>
+                                    <Typography variant="subtitle1" fontWeight={"bold"}> {ROOM_TYPE_CONSTANTS.VIEW}</Typography>
                                 </Box>
                                 <Box>
                                     <List dense={true} disablePadding sx={{ display: "flex", flexWrap: "wrap" }}>
-                                        {views.map((view, i) => (
+                                        {VIEWS.map((view, i) => (
                                             <ListItem disablePadding key={i} sx={{ flex: "1 0 50%" }}>
                                                 <Box sx={{ display: "flex", gap: '4px' }}>
                                                     <DoneOutlinedIcon sx={{ fontSize: 18, position: "relative", top: '2px' }} />
@@ -196,7 +190,7 @@ export default function RoomTypeDialog({ roomType, openDialog, setOpenDialog }: 
                             <Box mb={2}>
                                 <Box sx={{ display: "flex", gap: '4px' }}>
                                     <RoomServiceOutlinedIcon sx={{ fontSize: 20, position: "relative", top: '2px' }} />
-                                    <Typography variant="subtitle1" fontWeight={"bold"}> Facilities:</Typography>
+                                    <Typography variant="subtitle1" fontWeight={"bold"}> {ROOM_TYPE_CONSTANTS.FACILITIES}</Typography>
                                 </Box>
                                 <Box>
                                     <List dense={true} disablePadding sx={{ display: "flex", flexWrap: "wrap" }}>
@@ -217,7 +211,7 @@ export default function RoomTypeDialog({ roomType, openDialog, setOpenDialog }: 
                                 <SmokeFreeOutlinedIcon sx={{ fontSize: 20, position: "relative", top: '2px' }} />
                                 <Box display={"flex"}>
                                     <Typography variant="subtitle1" fontWeight={"bold"}> Smoking:</Typography>
-                                    <Typography variant="body2" p={'4px'}> No Smoking</Typography>
+                                    <Typography variant="body2" p={'4px'}> {ROOM_TYPE_CONSTANTS.NO_SMOKING}</Typography>
                                 </Box>
                             </Box>
                         </Box>
