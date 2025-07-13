@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BOOKING } from "@/constants/constants";
 import MobileScreen from "@/utils/mobile-screen";
 import {
@@ -18,62 +18,15 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close"; // Import close icon
+import CloseIcon from "@mui/icons-material/Close";
 
-const steps = [
-  {
-    label: "User Details",
-    description: "Please enter your details to proceed with the booking.",
-    component: (
-      <>
-        <Box
-          component="form"
-          sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
-          noValidate
-          autoComplete="off"
-        >
-          <div>
-            <TextField
-              required
-              id="outlined-required"
-              label="Name"
-              type="text"
-              autoComplete="name"
-            />
-            <TextField
-              id="outlined-email-input"
-              label="Email"
-              type="email"
-              autoComplete="email"
-            />
-            <TextField
-              id="outlined-required"
-              label="Phone"
-              type="tel"
-              autoComplete="tel"
-            />
-            <TextField
-              id="outlined-required"
-              label="Location"
-              type="text"
-              autoComplete="off"
-            />
-            <TextField
-              id="outlined-required"
-              label="Pin Code"
-              type="number"
-              autoComplete="off"
-            />
-          </div>
-        </Box>
-      </>
-    ),
-  },
-  {
-    label: BOOKING.BOOKING_CONFIRMATION,
-    description: BOOKING.BOOKING_CONFIRMATION_MESSAGE,
-  },
-];
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  location: string;
+  pinCode: string;
+}
 
 export default function BookingDialog({
   openDialog,
@@ -84,8 +37,115 @@ export default function BookingDialog({
 }) {
   const isMobile = MobileScreen();
 
-  const [activeStep, setActiveStep] = useState(0);
-  const [successAlert, setSuccessAlert] = useState(false);
+  const [activeStep, setActiveStep] = useState<number>(0);
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    email: "",
+    phone: "",
+    location: "",
+    pinCode: "",
+  });
+  const [formValid, setFormValid] = useState<boolean>(false);
+  const [isConfirmClicked, setIsConfirmClicked] = useState<boolean>(false);
+  const [successAlert, setSuccessAlert] = useState<boolean>(false);
+
+  useEffect(() => {
+    const isFormValid = Object.values(formData).every(
+      (value) => value.trim() !== ""
+    );
+    if (isFormValid) {
+      setFormValid(true);
+    } else {
+      setFormValid(false);
+    }
+  }, [formData]);
+
+  useEffect(() => {
+    if (activeStep === steps.length) {
+      setIsConfirmClicked(true);
+    } else {
+      setIsConfirmClicked(false);
+    }
+  }, [activeStep]);
+
+  const steps = [
+    {
+      label: "User Details",
+      description: "Please enter your details to proceed with the booking.",
+      component: (
+        <>
+          <Box
+            component="form"
+            sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
+            noValidate
+            autoComplete="off"
+          >
+            <div>
+              <TextField
+                required
+                id="outlined-required"
+                label="Name"
+                type="text"
+                autoComplete="name"
+                value={formData.name}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleInputChange(e, "name")
+                }
+              />
+              <TextField
+                required
+                id="outlined-email-input-required"
+                label="Email"
+                type="email"
+                autoComplete="email"
+                value={formData.email}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleInputChange(e, "email")
+                }
+              />
+              <TextField
+                required
+                id="outlined-required"
+                label="Phone"
+                type="tel"
+                autoComplete="tel"
+                value={formData.phone}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleInputChange(e, "phone")
+                }
+              />
+              <TextField
+                required
+                id="outlined-required"
+                label="Location"
+                type="text"
+                autoComplete="off"
+                value={formData.location}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleInputChange(e, "location")
+                }
+              />
+              <TextField
+                required
+                id="outlined-required"
+                label="Pin Code"
+                type="number"
+                autoComplete="off"
+                value={formData.pinCode}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleInputChange(e, "pinCode")
+                }
+              />
+            </div>
+          </Box>
+        </>
+      ),
+    },
+    {
+      label: BOOKING.BOOKING_CONFIRMATION,
+      description: BOOKING.BOOKING_CONFIRMATION_MESSAGE,
+    },
+  ];
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -103,12 +163,25 @@ export default function BookingDialog({
     setOpenDialog(false);
   };
 
+  const handleInputChange = (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
+    field: keyof FormData
+  ) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [field]: event.target.value,
+    }));
+  };
+
   const handleBooking = () => {
-    console.log("Booking confirmed!");
-    // validation and booking logic goes here
-    // need to insert data into the database
-    // after successful booking, show success alert
-    setSuccessAlert(true);
+    if (formValid) {
+      console.log("z-Booking details:", formData);
+      // need to insert data into the database
+      // after successful booking, show success alert
+      setSuccessAlert(true);
+    }
   };
 
   return (
@@ -151,7 +224,7 @@ export default function BookingDialog({
       <DialogContent>
         {successAlert ? (
           <Alert variant="filled" severity="success">
-            This is a filled success Alert.
+            Booking request submitted.
           </Alert>
         ) : (
           <Box sx={{ width: 400 }}>
@@ -175,6 +248,7 @@ export default function BookingDialog({
                         variant="contained"
                         onClick={handleNext}
                         sx={{ mt: 1, mr: 1 }}
+                        disabled={!formValid}
                       >
                         {index === steps.length - 1 ? "Confirm" : "Continue"}
                       </Button>
@@ -193,7 +267,7 @@ export default function BookingDialog({
             {activeStep === steps.length && (
               <Paper square elevation={0} sx={{ p: 3 }}>
                 <Typography>
-                  All steps completed - you&apos;re finished
+                  Click on &quot;Book Now&quot; to confirm your booking.
                 </Typography>
                 <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
                   Reset
@@ -208,7 +282,12 @@ export default function BookingDialog({
           {successAlert ? "close" : "cancel"}
         </Button>
         {!successAlert && (
-          <Button variant="contained" onClick={handleBooking} autoFocus>
+          <Button
+            variant="contained"
+            onClick={handleBooking}
+            autoFocus
+            disabled={!isConfirmClicked}
+          >
             Book now
           </Button>
         )}
