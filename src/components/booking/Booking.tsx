@@ -1,97 +1,74 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Container, Typography, Button, Box, Checkbox, FormControl, FormLabel, FormGroup, FormControlLabel, CircularProgress } from "@mui/material";
+import React, { useRef, useState } from "react";
+import {
+  Container,
+  Typography,
+  Button,
+  Box,
+  Checkbox,
+  FormControl,
+  FormLabel,
+  FormGroup,
+  FormControlLabel,
+  CircularProgress,
+} from "@mui/material";
 
 import useRoomTypeStore from "@/store/RoomType";
 import DatePickerComponent from "../datePicker";
 import MobileScreen from "@/utils/mobile-screen";
-import { handleGuestsAndRoomChange, GuestsAndRoomsState, resetValue } from "./GuestsRooms";
 import { useDatePickerStore } from "@/store/DatePickerStore";
 import RoomTypeComponent from "./RoomTypes";
-import { useGuestsAndRoomsStore } from "@/store/GuestsAndRoomsStore";
 import { primaryButtonStyle } from "@/utils/style-settings";
 
 const Booking = () => {
-  const { guests: guestsStore, rooms: roomsStore } = useGuestsAndRoomsStore();
-
-  let gAndR: GuestsAndRoomsState = {
-    guests: {},
-    rooms: {}
-  }
-  if (guestsStore && roomsStore) {
-    gAndR = {
-      guests: {
-        deluxe: guestsStore,
-        standard: guestsStore > 4 ? 4 : guestsStore,
-        tent: guestsStore > 2 ? 2 : guestsStore
-      },
-      rooms: {
-        deluxe: roomsStore > 2 ? 2 : roomsStore,
-        standard: roomsStore,
-        tent: roomsStore > 3 ? 3 : roomsStore
-      }
-    }
-  } else {
-    gAndR = { guests: resetValue, rooms: resetValue }
-  }
-
   const datePickerStore = useDatePickerStore();
 
-  const caclucateNumberOfNights = () => {
-    return (datePickerStore.checkIn && datePickerStore.checkOut) && (datePickerStore.checkOut > datePickerStore.checkIn) ? datePickerStore.checkOut.diff(datePickerStore.checkIn, "day") : 1;
-  }
-
-  const [numberOfNights, setNumberOfNights] = useState<number>(caclucateNumberOfNights());
-  const [guestsAndRooms, setGuestsAndRooms] = useState<GuestsAndRoomsState>(gAndR);
   const [filterBy, setFilterBy] = useState([
     {
       isCheked: false,
       name: "rooms",
-      label: "Rooms"
+      label: "Rooms",
     },
     {
       isCheked: false,
       name: "available",
-      label: "Available"
-    }
+      label: "Available",
+    },
   ]);
+
   const [dateError, setDateError] = useState({
     checkInError: false,
-    checkOutError: false
+    checkOutError: false,
   });
 
   const isMobile = MobileScreen();
 
   const dateSelectionRef = useRef<HTMLDivElement>(null);
 
-  const { fetchRoomType, roomTypeData } = useRoomTypeStore();
-  useEffect(() => {
-    fetchRoomType()
-  }, []);
+  const { roomTypeData } = useRoomTypeStore();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterBy((prevFilters) => {
-      console.log(prevFilters, event.target)
+      console.log(prevFilters, event.target);
       return prevFilters.map((filter) =>
-        filter.name === event.target.name ? { ...filter, isCheked: event.target.checked } : filter
-      )
+        filter.name === event.target.name
+          ? { ...filter, isCheked: event.target.checked }
+          : filter
+      );
     });
   };
 
   const handleChangeSearch = () => {
-    setNumberOfNights(caclucateNumberOfNights())
     // Add your logic to handle the data here, like making an API call
   };
 
   const handleReset = () => {
-    datePickerStore.setCheckIn(null)
-    datePickerStore.setCheckOut(null)
-    setNumberOfNights(1)
+    datePickerStore.setCheckIn(null);
+    datePickerStore.setCheckOut(null);
     setDateError({
       checkInError: false,
-      checkOutError: false
-    })
-    handleGuestsAndRoomChange(setGuestsAndRooms)()
-  }
+      checkOutError: false,
+    });
+  };
 
   return (
     <Container maxWidth="xl" sx={{ mt: 4 }}>
@@ -107,7 +84,11 @@ const Booking = () => {
           alignItems={isMobile ? "stretch" : "center"}
         >
           {/* Date Pickers */}
-          <DatePickerComponent dateError={dateError} setDateError={setDateError}></DatePickerComponent>
+          <DatePickerComponent
+            dateError={dateError}
+            setDateError={setDateError}
+            showNightCount={isMobile ? false : true}
+          />
 
           {/* Search Button */}
           <Button
@@ -117,11 +98,11 @@ const Booking = () => {
               width: isMobile ? "100%" : "auto",
               textTransform: "none",
               fontSize: "16px",
-              ...primaryButtonStyle
+              ...primaryButtonStyle,
             }}
             onClick={handleChangeSearch}
           >
-            Change Search
+            Modify Search
           </Button>
 
           <Button
@@ -131,7 +112,7 @@ const Booking = () => {
               width: isMobile ? "100%" : "auto",
               textTransform: "none",
               fontSize: "16px",
-              ...primaryButtonStyle
+              ...primaryButtonStyle,
             }}
             onClick={handleReset}
           >
@@ -165,15 +146,22 @@ const Booking = () => {
       </Box>
 
       {/* Rooms Card Section */}
-      {roomTypeData.length
-        ? <RoomTypeComponent guestsAndRooms={guestsAndRooms} setGuestsAndRooms={setGuestsAndRooms} numberOfNights={numberOfNights} dateSelectionRef={dateSelectionRef} setDateError={setDateError}></RoomTypeComponent>
-        : <Container sx={{
-          display: "flex",
-          justifyContent: "center",
-          height: "100vh",
-        }}>
+      {roomTypeData.length ? (
+        <RoomTypeComponent
+          dateSelectionRef={dateSelectionRef}
+          setDateError={setDateError}
+        />
+      ) : (
+        <Container
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            height: "100vh",
+          }}
+        >
           <CircularProgress size="5rem" />
-        </Container>}
+        </Container>
+      )}
     </Container>
   );
 };

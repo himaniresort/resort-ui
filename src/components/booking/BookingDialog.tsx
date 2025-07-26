@@ -19,26 +19,29 @@ import {
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  location: string;
-  pinCode: string;
-}
+import { BookingData } from "@/types/Bookings";
+import { RoomType } from "@/types/RoomType";
+import { useDatePickerStore } from "@/store/DatePickerStore";
 
 export default function BookingDialog({
   openDialog,
   setOpenDialog,
+  roomType,
+  roomsSelected,
+  guestsSelected,
 }: {
   openDialog: boolean;
   setOpenDialog: (value: boolean) => void;
+  roomType: RoomType | null;
+  roomsSelected: string;
+  guestsSelected: string;
 }) {
   const isMobile = MobileScreen();
 
+  const { checkIn, checkOut } = useDatePickerStore();
+
   const [activeStep, setActiveStep] = useState<number>(0);
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<BookingData>({
     name: "",
     email: "",
     phone: "",
@@ -66,6 +69,7 @@ export default function BookingDialog({
     } else {
       setIsConfirmClicked(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeStep]);
 
   const steps = [
@@ -167,7 +171,7 @@ export default function BookingDialog({
     event:
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLTextAreaElement>,
-    field: keyof FormData
+    field: keyof BookingData
   ) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -177,7 +181,15 @@ export default function BookingDialog({
 
   const handleBooking = () => {
     if (formValid) {
-      console.log("z-Booking details:", formData);
+      const payload = {
+        ...formData,
+        roomTypeId: roomType?.roomTypeId,
+        roomsSelected,
+        guestsSelected,
+        checkIn,
+        checkOut,
+      };
+      console.log("z-Booking details:", payload);
       // need to insert data into the database
       // after successful booking, show success alert
       setSuccessAlert(true);

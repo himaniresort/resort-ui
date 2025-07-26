@@ -7,4 +7,5 @@ export const REQ_METHODS = {
 
 export const COLLECTIONS = {
   USERS: "users",
+  BOOKINGS: "bookings",
 };

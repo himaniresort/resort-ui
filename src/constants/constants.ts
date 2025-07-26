@@ -55,3 +55,8 @@ export const NEARBY_PLACES = {
   DISTANCE_MEASURED_NOTE:
     "**All the distances are measured from the homestay.**",
 };
+
+export const PAGES = {
+  HOME: "home",
+  BOOKING: "booking",
+};
