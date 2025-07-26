@@ -147,10 +147,7 @@ const Booking = () => {
 
       {/* Rooms Card Section */}
       {roomTypeData.length ? (
-        <RoomTypeComponent
-          dateSelectionRef={dateSelectionRef}
-          setDateError={setDateError}
-        />
+        <RoomTypeComponent />
       ) : (
         <Container
           sx={{
