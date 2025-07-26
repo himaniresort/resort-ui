@@ -13,30 +13,34 @@ const RoomTypeSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      enum: Object.values(RoomTypeEnum)
+      enum: Object.values(RoomTypeEnum),
     },
     name: {
       type: String,
-      required: true
+      required: true,
     },
     shortDescription: {
-      type: String
+      type: String,
     },
     longDescription: {
-      type: String
+      type: String,
     },
-    capacity: {
-      type: Number
+    max_occupancy: {
+      type: Number,
+    },
+    total_rooms: {
+      type: Number,
     },
     cost: {
       type: Number,
-      required: true
+      required: true,
     },
     image: {
-      type: String
-    }
+      type: String,
+    },
   },
   { collection: "room-type", timestamps: true }
 );
 
-export default mongoose.models.RoomType || mongoose.model("RoomType", RoomTypeSchema);
+export default mongoose.models.RoomType ||
+  mongoose.model("RoomType", RoomTypeSchema);

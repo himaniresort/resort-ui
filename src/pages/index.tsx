@@ -1,19 +1,18 @@
-import AboutSection from "@/components/about";
-import Booking from "@/components/booking/Booking";
-import CarouselFormSection from "@/components/carousal";
-import FooterSection from "@/components/footer/FooterSection";
 import Header from "@/components/header";
-import PlacesSection from "@/components/places/PlacesSection";
+import FooterSection from "@/components/footer/FooterSection";
+import CarouselFormSection from "@/components/carousal";
 import RoomCategories from "@/components/rooms/RoomCategories";
 import ServicesSection from "@/components/our-services/servicesSection";
+import PlacesSection from "@/components/places/PlacesSection";
+import AboutSection from "@/components/about";
 import TestimonialSlider from "@/components/testimonial/TestimonialSlider";
-import { HEADER_CONSTANTS } from "@/constants/constants";
-import { useRef, useState } from "react";
+import { HEADER_CONSTANTS, PAGES } from "@/constants/constants";
+import { useRef } from "react";
+import Booking from "@/pages/booking";
+import useAppStore from "@/store/AppStore";
 
 export default function Home() {
-
-  const [showBooking, setShowBooking] = useState(false);
-
+  const { currentPage, setCurrentPage } = useAppStore();
   const aboutUsRef = useRef<HTMLDivElement>(null);
   const roomCategoriesRef = useRef<HTMLDivElement>(null);
   const contactUsRef = useRef<HTMLDivElement>(null);
@@ -21,7 +20,7 @@ export default function Home() {
   const scrollViewConfig: ScrollIntoViewOptions = {
     behavior: "smooth",
     block: "start",
-  }
+  };
 
   const handleNavigationLinks = (link: string) => {
     switch (link) {
@@ -40,24 +39,29 @@ export default function Home() {
     }
   };
 
+  const getLandingPage = (page: string) => {
+    switch (page) {
+      case PAGES.BOOKING:
+        return <Booking />;
+
+      default:
+        return (
+          <>
+            <CarouselFormSection setCurrentPage={setCurrentPage} />
+            <AboutSection ref={aboutUsRef} />
+            <ServicesSection />
+            <RoomCategories ref={roomCategoriesRef} />
+            <TestimonialSlider />
+            <PlacesSection />
+          </>
+        );
+    }
+  };
+
   return (
     <>
-      <Header handleNavigationLinks={handleNavigationLinks} showBooking={showBooking}
-        setShowBooking={setShowBooking} />
-
-      {showBooking ? (
-        <Booking />
-      ) : (
-        <>
-          <CarouselFormSection showBooking={showBooking} setShowBooking={setShowBooking} />
-          <AboutSection ref={aboutUsRef} />
-          <ServicesSection />
-          <RoomCategories ref={roomCategoriesRef} />
-          <TestimonialSlider />
-          <PlacesSection />
-        </>
-      )}
-
+      <Header handleNavigationLinks={handleNavigationLinks} />
+      {getLandingPage(currentPage)}
       <FooterSection ref={contactUsRef} />
     </>
   );

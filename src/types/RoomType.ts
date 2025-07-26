@@ -1,9 +1,12 @@
 export interface RoomType {
-    type: string,
-    name: string,
-    cost: number,
-    shortDescription: string,
-    longDescription?: string,
-    capacity: number,
-    image: string
+  roomTypeId: string;
+  type: string;
+  name: string;
+  cost: number;
+  shortDescription: string;
+  longDescription?: string;
+  description?: string;
+  max_occupancy: number;
+  total_rooms: number;
+  image: string;
 }

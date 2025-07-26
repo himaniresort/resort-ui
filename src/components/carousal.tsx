@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 import Slider from "react-slick";
-import { Box, Button, Grid, InputLabel, MenuItem, Select, Typography } from "@mui/material";
-import { dateChangeCheck } from "@/utils/date";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import DatePickerComponent from "./datePicker";
-import { SetState } from "@/types/SetState";
 import { useDatePickerStore } from "@/store/DatePickerStore";
 import { useGuestsAndRoomsStore } from "@/store/GuestsAndRoomsStore";
 import { BUTTON_CONSTANTS } from "@/constants/button-constants";
 import { primaryButtonStyle } from "@/utils/style-settings";
+import { PAGES } from "@/constants/constants";
 
-export interface CarouselFormSectionProps {
-  showBooking: boolean,
-  setShowBooking: SetState<boolean>
+interface CarouselFormSectionProps {
+  setCurrentPage: (page: string) => void;
 }
 
-const CarouselFormSection: React.FC<CarouselFormSectionProps> = ({ showBooking, setShowBooking }: CarouselFormSectionProps) => {
-  const [guests, setGuests] = React.useState<number>(1);
-  const [rooms, setRooms] = React.useState<number>(1);
+function CarouselFormSection({ setCurrentPage }: CarouselFormSectionProps) {
+  const { checkIn, checkOut, setCheckIn, setCheckOut } = useDatePickerStore();
+  const { setGuests, setRooms } = useGuestsAndRoomsStore();
+
   const [dateError, setDateError] = useState({
     checkInError: false,
-    checkOutError: false
+    checkOutError: false,
   });
+
   // Slider settings for react-slick
   const settings = {
     dots: true,
@@ -32,35 +32,18 @@ const CarouselFormSection: React.FC<CarouselFormSectionProps> = ({ showBooking, 
     autoplaySpeed: 3000,
   };
 
-  const datePickerStore = useDatePickerStore();
-  const guestsAndRoomsStore = useGuestsAndRoomsStore();
-
-  const handleCheckAvailability = () => {
-    console.log("Check-In Date:", datePickerStore.checkIn?.toISOString());
-    console.log("Check-Out Date:", datePickerStore.checkOut?.toISOString());
-    console.log("Guests and rooms", guests, rooms)
-    guestsAndRoomsStore.setGuests(guests)
-    guestsAndRoomsStore.setRooms(rooms)
-
-    const dateErrorCheck = dateChangeCheck(datePickerStore.checkIn, datePickerStore.checkOut);
-    setDateError(dateErrorCheck);
-    if (!dateErrorCheck.checkInError && !dateErrorCheck.checkOutError) {
-      setShowBooking(!showBooking);
-    }
-  };
+  const handleCheckAvailability = () => setCurrentPage(PAGES.BOOKING);
 
   const handleReset = () => {
-    datePickerStore.setCheckIn(null)
-    datePickerStore.setCheckOut(null)
+    setCheckIn(null);
+    setCheckOut(null);
     setDateError({
       checkInError: false,
-      checkOutError: false
-    })
+      checkOutError: false,
+    });
     setGuests(1);
     setRooms(1);
-    guestsAndRoomsStore.setGuests(1)
-    guestsAndRoomsStore.setRooms(1)
-  }
+  };
 
   return (
     <Box sx={{ position: "relative" }}>
@@ -110,56 +93,40 @@ const CarouselFormSection: React.FC<CarouselFormSectionProps> = ({ showBooking, 
           Booking Your Hotel
         </Typography>
         <Grid container spacing={2}>
-          <DatePickerComponent dateError={dateError} setDateError={setDateError}></DatePickerComponent>
-          <Box sx={{ display: "flex", gap: 3, width: "100%", paddingLeft: "16px" }}>
-            <Grid item xs={12}>
-              <InputLabel sx={{ fontSize: "13px", position: "relative", top: '9px', left: '14px' }}>Guests</InputLabel>
-              <Select
-                value={guests}
-                label="Guests"
-                onChange={(e) => setGuests(e.target.value as number)}
-                fullWidth
-                displayEmpty
-              >
-                {[...Array(6)].map((_, index) => (
-                  <MenuItem key={index + 1} value={index + 1}>
-                    {index + 1}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Grid>
-            <Grid item xs={12}>
-              <InputLabel sx={{ fontSize: "13px", position: "relative", top: '9px', left: '14px' }}>Rooms</InputLabel>
-              <Select
-                value={rooms}
-                label="Rooms"
-                onChange={(e) => { setRooms(e.target.value as number) }}
-                fullWidth
-                displayEmpty
-              >
-                {[...Array(6)].map((_, index) => (
-                  <MenuItem key={index + 1} value={index + 1}>
-                    {index + 1}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Grid>
-          </Box>
-          <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Button variant="contained" sx={primaryButtonStyle}
-              onClick={handleReset}>
+          <DatePickerComponent
+            dateError={dateError}
+            setDateError={setDateError}
+          />
+          <Grid
+            item
+            xs={12}
+            sx={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <Button
+              variant="contained"
+              sx={primaryButtonStyle}
+              onClick={handleReset}
+            >
               {BUTTON_CONSTANTS.RESET}
             </Button>
-            <Button variant="contained" sx={primaryButtonStyle}
-              onClick={handleCheckAvailability}>
+            <Button
+              variant="contained"
+              sx={primaryButtonStyle}
+              onClick={handleCheckAvailability}
+              disabled={
+                !checkIn ||
+                !checkOut ||
+                dateError.checkInError ||
+                dateError.checkOutError
+              }
+            >
               {BUTTON_CONSTANTS.CHECK_AVAILABILITY}
             </Button>
           </Grid>
         </Grid>
-
       </Box>
     </Box>
   );
-};
+}
 
 export default CarouselFormSection;
