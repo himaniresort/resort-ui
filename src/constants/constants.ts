@@ -31,18 +31,9 @@ export const FOOTER_CONSTANTS = {
     "https://www.instagram.com/mithilameadows_homestay/?utm_source=qr&igsh=YmFubmJobjA4d216#",
 };
 
-export const ROOMS_CATEGORIES = {
-  TENT: "tent",
-  HUT: "hut",
-  PREMIUM_HUT: "premiumHut",
-  TENT_HOUSE: "Tent House",
-  HUT_HOUSE: "Hut House",
-  PREMIUM_HUT_HOUSE: "Premium Hut House",
-};
-
 export const BOOKING = {
   BOOKING_CONFIRMATION_MESSAGE:
-    "To confirm your booking, please contact the admin at +91 73378 81353 and make an advance payment. Your booking will be confirmed once the payment is successful. Kindly save your booking reference ID once you submit this request.",
+    "Once you submit the booking request, you will receive a booking reference ID. Please save this ID safe as it will be required for payment and confirmation of your booking. To confirm your booking, please contact the booking desk at +91 73378 81353, give the booking reference ID and make an advance payment.",
   BOOKING_CONFIRMATION: "Booking Request",
 };
 

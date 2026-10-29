@@ -1,6 +1,7 @@
 export interface RoomType {
   roomTypeId: string;
   type: string;
+  type_code: string;
   name: string;
   cost: number;
   shortDescription: string;

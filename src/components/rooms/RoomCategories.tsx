@@ -6,12 +6,12 @@ import useRoomTypeStore from "@/store/RoomType";
 import MobileScreen from "@/utils/mobile-screen";
 
 const RoomCategories = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
-
   const isMobile = MobileScreen();
 
   const { fetchRoomType, roomTypeData } = useRoomTypeStore();
+
   useEffect(() => {
-    fetchRoomType()
+    fetchRoomType();
   }, []);
 
   const scrollContainer = useRef<HTMLDivElement>(null);
@@ -38,27 +38,30 @@ const RoomCategories = React.forwardRef<HTMLDivElement, {}>((props, ref) => {
 
   return (
     <div ref={ref} className={styles.roomCategoriesContainer}>
-      {!isMobile && <button className={styles.scrollButton} onClick={scrollLeft}>
-        {"<"}
-      </button>}
+      {!isMobile && (
+        <button className={styles.scrollButton} onClick={scrollLeft}>
+          {"<"}
+        </button>
+      )}
       <div className={styles.roomCategoriesWrapper}>
         <div className={styles.roomCategories} ref={scrollContainer}>
           {roomTypeData.map((room, index) => (
             <>
-              <div className={styles.roomCard} key={index} >
+              <div className={styles.roomCard} key={index}>
                 <RoomCard room={room} />
               </div>
             </>
           ))}
         </div>
       </div>
-      {!isMobile && <button className={styles.scrollButton} onClick={scrollRight}>
-        {">"}
-      </button>}
+      {!isMobile && (
+        <button className={styles.scrollButton} onClick={scrollRight}>
+          {">"}
+        </button>
+      )}
     </div>
   );
-})
-
+});
 
 RoomCategories.displayName = "RoomCategories";
 

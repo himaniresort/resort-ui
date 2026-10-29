@@ -1,18 +1,14 @@
 import { createBooking } from "@/services/BookingService";
-import { BookingData, Bookings } from "@/types/Bookings";
+import { BookingPayload, Bookings, CreatedBooking } from "@/types/Bookings";
 import axios from "axios";
 import { create } from "zustand";
 
 interface BookingState {
   bookings: Bookings[];
   fetchBooking: () => void;
-  createBooking: (booking: BookingData) => Promise<void>;
+  createBooking: (bookingPayload: BookingPayload) => Promise<CreatedBooking>;
   isLoading: boolean;
   error: string | null;
-}
-
-interface ErrorMessage {
-  errorMessage: string;
 }
 
 const useBookingStore = create<BookingState>()((set) => {
@@ -21,7 +17,7 @@ const useBookingStore = create<BookingState>()((set) => {
     fetchBooking: async () => {
       try {
         const response = await axios.get("/api/bookings");
-        const data = response.data;
+        const { data } = response.data;
         set({ bookings: data });
       } catch (error) {
         console.log(error);
@@ -29,16 +25,17 @@ const useBookingStore = create<BookingState>()((set) => {
     },
     isLoading: false,
     error: null,
-    createBooking: async (booking) => {
+    createBooking: async (bookingPayload: BookingPayload) => {
       set({ isLoading: true, error: null });
       try {
-        const response = await createBooking(booking);
-        set((state) => ({
-          bookings: [...state.bookings, response.data],
-          isLoading: false,
-        }));
+        const createdBooking = await createBooking(bookingPayload);
+        set({ isLoading: false });
+        return createdBooking;
       } catch (error: unknown) {
-        set({ error: (error as ErrorMessage).errorMessage, isLoading: false });
+        const message =
+          error instanceof Error ? error.message : "Error creating booking";
+        set({ error: message, isLoading: false });
+        throw error;
       }
     },
   };

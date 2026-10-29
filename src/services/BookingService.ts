@@ -1,16 +1,23 @@
 import axios from "axios";
-import { BookingData } from "@/types/Bookings";
+import { BookingPayload, CreatedBooking } from "@/types/Bookings";
 
-export const createBooking = async (bookingData: BookingData) => {
-  try {
-    const response = await axios.post("/api/booking", bookingData);
-    if (response.status === 200) {
-      return { data: response.data, error: "" };
-    } else {
-      throw new Error();
-    }
-  } catch (error) {
-    console.log(error);
-    return { errorMessage: "Error creating booking" };
+export const createBooking = async (
+  bookingPayload: BookingPayload,
+): Promise<CreatedBooking> => {
+  const { userData, bookingData } = bookingPayload;
+  const userResponse = await axios.post<{ userId?: string }>(
+    "/api/users",
+    userData,
+  );
+
+  const userId = userResponse.data.userId;
+  if (!userId) {
+    throw new Error("User ID not returned");
   }
+
+  const bookingResponse = await axios.post<CreatedBooking>("/api/bookings", {
+    ...bookingData,
+    userId,
+  });
+  return bookingResponse.data;
 };

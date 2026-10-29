@@ -1,72 +1,66 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { clientPromise } from "@/lib/mongodb";
+import { REQ_METHODS } from "@/constants/api-constants";
+import connectDB from "@/lib/mongodb";
+import UsersSchema from "@/models/Users";
 import { ObjectId } from "mongodb";
-import { COLLECTIONS, REQ_METHODS } from "@/constants/api-constants";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { GET, POST, PUT, DELETE } = REQ_METHODS;
-
+  await connectDB();
   try {
-    // Connect to MongoDB
-    const client = await clientPromise;
-    const db = client.db();
-
-    // Check request method
-    if (req.method === GET) {
-      // Check if a specific user is requested
+    if (req.method === REQ_METHODS.GET) {
       if (req.query.id) {
-        const user = await db
-          .collection(COLLECTIONS.USERS)
-          .findOne({ _id: new ObjectId(req.query.id as string) });
-
-        return res.status(200).json({ success: true, data: user });
+        const user = await UsersSchema.findOne({
+          _id: new ObjectId(req.query.id as string),
+        });
+        return res.status(200).json(user);
       }
 
-      // Fetch all users
-      const users = await db.collection(COLLECTIONS.USERS).find({}).toArray();
-      return res.status(200).json({ success: true, data: users });
-    }
+      const users = await UsersSchema.find({});
+      return res.status(200).json(users);
+    } else if (req.method === REQ_METHODS.POST) {
+      const user = req.body;
 
-    if (req.method === POST) {
-      const newUser = req.body;
-      const result = await db.collection(COLLECTIONS.USERS).insertOne(newUser);
+      const existingUser = await UsersSchema.findOne({ email: user.email });
+      if (existingUser) {
+        return res
+          .status(200)
+          .json({ userId: existingUser._id, existingUser: true });
+      }
+
+      const result = new UsersSchema(user);
+      await result.save();
       return res
         .status(201)
-        .json({ success: true, message: "User added", id: result.insertedId });
+        .json({ userId: result._id, message: "User created successfully" });
+    } else if (req.method === REQ_METHODS.PUT) {
+      const { id } = req.query; // Get User ID from URL
+
+      if (!id) {
+        return res.status(400).json({ error: "User ID is required" });
+      }
+
+      const updatedUser = await UsersSchema.findByIdAndUpdate(
+        id,
+        req.body, // Replace with new data
+        { new: true, overwrite: true } // Returns updated document
+      );
+
+      if (!updatedUser) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      return res.status(200).json(updatedUser);
+    } else if (req.method === REQ_METHODS.DELETE) {
+      const { id } = req.body;
+      const result = await UsersSchema.findByIdAndDelete(id);
+      return res.status(200).json({ msg: `User deleted`, id: result.id });
+    } else {
+      res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
+      return res.status(405).end(`Method ${req.method} Not Allowed`);
     }
-
-    if (req.method === PUT) {
-      const { id, ...updateData } = req.body;
-      const result = await db
-        .collection(COLLECTIONS.USERS)
-        .updateOne({ _id: new ObjectId(id) }, { $set: updateData });
-
-      return res.status(200).json({
-        success: true,
-        message: "User updated",
-        modifiedCount: result.modifiedCount,
-      });
-    }
-
-    if (req.method === DELETE) {
-      const { id } = req.query;
-      await db
-        .collection(COLLECTIONS.USERS)
-        .deleteOne({ _id: new ObjectId(id as string) });
-
-      return res.status(200).json({ success: true, message: "User deleted" });
-    }
-
-    // Handle unsupported methods
-    res.setHeader("Allow", [GET, POST, PUT, DELETE]);
-    return res
-      .status(405)
-      .json({ success: false, message: `Method ${req.method} Not Allowed` });
   } catch (error) {
-    console.error("Error:", error);
-    return res.status(500).json({ success: false, message: "Server error" });
+    return res.status(500).json({ err: error });
   }
 }
