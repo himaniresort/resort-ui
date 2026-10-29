@@ -10,7 +10,6 @@ export default async function handler(
 ) {
   await connectDB();
   try {
-    debugger;
     if (req.method === REQ_METHODS.GET) {
       if (req.query.id) {
         const user = await UsersSchema.findOne({
@@ -18,14 +17,24 @@ export default async function handler(
         });
         return res.status(200).json(user);
       }
+
       const users = await UsersSchema.find({});
       return res.status(200).json(users);
     } else if (req.method === REQ_METHODS.POST) {
       const user = req.body;
 
+      const existingUser = await UsersSchema.findOne({ email: user.email });
+      if (existingUser) {
+        return res
+          .status(200)
+          .json({ userId: existingUser._id, existingUser: true });
+      }
+
       const result = new UsersSchema(user);
       await result.save();
-      return res.status(201).json(result);
+      return res
+        .status(201)
+        .json({ userId: result._id, message: "User created successfully" });
     } else if (req.method === REQ_METHODS.PUT) {
       const { id } = req.query; // Get User ID from URL
 

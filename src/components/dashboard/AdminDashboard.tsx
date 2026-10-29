@@ -15,14 +15,12 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-// import { Bookings } from "@/pages/api/bookings";
-import dayjs from "dayjs";
-import { ROOMS_CATEGORIES } from "@/constants/constants";
 import useBookingStore from "@/store/BookingStore";
+import { useRouter } from "next/router";
 
 const AdminDashboard = () => {
+  const router = useRouter();
   const { fetchBooking, bookings } = useBookingStore();
-
 
   useEffect(() => {
     fetchBooking();
@@ -38,6 +36,9 @@ const AdminDashboard = () => {
     "Check-In",
     "Check-Out",
     "No. of rooms",
+    "No. of guests",
+    "Booking Reference ID",
+    "Actions",
   ];
 
   return (
@@ -63,7 +64,7 @@ const AdminDashboard = () => {
         <Card sx={{ flex: 1, mx: 1 }}>
           <CardContent>
             <Typography variant="h6">Total Bookings</Typography>
-            <Typography variant="h4">120</Typography>
+            <Typography variant="h4">{bookings.length || 0}</Typography>
           </CardContent>
         </Card>
         <Card sx={{ flex: 1, mx: 1 }}>
@@ -98,23 +99,29 @@ const AdminDashboard = () => {
           <TableBody>
             {bookings.map((booking, index) => (
               <TableRow key={index}>
-                <TableCell>{booking.username}</TableCell>
-                <TableCell>{booking.contact}</TableCell>
-                <TableCell>
-                  {booking.roomType.type === ROOMS_CATEGORIES.TENT
-                    ? ROOMS_CATEGORIES.TENT_HOUSE
-                    : booking.roomType.type === ROOMS_CATEGORIES.HUT
-                    ? ROOMS_CATEGORIES.HUT_HOUSE
-                    : ROOMS_CATEGORIES.PREMIUM_HUT_HOUSE}
-                </TableCell>
+                <TableCell>{booking.userName}</TableCell>
+                <TableCell>{booking.userContact}</TableCell>
+                <TableCell>{booking.roomName}</TableCell>
                 <TableCell>{booking.status}</TableCell>
+                <TableCell>{booking.checkIn}</TableCell>
+                <TableCell>{booking.checkOut}</TableCell>
+                <TableCell>{booking.rooms}</TableCell>
+                <TableCell>{booking.guests}</TableCell>
+                <TableCell>{booking.bookingReferenceId}</TableCell>
                 <TableCell>
-                  {dayjs(booking.checkIn).format("DD-MM-YYYY")}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ mr: 1 }}
+                    onClick={() =>
+                      router.push(
+                        `/booking-details/${booking.bookingReferenceId}`,
+                      )
+                    }
+                  >
+                    View
+                  </Button>
                 </TableCell>
-                <TableCell>
-                  {dayjs(booking.checkOut).format("DD-MM-YYYY")}
-                </TableCell>
-                <TableCell>{booking.noOfRooms}</TableCell>
               </TableRow>
             ))}
           </TableBody>

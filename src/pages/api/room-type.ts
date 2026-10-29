@@ -6,7 +6,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   await connectDB();
   try {
@@ -17,10 +17,11 @@ export default async function handler(
         });
         return res.status(200).json(roomType);
       }
-      const roomTypeData = await RoomType.find({});
+      const roomTypeData = await RoomType.find({ status: "active" });
       const data = roomTypeData.map((roomType) => ({
         roomTypeId: roomType._id.toString(),
         type: roomType.type,
+        type_code: roomType.type_code,
         description: roomType.description,
         image: roomType.image,
         name: roomType.name,
@@ -30,8 +31,6 @@ export default async function handler(
         longDescription: roomType.longDescription,
         shortDescription: roomType.shortDescription,
       }));
-
-      console.log("z-data", data);
 
       return res.status(200).json(data);
     } else if (req.method === REQ_METHODS.POST) {
@@ -58,7 +57,7 @@ export default async function handler(
       const updatedRoomType = await RoomType.findByIdAndUpdate(
         id,
         req.body, // Replace with new data
-        { new: true, overwrite: true } // Returns updated document
+        { new: true, overwrite: true }, // Returns updated document
       );
       console.log("---", req.body, updatedRoomType);
       if (!updatedRoomType) {

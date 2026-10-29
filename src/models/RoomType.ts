@@ -7,6 +7,13 @@ enum RoomTypeEnum {
   tent = "tent",
 }
 
+enum RoomTypeCodeEnum {
+  deluxe = "DLX",
+  standard = "STD",
+  single = "SNG",
+  tent = "TNT",
+}
+
 const RoomTypeSchema = new mongoose.Schema(
   {
     type: {
@@ -14,6 +21,12 @@ const RoomTypeSchema = new mongoose.Schema(
       required: true,
       unique: true,
       enum: Object.values(RoomTypeEnum),
+    },
+    type_code: {
+      type: String,
+      required: true,
+      unique: true,
+      enum: Object.values(RoomTypeCodeEnum),
     },
     name: {
       type: String,
@@ -38,8 +51,14 @@ const RoomTypeSchema = new mongoose.Schema(
     image: {
       type: String,
     },
+    status: {
+      type: String,
+      required: true,
+      enum: ["active", "inactive"],
+      default: "active",
+    },
   },
-  { collection: "room-type", timestamps: true }
+  { collection: "room-type", timestamps: true },
 );
 
 export default mongoose.models.RoomType ||

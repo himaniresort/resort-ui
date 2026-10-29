@@ -5,6 +5,7 @@ import {
   Alert,
   Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -19,9 +20,15 @@ import {
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { BookingData } from "@/types/Bookings";
+import { CreatedBooking, UserData } from "@/types/Bookings";
 import { RoomType } from "@/types/RoomType";
 import { useDatePickerStore } from "@/store/DatePickerStore";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { Dayjs } from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import useBookingStore from "@/store/BookingStore";
+import { generateBookingReference } from "@/utils/booking";
 
 export default function BookingDialog({
   openDialog,
@@ -39,11 +46,13 @@ export default function BookingDialog({
   const isMobile = MobileScreen();
 
   const { checkIn, checkOut } = useDatePickerStore();
+  const { isLoading, createBooking } = useBookingStore();
 
   const [activeStep, setActiveStep] = useState<number>(0);
-  const [formData, setFormData] = useState<BookingData>({
+  const [formData, setFormData] = useState<UserData>({
     name: "",
     email: "",
+    dob: null,
     phone: "",
     location: "",
     pinCode: "",
@@ -51,11 +60,17 @@ export default function BookingDialog({
   const [formValid, setFormValid] = useState<boolean>(false);
   const [isConfirmClicked, setIsConfirmClicked] = useState<boolean>(false);
   const [successAlert, setSuccessAlert] = useState<boolean>(false);
+  const [createdBooking, setCreatedBooking] = useState<CreatedBooking | null>(
+    null,
+  );
+  const [bookingError, setBookingError] = useState<string | null>(null);
 
   useEffect(() => {
-    const isFormValid = Object.values(formData).every(
-      (value) => value.trim() !== ""
-    );
+    const isFormValid = Object.entries(formData).every(([, value]) => {
+      if (value === null || value === undefined) return false;
+      if (typeof value === "string") return value.trim() !== "";
+      return true;
+    });
     if (isFormValid) {
       setFormValid(true);
     } else {
@@ -72,12 +87,28 @@ export default function BookingDialog({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeStep]);
 
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  };
+
   const steps = [
     {
       label: "User Details",
       description: "Please enter your details to proceed with the booking.",
       component: (
-        <>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Box
             component="form"
             sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
@@ -107,6 +138,14 @@ export default function BookingDialog({
                   handleInputChange(e, "email")
                 }
               />
+
+              <DatePicker
+                label="Date of Birth"
+                value={formData.dob}
+                maxDate={checkOut || undefined}
+                format="DD/MM/YYYY"
+                onChange={(value) => handleInputChange(value, "dob")}
+              />
               <TextField
                 required
                 id="outlined-required"
@@ -133,7 +172,7 @@ export default function BookingDialog({
                 required
                 id="outlined-required"
                 label="Pin Code"
-                type="number"
+                type="pin"
                 autoComplete="off"
                 value={formData.pinCode}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -142,7 +181,7 @@ export default function BookingDialog({
               />
             </div>
           </Box>
-        </>
+        </LocalizationProvider>
       ),
     },
     {
@@ -151,48 +190,72 @@ export default function BookingDialog({
     },
   ];
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
-  const handleDialogClose = () => {
-    setOpenDialog(false);
-  };
-
   const handleInputChange = (
     event:
       | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>,
-    field: keyof BookingData
+      | React.ChangeEvent<HTMLTextAreaElement>
+      | Dayjs
+      | null,
+    field: keyof UserData,
   ) => {
+    let value: string | Dayjs | null = null;
+    if (field === "dob") {
+      value =
+        event &&
+        typeof event === "object" &&
+        "isValid" in event &&
+        (event as Dayjs).isValid()
+          ? (event as Dayjs)
+          : null;
+    } else {
+      if (
+        event &&
+        typeof event === "object" &&
+        "target" in event &&
+        event.target
+      ) {
+        value = (event.target as HTMLInputElement).value;
+      } else {
+        value = "";
+      }
+    }
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [field]: event.target.value,
+      [field]: value,
     }));
   };
 
-  const handleBooking = () => {
+  const handleBooking = async () => {
     if (formValid) {
+      const formatDate = (date: Dayjs | null) =>
+        date && typeof date === "object" && "format" in date
+          ? (date as Dayjs).format("DD/MM/YYYY")
+          : "";
+
       const payload = {
-        ...formData,
-        roomTypeId: roomType?.roomTypeId,
-        roomsSelected,
-        guestsSelected,
-        checkIn,
-        checkOut,
+        userData: {
+          ...formData,
+        },
+        bookingData: {
+          roomTypeId: roomType?.roomTypeId,
+          bookingReferenceId: generateBookingReference(roomType?.type_code),
+          rooms: Number(roomsSelected),
+          guests: Number(guestsSelected),
+          checkIn: formatDate(checkIn),
+          checkOut: formatDate(checkOut),
+          status: "pending",
+        },
       };
-      console.log("z-Booking details:", payload);
-      // need to insert data into the database
-      // after successful booking, show success alert
-      setSuccessAlert(true);
+      setBookingError(null);
+      try {
+        const booking = await createBooking(payload);
+        setCreatedBooking(booking);
+        setSuccessAlert(true);
+      } catch (error) {
+        setBookingError(
+          error instanceof Error ? error.message : "Error creating booking",
+        );
+      }
     }
   };
 
@@ -234,59 +297,77 @@ export default function BookingDialog({
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        {successAlert ? (
-          <Alert variant="filled" severity="success">
-            Booking request submitted.
-          </Alert>
-        ) : (
-          <Box sx={{ width: 400 }}>
-            <Stepper activeStep={activeStep} orientation="vertical">
-              {steps.map((step, index) => (
-                <Step key={step.label}>
-                  <StepLabel
-                    optional={
-                      index === steps.length - 1 ? (
-                        <Typography variant="caption">Last step</Typography>
-                      ) : null
-                    }
-                  >
-                    {step.label}
-                  </StepLabel>
-                  <StepContent>
-                    <Typography>{step.description}</Typography>
-                    {step.component || null}
-                    <Box sx={{ mb: 2 }}>
-                      <Button
-                        variant="contained"
-                        onClick={handleNext}
-                        sx={{ mt: 1, mr: 1 }}
-                        disabled={!formValid}
-                      >
-                        {index === steps.length - 1 ? "Confirm" : "Continue"}
-                      </Button>
-                      <Button
-                        disabled={index === 0}
-                        onClick={handleBack}
-                        sx={{ mt: 1, mr: 1 }}
-                      >
-                        Back
-                      </Button>
-                    </Box>
-                  </StepContent>
-                </Step>
-              ))}
-            </Stepper>
-            {activeStep === steps.length && (
-              <Paper square elevation={0} sx={{ p: 3 }}>
-                <Typography>
-                  Click on &quot;Book Now&quot; to confirm your booking.
-                </Typography>
-                <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-                  Reset
-                </Button>
-              </Paper>
-            )}
+        {isLoading ? (
+          <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
+            <CircularProgress />
           </Box>
+        ) : (
+          <>
+            {successAlert ? (
+              <Alert variant="filled" severity="success">
+                Booking request submitted <br />
+                Your booking reference ID is:{" "}
+                {createdBooking?.bookingReferenceId}
+                <br />
+                Please keep this ID for payment and confirmation of your
+                booking.
+              </Alert>
+            ) : (
+              <Box sx={{ width: 400 }}>
+                <Stepper activeStep={activeStep} orientation="vertical">
+                  {steps.map((step, index) => (
+                    <Step key={step.label}>
+                      <StepLabel
+                        optional={
+                          index === steps.length - 1 ? (
+                            <Typography variant="caption">Last step</Typography>
+                          ) : null
+                        }
+                      >
+                        {step.label}
+                      </StepLabel>
+                      <StepContent>
+                        <Typography>{step.description}</Typography>
+                        {step.component || null}
+                        <Box sx={{ mb: 2 }}>
+                          <Button
+                            variant="contained"
+                            onClick={handleNext}
+                            sx={{ mt: 1, mr: 1 }}
+                            disabled={!formValid}
+                          >
+                            Continue
+                          </Button>
+                          <Button
+                            disabled={index === 0}
+                            onClick={handleBack}
+                            sx={{ mt: 1, mr: 1 }}
+                          >
+                            Back
+                          </Button>
+                        </Box>
+                      </StepContent>
+                    </Step>
+                  ))}
+                </Stepper>
+                {activeStep === steps.length && (
+                  <Paper square elevation={0} sx={{ p: 3 }}>
+                    <Typography>
+                      Click on &quot;Book Now&quot; to confirm your booking.
+                    </Typography>
+                    <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+                      Reset
+                    </Button>
+                  </Paper>
+                )}
+              </Box>
+            )}
+            {bookingError && (
+              <Alert severity="error" sx={{ mt: 2 }}>
+                {bookingError}
+              </Alert>
+            )}
+          </>
         )}
       </DialogContent>
       <DialogActions>
@@ -298,9 +379,9 @@ export default function BookingDialog({
             variant="contained"
             onClick={handleBooking}
             autoFocus
-            disabled={!isConfirmClicked}
+            disabled={!isConfirmClicked || isLoading}
           >
-            Book now
+            {isLoading ? "Booking..." : "Book now"}
           </Button>
         )}
       </DialogActions>
