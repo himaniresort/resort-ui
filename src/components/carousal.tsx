@@ -90,7 +90,7 @@ function CarouselFormSection({ setCurrentPage }: CarouselFormSectionProps) {
         }}
       >
         <Typography variant="h5" gutterBottom>
-          Booking Your Hotel
+          Booking Your Home
         </Typography>
         <Grid container spacing={2}>
           <DatePickerComponent
