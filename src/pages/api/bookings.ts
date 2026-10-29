@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { clientPromise } from "@/lib/mongodb";
-import { ObjectId } from "mongodb";
 import { COLLECTIONS, REQ_METHODS } from "@/constants/api-constants";
 
 export default async function handler(
